@@ -4,7 +4,7 @@ module Spacestuff
       def initialize
         super
 
-        @player = Player.create(:x => 200, :y => 200, :image => Image[ "spaceship.png" ])
+        @player = Ship.create(:x => 200, :y => 200, :image => Image[ "spaceship.png" ])
         @player.input = {
           :holding_up => :go_faster,
           :holding_down => :go_slower,

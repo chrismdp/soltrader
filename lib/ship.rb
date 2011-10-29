@@ -1,5 +1,5 @@
 module Spacestuff
-  class Player < Chingu::GameObject
+  class Ship < Chingu::GameObject
     trait :velocity
 
     def initialize(options)
@@ -8,11 +8,11 @@ module Spacestuff
     end
 
     def turn_left
-      @angle -= 10
+      @angle -= 5
     end
 
     def turn_right
-      @angle += 10
+      @angle += 5
     end
 
     def go_faster
