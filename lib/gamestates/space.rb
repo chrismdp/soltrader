@@ -1,6 +1,6 @@
 module Spacestuff
   module Gamestates
-    class Space
+    class Space < Chingu::GameState
       def initialize
         super
 

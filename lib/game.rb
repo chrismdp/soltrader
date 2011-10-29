@@ -1,9 +1,10 @@
 module Spacestuff
   class Game < Chingu::Window
     def initialize
-      super(800, 600, false)
+      super
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "media")
       self.input = { :escape => :exit }
+      self.push_game_state(Spacestuff::Gamestates::Space)
     end
 
     def update
