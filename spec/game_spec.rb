@@ -1,10 +1,11 @@
 require 'spec_gosu'
 
-describe Game do
+describe Spacestuff::Game do
   describe "setup" do
+    let(:player) { double.as_null_object }
     it "creates a player" do
-      Player.should_receive(:create)
-      Game.new
+      Spacestuff::Player.should_receive(:create).and_return(player)
+      Spacestuff::Game.new
     end
   end
 end
