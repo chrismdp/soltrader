@@ -9,6 +9,7 @@ class Game < Chingu::Window
   def initialize
     super(800, 600, false)
     self.input = { :escape => :exit }
+    @factor = 2
     @player = Player.create(:x => 200, :y => 200, :image => Image[ "spaceship.png" ])
     @player.input = {
       :holding_up => :go_faster,
@@ -16,6 +17,11 @@ class Game < Chingu::Window
       :holding_left => :turn_left,
       :holding_right => :turn_right
     }
+  end
+
+  def update
+    super
+    self.caption = "FPS: #{self.fps} milliseconds_since_last_tick: #{self.milliseconds_since_last_tick}"
   end
 end
 
@@ -49,8 +55,8 @@ class Player < Chingu::GameObject
 
   def update
     super
-    @velocity_y *= 0.95
-    @velocity_x *= 0.95
+    @velocity_y *= 0.99
+    @velocity_x *= 0.99
   end
 end
 
