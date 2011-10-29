@@ -2,10 +2,8 @@ require 'spec_gosu'
 
 describe Spacestuff::Game do
   describe "setup" do
-    let(:player) { double.as_null_object }
-    it "creates a player" do
-      Spacestuff::Player.should_receive(:create).and_return(player)
-      Spacestuff::Game.new
+    it "sets up escape to quit" do
+      $window.input.keys.should include(:escape)
     end
   end
 end
