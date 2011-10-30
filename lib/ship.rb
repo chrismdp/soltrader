@@ -3,7 +3,7 @@ module Spacestuff
     trait :velocity
 
     def initialize(options)
-      @rate_of_acceleration = 0.4
+      @rate_of_acceleration = 0.2
       super(options)
     end
 
