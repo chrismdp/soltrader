@@ -37,8 +37,8 @@ module Spacestuff
 
     def update
       super
-      @velocity_y *= 0.99
-      @velocity_x *= 0.99
+      @velocity_y *= 0.995
+      @velocity_x *= 0.995
     end
 
     def fire
