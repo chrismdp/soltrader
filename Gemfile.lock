@@ -21,6 +21,8 @@ GEM
     rspec-given (1.4.0)
       rspec (> 1.2.8)
     rspec-mocks (2.7.0)
+    texplay (0.3.5)
+      gosu (>= 0.7.25)
 
 PLATFORMS
   ruby
@@ -29,3 +31,4 @@ DEPENDENCIES
   chingu
   rspec
   rspec-given
+  texplay

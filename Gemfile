@@ -1,6 +1,7 @@
 source :rubygems
 
 gem "chingu"
+gem "texplay"
 
 group :development do
   gem "rspec"
