@@ -5,6 +5,7 @@ module Spacestuff
     def initialize(options)
       @rate_of_acceleration = 0.2
       @bullet_speed = 20
+      @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
       super(options)
     end
 
@@ -20,6 +21,14 @@ module Spacestuff
       angle_rad = @angle * Math::PI / 180.0
       @velocity_y += -Math.cos(angle_rad) * @rate_of_acceleration
       @velocity_x += Math.sin(angle_rad) * @rate_of_acceleration
+      Chingu::Particle.create( :x => self.x,
+                            :y => self.y,
+                            :animation => @fireball_animation,
+                            :scale_rate => +0.05, 
+                            :fade_rate => -10, 
+                            :rotation_rate => +1,
+                            :mode => :additive
+                          )
     end
 
     def go_slower
