@@ -9,7 +9,6 @@ module Spacestuff
 
     def update
       super
-      self.caption = "FPS: #{self.fps} milliseconds_since_last_tick: #{self.milliseconds_since_last_tick}"
     end
   end
 end

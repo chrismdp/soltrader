@@ -7,6 +7,7 @@ module Spacestuff
       @bullet_speed = 20
       @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
       super(options)
+
     end
 
     def turn_left
@@ -24,10 +25,9 @@ module Spacestuff
       Chingu::Particle.create( :x => self.x,
                             :y => self.y,
                             :animation => @fireball_animation,
-                            :scale_rate => +0.05, 
-                            :fade_rate => -10, 
-                            :rotation_rate => +1,
-                            :mode => :additive
+                            :scale_rate => +0.05,
+                            :fade_rate => -20,
+                            :rotation_rate => +1
                           )
     end
 
