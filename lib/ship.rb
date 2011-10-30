@@ -7,7 +7,6 @@ module Spacestuff
       @bullet_speed = 20
       @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
       super(options)
-
     end
 
     def turn_left
@@ -19,9 +18,8 @@ module Spacestuff
     end
 
     def go_faster
-      angle_rad = @angle * Math::PI / 180.0
-      @velocity_y += -Math.cos(angle_rad) * @rate_of_acceleration
-      @velocity_x += Math.sin(angle_rad) * @rate_of_acceleration
+      @velocity_y = @velocity_y + offset_y(@angle, @rate_of_acceleration)
+      @velocity_x = @velocity_x + offset_x(@angle, @rate_of_acceleration)
       Chingu::Particle.create( :x => self.x,
                             :y => self.y,
                             :animation => @fireball_animation,
@@ -33,9 +31,8 @@ module Spacestuff
     end
 
     def go_slower
-      angle_rad = @angle * Math::PI / 180.0
-      @velocity_y -= -Math.cos(angle_rad) * @rate_of_acceleration
-      @velocity_x -= Math.sin(angle_rad) * @rate_of_acceleration
+      @velocity_y = @velocity_y - offset_y(@angle, @rate_of_acceleration)
+      @velocity_x = @velocity_x - offset_x(@angle, @rate_of_acceleration)
     end
 
     def update
@@ -45,9 +42,8 @@ module Spacestuff
     end
 
     def fire
-      angle_rad = @angle * Math::PI / 180.0
-      velocity_y = @velocity_y - Math.cos(angle_rad) * @bullet_speed
-      velocity_x = @velocity_x + Math.sin(angle_rad) * @bullet_speed
+      velocity_y = @velocity_y + offset_y(@angle, @bullet_speed)
+      velocity_x = @velocity_x + offset_x(@angle, @bullet_speed)
       Fireball.create(:x => self.x,
                       :y => self.y,
                       :velocity_y => velocity_y,
