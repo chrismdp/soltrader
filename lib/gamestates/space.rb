@@ -20,7 +20,8 @@ module Spacestuff
         @parallax = Chingu::Parallax.new(:x => 0, :y => 0, :rotation_center => :top_left)
         @parallax << { :image => make_stars(50), :repeat_x => true, :repeat_y => true, :damping => 6, :factor => 2 }
         @parallax << { :image => make_stars(10), :repeat_x => true, :repeat_y => true, :damping => 4, :factor => 2 }
-        @parallax << { :image => make_stars(1), :repeat_x => true, :repeat_y => true, :damping => 2, :factor => 2 }
+        @parallax << { :image => make_stars(5), :repeat_x => true, :repeat_y => true, :damping => 0.75, :factor => 2 }
+        @parallax << { :image => make_stars(5), :repeat_x => true, :repeat_y => true, :damping => 0.5, :factor => 2 }
       end
 
       def make_stars(count)
