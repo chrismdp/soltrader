@@ -27,7 +27,8 @@ module Spacestuff
                             :animation => @fireball_animation,
                             :scale_rate => +0.05,
                             :fade_rate => -20,
-                            :rotation_rate => +1
+                            :rotation_rate => +1,
+                            :mode => :additive
                           )
     end
 
