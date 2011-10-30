@@ -23,7 +23,7 @@ module Spacestuff
         self.viewport.center_around(@player)
         $window.caption = "FPS: #{$window.fps} ms: #{$window.milliseconds_since_last_tick} GO: #{game_objects.size}"
         # BUG: kills the planet at the mo
-        game_objects.destroy_if { |object| viewport.outside?(object) || object.color.alpha == 0 }
+        game_objects.destroy_if { |object| viewport.outside_game_area?(object) || object.color.alpha == 0 }
       end
 
 
