@@ -11,16 +11,20 @@ module Spacestuff
           :holding_up => :go_faster,
           :holding_down => :go_slower,
           :holding_left => :turn_left,
-          :holding_right => :turn_right
+          :holding_right => :turn_right,
+          :space => :fire
         }
         self.viewport.lag = 0.95
         self.viewport.game_area = [-5000, -5000, 5000,5000]
+
       end
 
       def update
         super
         self.viewport.center_around(@player)
       end
+
+
       def draw
         super
         srand(10)
