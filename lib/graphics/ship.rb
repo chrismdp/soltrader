@@ -3,12 +3,14 @@ module Spacestuff
     class Ship < Chingu::GameObject
       trait :velocity
 
-      def initialize(options)
-        @rate_of_acceleration = 0.2
-        @rate_of_braking = 0.05
+      def initialize(ship)
+        @ship = ship
         @bullet_speed = 20
         @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
-        super(options.merge(:image => Image['spaceship.png']))
+        super({
+          :x => @ship.location.x,
+          :y => @ship.location.y
+        }.merge(:image => Image['spaceship.png']))
       end
 
       def turn_left
@@ -20,8 +22,8 @@ module Spacestuff
       end
 
       def go_faster
-        @velocity_y = @velocity_y + offset_y(@angle, @rate_of_acceleration)
-        @velocity_x = @velocity_x + offset_x(@angle, @rate_of_acceleration)
+        @velocity_y = @velocity_y + offset_y(@angle, @ship.rate_of_acceleration)
+        @velocity_x = @velocity_x + offset_x(@angle, @ship.rate_of_acceleration)
         Chingu::Particle.create( :x => self.x,
                               :y => self.y,
                               :animation => @fireball_animation,
@@ -33,8 +35,8 @@ module Spacestuff
       end
 
       def go_slower
-        @velocity_y = @velocity_y - offset_y(@angle, @rate_of_braking)
-        @velocity_x = @velocity_x - offset_x(@angle, @rate_of_braking)
+        @velocity_y = @velocity_y - offset_y(@angle, @ship.rate_of_braking)
+        @velocity_x = @velocity_x - offset_x(@angle, @ship.rate_of_braking)
       end
 
       def update

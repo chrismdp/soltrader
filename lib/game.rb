@@ -1,5 +1,8 @@
+require_relative "game/ship"
+require_relative "game/location"
+
 module Spacestuff
-  class Game < Chingu::Window
+  class Window < Chingu::Window
     def initialize
       super
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "media")

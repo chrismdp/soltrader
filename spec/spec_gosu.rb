@@ -8,7 +8,7 @@ require_relative "../lib/spacestuff"
 
 RSpec.configure do |config|
   config.before(:suite) do
-    @window = Spacestuff::Game.new
+    @window = Spacestuff::Window.new
   end
 end
 
