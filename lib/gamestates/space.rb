@@ -7,7 +7,7 @@ module Spacestuff
         super
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, SIZE, SIZE]
-        @earth = CelestialBody.create(:x => SIZE / 2, :y => SIZE / 2)
+        @earth = Graphics::CelestialBody.create(:x => SIZE / 2, :y => SIZE / 2)
 
         @player = Graphics::Ship.create(:x => SIZE / 2, :y => SIZE / 2)
         @player.input = {
