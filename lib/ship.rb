@@ -7,7 +7,7 @@ module Spacestuff
       @rate_of_braking = 0.05
       @bullet_speed = 20
       @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
-      super(options)
+      super(options.merge(:image => Image['spaceship.png']))
     end
 
     def turn_left
