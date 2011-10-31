@@ -9,8 +9,20 @@ module Spacestuff
         self.viewport.game_area = [0, 0, SIZE, SIZE]
         @earth = Graphics::CelestialBody.create(:x => SIZE / 2, :y => SIZE / 2)
 
-        loc = Spacestuff::Game::Location.new(SIZE / 2, SIZE / 2)
+        loc = Spacestuff::Game::Location.new(:x => SIZE / 2, :y => SIZE / 2)
         ship = Spacestuff::Game::Ship.new(loc)
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 1, :y => 0))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 2, :y => 0))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 3, :y => 0))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 1, :y => 1))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 2, :y => 1))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 3, :y => 1))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 0, :y => 2))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 1, :y => 2))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 2, :y => 2))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 3, :y => 2))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 4, :y => 2))
+
         @player = Graphics::Ship.create(ship)
         @player.input = {
           :holding_up => :go_faster,

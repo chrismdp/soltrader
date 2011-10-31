@@ -10,11 +10,15 @@ module Spacestuff
         super({
           :x => @ship.location.x,
           :y => @ship.location.y
-        }.merge(:image => Image['spaceship.png']))
+        }.merge(:image => image))
       end
 
       def turn_left
         @angle -= 5
+      end
+
+      def image
+        @image ||= SchematicRenderer.new(@ship).render
       end
 
       def turn_right

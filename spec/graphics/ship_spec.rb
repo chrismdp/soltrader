@@ -2,7 +2,7 @@ require 'spec_gosu'
 
 describe Spacestuff::Graphics::Ship do
   let(:location) { double(:location, :x => 1, :y => 1) }
-  let(:ship) { double(:ship, :location => location) }
+  let(:ship) { double(:ship, :location => location, :pieces => [], :size => [4,4]) }
 
   context "with a passed in ship" do
     subject { Spacestuff::Graphics::Ship.create(ship) }
