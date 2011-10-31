@@ -7,12 +7,8 @@ include Gosu
 require_relative "../lib/spacestuff"
 
 RSpec.configure do |config|
-  config.before(:each) do
+  config.before(:suite) do
     @window = Spacestuff::Game.new
-  end
-
-  config.after(:each) do
-    @window.close
   end
 end
 

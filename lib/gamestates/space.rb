@@ -17,7 +17,7 @@ module Spacestuff
           :holding_right => :turn_right,
           :space => :fire
         }
-        @stars = BackgroundStars.new
+        @stars = Graphics::BackgroundStars.new
       end
 
       def update
