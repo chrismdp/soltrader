@@ -1,5 +1,5 @@
 require 'spec_gosu'
 
-describe Spacestuff::Ship do
+describe Spacestuff::Graphics::Ship do
 
 end

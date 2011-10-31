@@ -9,7 +9,7 @@ module Spacestuff
         self.viewport.game_area = [0, 0, SIZE, SIZE]
         @earth = CelestialBody.create(:x => SIZE / 2, :y => SIZE / 2)
 
-        @player = Ship.create(:x => SIZE / 2, :y => SIZE / 2)
+        @player = Graphics::Ship.create(:x => SIZE / 2, :y => SIZE / 2)
         @player.input = {
           :holding_up => :go_faster,
           :holding_down => :go_slower,
