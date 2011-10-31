@@ -4,6 +4,7 @@ module Spacestuff
 
     def initialize(options)
       @rate_of_acceleration = 0.2
+      @rate_of_braking = 0.05
       @bullet_speed = 20
       @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
       super(options)
@@ -31,8 +32,8 @@ module Spacestuff
     end
 
     def go_slower
-      @velocity_y = @velocity_y - offset_y(@angle, @rate_of_acceleration)
-      @velocity_x = @velocity_x - offset_x(@angle, @rate_of_acceleration)
+      @velocity_y = @velocity_y - offset_y(@angle, @rate_of_braking)
+      @velocity_x = @velocity_x - offset_x(@angle, @rate_of_braking)
     end
 
     def update
