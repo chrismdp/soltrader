@@ -12,7 +12,19 @@ module Spacestuff
 
     class HullPiece < ShipPiece
       def colour
-        0xffffff00
+        0xff999999
+      end
+    end
+
+    class CockpitPiece < ShipPiece
+      def colour
+        0xff66ccff
+      end
+    end
+
+    class EnginePiece < ShipPiece
+      def colour
+        0xff993300
       end
     end
   end
