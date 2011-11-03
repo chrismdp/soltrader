@@ -10,6 +10,8 @@ module Spacestuff
         @velocity_x = 0
         @velocity_y = 0
         @angle = 0
+
+        options[:schematic].build(self) if options[:schematic]
       end
 
       def rate_of_acceleration

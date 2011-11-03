@@ -11,6 +11,12 @@ describe Spacestuff::Game::Ship do
     subject.y.should == 2
   end
 
+  let(:schematic) { double }
+  it "builds itself from the given schematic (if any)" do
+    schematic.should_receive(:build)
+    Spacestuff::Game::Ship.new(:x => 1, :y => 2, :schematic => schematic)
+  end
+
   it "has pieces" do
     subject.bolt_on(hull)
     subject.pieces.should == [hull]

@@ -9,13 +9,17 @@ module Spacestuff
         self.viewport.game_area = [0, 0, SIZE, SIZE]
         @earth = Graphics::CelestialBody.create(:x => SIZE / 2, :y => SIZE / 2)
 
-        ship = Spacestuff::Game::Ship.new(:x => SIZE / 2, :y => SIZE / 2)
-        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
-        ship.bolt_on(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
-        ship.bolt_on(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
-        ship.bolt_on(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
+        schematic = Spacestuff::Game::Schematic.new
+        schematic.draw(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
+        schematic.draw(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
+        schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
+        schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
 
+        ship = Spacestuff::Game::Ship.new(:x => SIZE / 2, :y => SIZE / 2, :schematic => schematic)
         @player = Graphics::Ship.create(ship)
+
+        Graphics::Ship.create(Spacestuff::Game::Ship.new(:x => 5100, :y => 5100, :schematic => schematic))
+
         @player.input = {
           :holding_up => :go_faster,
           :holding_down => :go_slower,
