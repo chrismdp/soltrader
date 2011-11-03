@@ -8,11 +8,18 @@ module Spacestuff
         @x = options[:x]
         @y = options[:y]
       end
+
+      def render(img)
+      end
     end
 
     class HullPiece < ShipPiece
       def colour
         0xff999999
+      end
+
+      def render(img)
+        img.splice(Image['spaceship.png'], 0, 0)
       end
     end
 

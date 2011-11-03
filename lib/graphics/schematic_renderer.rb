@@ -11,7 +11,7 @@ module Spacestuff
         TexPlay.create_blank_image($window, (width + 1) * SCALE, (height + 1) * SCALE).tap do |img|
           #debug_draw_border(img)
           @ship.pieces.each do |piece|
-            img.rect piece.x * SCALE, piece.y * SCALE, piece.x * SCALE + SCALE, piece.y * SCALE + SCALE, :color => piece.colour, :fill => true
+            piece.render(img)
           end
         end
       end

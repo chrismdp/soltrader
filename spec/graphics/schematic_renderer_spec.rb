@@ -9,7 +9,7 @@ describe Spacestuff::Graphics::SchematicRenderer do
   end
   it "draws a hull piece on an image" do
     ship.stub(:pieces => [piece])
-    image.should_receive(:rect).with(0, 0, anything, anything, hash_including(:color => piece.colour) )
+    image.should_receive(:splice)
     Spacestuff::Graphics::SchematicRenderer.new(ship).render
   end
 
