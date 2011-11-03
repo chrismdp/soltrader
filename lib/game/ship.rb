@@ -6,6 +6,9 @@ module Spacestuff
       def initialize(location)
         @location = location
         @pieces = []
+        @velocity_x = 0
+        @velocity_y = 0
+        @angle = 0
       end
 
       def rate_of_acceleration
@@ -16,8 +19,36 @@ module Spacestuff
         0.05
       end
 
+      def turn_left
+        @angle -= 5
+      end
+
+      def turn_right
+        @angle += 5
+      end
+
       def bolt_on(piece)
         @pieces << piece
+      end
+
+      def offset_y(angle, rate)
+        -Math.cos(angle * Math::PI / 180.0) * rate
+      end
+
+      def offset_x(angle, rate)
+        Math.sin(angle * Math::PI / 180.0) * rate
+      end
+
+      def fire_main_engines
+        @velocity_x += offset_x(@angle, rate_of_acceleration)
+        @velocity_y += offset_y(@angle, rate_of_acceleration)
+        [@velocity_x, @velocity_y]
+      end
+
+      def fire_reverse_engines
+        @velocity_x -= offset_x(@angle, rate_of_braking)
+        @velocity_y -= offset_y(@angle, rate_of_braking)
+        [@velocity_x, @velocity_y]
       end
 
       def size

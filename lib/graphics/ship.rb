@@ -14,7 +14,7 @@ module Spacestuff
       end
 
       def turn_left
-        @angle -= 5
+        @angle = @ship.turn_left
       end
 
       def image
@@ -22,12 +22,11 @@ module Spacestuff
       end
 
       def turn_right
-        @angle += 5
+        @angle = @ship.turn_right
       end
 
       def go_faster
-        @velocity_y = @velocity_y + offset_y(@angle, @ship.rate_of_acceleration)
-        @velocity_x = @velocity_x + offset_x(@angle, @ship.rate_of_acceleration)
+        @velocity_x, @velocity_y = @ship.fire_main_engines
         Chingu::Particle.create( :x => self.x,
                               :y => self.y,
                               :animation => @fireball_animation,
@@ -39,14 +38,7 @@ module Spacestuff
       end
 
       def go_slower
-        @velocity_y = @velocity_y - offset_y(@angle, @ship.rate_of_braking)
-        @velocity_x = @velocity_x - offset_x(@angle, @ship.rate_of_braking)
-      end
-
-      def update
-        super
-        @velocity_y *= 0.995
-        @velocity_x *= 0.995
+        @velocity_x, @velocity_y = @ship.fire_reverse_engines
       end
 
       def fire
