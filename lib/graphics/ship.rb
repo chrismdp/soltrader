@@ -8,8 +8,8 @@ module Spacestuff
         @bullet_speed = 20
         @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
         super({
-          :x => @ship.location.x,
-          :y => @ship.location.y
+          :x => @ship.x,
+          :y => @ship.y
         }.merge(:image => image))
       end
 

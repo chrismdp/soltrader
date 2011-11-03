@@ -1,10 +1,11 @@
 module Spacestuff
   module Game
     class Ship
-      attr :location, :pieces
+      attr :pieces, :x, :y
 
-      def initialize(location)
-        @location = location
+      def initialize(options = {})
+        @x = options[:x]
+        @y = options[:y]
         @pieces = []
         @velocity_x = 0
         @velocity_y = 0

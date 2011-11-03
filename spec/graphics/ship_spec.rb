@@ -1,8 +1,7 @@
 require 'spec_gosu'
 
 describe Spacestuff::Graphics::Ship do
-  let(:location) { double(:location, :x => 1, :y => 1) }
-  let(:ship) { double(:ship, :location => location, :pieces => [], :size => [4,4]).as_null_object }
+  let(:ship) { double(:ship, :x => 1, :y => 2, :pieces => [], :size => [4,4]).as_null_object }
 
   context "with a passed in ship" do
     subject { Spacestuff::Graphics::Ship.create(ship) }
@@ -20,8 +19,8 @@ describe Spacestuff::Graphics::Ship do
     end
 
     it "takes position from the logical ship's position" do
-      subject.x.should == ship.location.x
-      subject.y.should == ship.location.y
+      subject.x.should == ship.x
+      subject.y.should == ship.y
     end
 
     it "turning should ask the ship to turn" do

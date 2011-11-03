@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'game/ship'
 
 describe Spacestuff::Game::Ship do
-  let(:location) { double }
   let(:hull) { double }
 
-  subject { Spacestuff::Game::Ship.new(location) }
+  subject { Spacestuff::Game::Ship.new(:x => 1, :y => 2) }
 
-  it "has a location" do
-    subject.location.should == location
+  it "has a position" do
+    subject.x.should == 1
+    subject.y.should == 2
   end
 
   it "has pieces" do
