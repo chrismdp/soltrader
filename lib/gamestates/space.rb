@@ -11,10 +11,10 @@ module Spacestuff
 
         loc = Spacestuff::Game::Location.new(:x => SIZE / 2, :y => SIZE / 2)
         ship = Spacestuff::Game::Ship.new(loc)
-        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0))
-        ship.bolt_on(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2))
-        ship.bolt_on(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4))
-        ship.bolt_on(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4))
+        ship.bolt_on(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
+        ship.bolt_on(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
+        ship.bolt_on(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
+        ship.bolt_on(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
 
         @player = Graphics::Ship.create(ship)
         @player.input = {

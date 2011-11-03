@@ -23,8 +23,8 @@ module Spacestuff
       def size
         x, y = [], []
         pieces.map do |piece|
-          x << piece.x
-          y << piece.y
+          x << piece.x + piece.width
+          y << piece.y + piece.height
         end
         [x.max, y.max]
       end

@@ -3,10 +3,14 @@ module Spacestuff
     class ShipPiece
       attr :x
       attr :y
+      attr :width
+      attr :height
 
       def initialize(options)
         @x = options[:x]
         @y = options[:y]
+        @width = options[:width]
+        @height = options[:height]
       end
 
       def render(img)
