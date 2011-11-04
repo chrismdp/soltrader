@@ -1,6 +1,7 @@
 require_relative "game/ship"
 require_relative "game/pieces"
 require_relative "game/schematic"
+require_relative "game/location"
 
 module Spacestuff
   class Window < Chingu::Window

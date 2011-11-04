@@ -1,17 +1,19 @@
 module Spacestuff
   module Game
     class Ship
-      attr :pieces, :x, :y
+      attr :pieces, :x, :y, :velocity_x, :velocity_y, :angle
 
       def initialize(options = {})
         @x = options[:x]
         @y = options[:y]
+        @location = options[:location]
         @pieces = []
         @velocity_x = 0
         @velocity_y = 0
         @angle = 0
 
         options[:schematic].build(self) if options[:schematic]
+        @location.place(self)
       end
 
       def rate_of_acceleration
@@ -24,10 +26,21 @@ module Spacestuff
 
       def turn_left
         @angle -= 5
+        notify(:turned)
+      end
+
+      def update
+        @x += @velocity_x
+        @y += @velocity_y
       end
 
       def turn_right
         @angle += 5
+        notify(:turned)
+      end
+
+      def fire
+        notify(:fired)
       end
 
       def bolt_on(piece)
@@ -45,13 +58,13 @@ module Spacestuff
       def fire_main_engines
         @velocity_x += offset_x(@angle, rate_of_acceleration)
         @velocity_y += offset_y(@angle, rate_of_acceleration)
-        [@velocity_x, @velocity_y]
+        notify(:engine_fired)
       end
 
       def fire_reverse_engines
         @velocity_x -= offset_x(@angle, rate_of_braking)
         @velocity_y -= offset_y(@angle, rate_of_braking)
-        [@velocity_x, @velocity_y]
+        notify(:engine_fired)
       end
 
       def size
@@ -61,6 +74,18 @@ module Spacestuff
           y << piece.y + piece.height
         end
         [x.max, y.max]
+      end
+
+      # listening
+      def listen(listener, event)
+        @listeners ||= Hash.new([])
+        @listeners[event].push(listener)
+      end
+
+      def notify(event)
+        if @listeners && listeners_for_event = @listeners[event]
+          listeners_for_event.each { |listener| listener.send(event) }
+        end
       end
     end
   end
