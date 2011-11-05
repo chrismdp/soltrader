@@ -36,6 +36,16 @@ module Spacestuff
         @y += @velocity_y
       end
 
+      def scan
+        distances = []
+        @location.each_entity do |entity|
+          next if entity == self
+          distances.push({:square_distance => (@x - entity.x) ** 2 + (@y - entity.y) ** 2, :entity => entity})
+        end
+        return nil if distances == []
+        distances.min_by {|x| x[:square_distance]}[:entity]
+      end
+
       def turn_right
         @angle += 5
         notify(:turned)
