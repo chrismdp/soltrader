@@ -16,8 +16,10 @@ module Spacestuff
         schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
         @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location)
 
+        @minds = []
         50.times do
-          Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(@current_location.width), :y => rand(@current_location.height), :location => @current_location, :ai => Spacestuff::Game::ShipAi.new)
+          ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(@current_location.width), :y => rand(@current_location.height), :location => @current_location)
+          @minds << Spacestuff::Game::ShipAi.new(:ship => ship)
         end
 
         self.viewport.lag = 0.95
@@ -64,9 +66,11 @@ module Spacestuff
       end
 
       def update
+        @minds.each { |ai| ai.update }
         @current_location.each_entity do |entity|
-          entity.update if entity.respond_to?(:update)
+          entity.update
         end
+
         super
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
