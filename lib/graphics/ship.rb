@@ -30,7 +30,7 @@ module Spacestuff
                               :y => self.y,
                               :animation => @fireball_animation,
                               :scale_rate => +0.05,
-                              :fade_rate => -20,
+                              :fade_rate => -25,
                               :rotation_rate => +1,
                               :mode => :additive
                             )

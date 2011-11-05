@@ -7,6 +7,7 @@ module Spacestuff
         @x = options[:x]
         @y = options[:y]
         @location = options[:location]
+        @ai = options[:ai]
         @pieces = []
         @velocity_x = 0
         @velocity_y = 0
@@ -30,6 +31,7 @@ module Spacestuff
       end
 
       def update
+        @ai.update if @ai
         @x += @velocity_x
         @y += @velocity_y
       end

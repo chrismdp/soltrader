@@ -4,37 +4,47 @@ require 'game/ship'
 describe Spacestuff::Game::Ship do
   let(:hull) { double }
   let(:location) { double.as_null_object }
+  let(:listener) { double }
 
   subject { Spacestuff::Game::Ship.new(:x => 1, :y => 2, :location => location) }
 
-  it "has a position" do
-    subject.x.should == 1
-    subject.y.should == 2
+  context "initialization" do
+    it "has a position" do
+      subject.x.should == 1
+      subject.y.should == 2
+    end
+
+    it "places itself in the location" do
+      location.should_receive(:place)
+      Spacestuff::Game::Ship.new(:location => location)
+    end
+
+    let(:schematic) { double }
+    it "builds itself from the given schematic (if any)" do
+      schematic.should_receive(:build)
+      Spacestuff::Game::Ship.new(:x => 1, :y => 2, :schematic => schematic, :location => location)
+    end
+
+    let(:ai) { double }
+    it "updates the AI each frame if passed" do
+      ai.should_receive(:update)
+      Spacestuff::Game::Ship.new(:ai => ai, :location => location, :x => 1, :y => 2).update
+    end
   end
 
-  it "places itself in the location" do
-    location.should_receive(:place)
-    Spacestuff::Game::Ship.new(:location => location)
+  context "pieces" do
+    it "has pieces" do
+      subject.bolt_on(hull)
+      subject.pieces.should == [hull]
+    end
+
+    it "calculates size based on pieces' size and location" do
+      subject.bolt_on(stub(:hull, :x => 0, :y => 5, :width => 2, :height => 2))
+      subject.bolt_on(stub(:gun, :x => 1, :y => 3, :width => 1, :height => 5))
+      subject.size.should == [2, 8]
+    end
   end
 
-  let(:schematic) { double }
-  it "builds itself from the given schematic (if any)" do
-    schematic.should_receive(:build)
-    Spacestuff::Game::Ship.new(:x => 1, :y => 2, :schematic => schematic, :location => location)
-  end
-
-  it "has pieces" do
-    subject.bolt_on(hull)
-    subject.pieces.should == [hull]
-  end
-
-  it "calculates size based on pieces' size and location" do
-    subject.bolt_on(stub(:hull, :x => 0, :y => 5, :width => 2, :height => 2))
-    subject.bolt_on(stub(:gun, :x => 1, :y => 3, :width => 1, :height => 5))
-    subject.size.should == [2, 8]
-  end
-
-  let(:listener) { double }
 
   context "firing engines" do
 
@@ -74,12 +84,5 @@ describe Spacestuff::Game::Ship do
       listener.should_receive(:turned)
       subject.turn_left
     end
-  end
-
-
-  it "notifies listeners" do
-    subject.listen(listener, :foo)
-    listener.should_receive(:foo)
-    subject.notify(:foo)
   end
 end

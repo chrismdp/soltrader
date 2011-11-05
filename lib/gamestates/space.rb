@@ -15,7 +15,10 @@ module Spacestuff
         schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
         schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
         @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location)
-        Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5100, :y => 5100, :location => @current_location)
+
+        50.times do
+          Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(@current_location.width), :y => rand(@current_location.height), :location => @current_location, :ai => Spacestuff::Game::ShipAi.new)
+        end
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @current_location.width, @current_location.height]
