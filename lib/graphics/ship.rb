@@ -1,11 +1,9 @@
 module Spacestuff
   module Graphics
     class Ship < Chingu::GameObject
-      trait :velocity
-
       def initialize(ship)
         @ship = ship
-        @bullet_speed = 20
+        @bullet_speed = 500
         @fireball_animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
         super({
           :x => @ship.x,
@@ -35,25 +33,33 @@ module Spacestuff
       end
 
       def update
-        @velocity_x, @velocity_y = @ship.velocity_x, @ship.velocity_y
+        @x, @y = @ship.x, @ship.y
       end
 
       def fired
-        velocity_y = @velocity_y + offset_y(@angle, @bullet_speed)
-        velocity_x = @velocity_x + offset_x(@angle, @bullet_speed)
+        velocity_y = @ship.velocity_y + offset_y(@angle, @bullet_speed)
+        velocity_x = @ship.velocity_x + offset_x(@angle, @bullet_speed)
         Fireball.create(:x => self.x,
                         :y => self.y,
                         :velocity_y => velocity_y,
-                        :velocity_x => velocity_x)
+                        :velocity_x => velocity_x,
+                        :animation => @fireball_animation)
       end
     end
 
     class Fireball < Chingu::GameObject
-      traits :velocity, :collision_detection, :timer
+      traits :collision_detection, :timer
       trait :bounding_circle, :scale => 0.7
+      attr :velocity_x, :velocity_y
+
+      def initialize(options)
+        @velocity_x = options[:velocity_x]
+        @velocity_y = options[:velocity_y]
+        @animation = options[:animation]
+        super
+      end
       
       def setup
-        @animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
         @image = @animation.first
         self.mode = :additive
         self.factor = 0.5
@@ -62,6 +68,8 @@ module Spacestuff
       end
       
       def update
+        @x += @velocity_x * $window.milliseconds_since_last_tick / 1000.0
+        @y += @velocity_y * $window.milliseconds_since_last_tick / 1000.0
         @image = @animation.next
         @angle += 2
       end

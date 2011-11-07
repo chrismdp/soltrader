@@ -4,6 +4,7 @@ module Spacestuff
       attr :pieces, :x, :y, :velocity_x, :velocity_y, :angle
 
       def initialize(options = {})
+        @next_fire = 0
         @orders = []
         @seconds_elapsed = 0
         @x = options[:x]
@@ -20,11 +21,11 @@ module Spacestuff
       end
 
       def rate_of_acceleration
-        7 * @seconds_elapsed
+        400 * @seconds_elapsed
       end
 
       def rate_of_braking
-        2 * @seconds_elapsed
+        120 * @seconds_elapsed
       end
 
       def turn_left
@@ -36,8 +37,10 @@ module Spacestuff
         @seconds_elapsed = elapsed
         process_received_input
 
-        @x += @velocity_x
-        @y += @velocity_y
+        @next_fire -= @seconds_elapsed
+
+        @x += @velocity_x * @seconds_elapsed
+        @y += @velocity_y * @seconds_elapsed
 
         apply_damping_effect
       end
@@ -72,7 +75,10 @@ module Spacestuff
       end
 
       def fire
-        notify(:fired)
+        if (@next_fire <= 0)
+          @next_fire = 0.3
+          notify(:fired)
+        end
       end
 
       def bolt_on(piece)

@@ -77,6 +77,18 @@ describe Spacestuff::Game::Ship do
 
   end
 
+  context "firing guns" do
+    it "can only fire once per second" do
+      subject.listen(listener, :fired)
+      listener.should_receive(:fired).once
+      subject.order(:fire)
+      subject.update(0.2)
+      subject.order(:fire)
+      subject.update(0.2)
+    end
+
+  end
+
   context "turning" do
     it "changes the angle" do
       angle = subject.angle
