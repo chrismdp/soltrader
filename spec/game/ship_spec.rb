@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'game/ship'
+require 'chipmunk'
 
 describe Spacestuff::Game::Ship do
   let(:hull) { double }

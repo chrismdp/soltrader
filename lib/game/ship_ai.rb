@@ -22,10 +22,10 @@ module Spacestuff
 
       def track
         angle_to_other = Gosu::angle(@ship.x, @ship.y, @target.x, @target.y)
-        diff = Gosu::angle_diff(@ship.angle, angle_to_other)
-        if (diff < -10)
+        diff = Gosu::angle_diff(@ship.angle * 180.0 / Math::PI + 90, angle_to_other)
+        if (diff < -20 * Math::PI / 180)
           @ship.order(:turn_left)
-        elsif(diff > 10)
+        elsif(diff > 20 * Math::PI / 180)
           @ship.order(:turn_right)
         else
           distance = Gosu::distance(@ship.x, @ship.y, @target.x, @target.y)

@@ -1,35 +1,34 @@
 module Spacestuff
   module Game
     class Ship
-      attr :pieces, :x, :y, :velocity_x, :velocity_y, :angle
+      attr :pieces, :shape
 
       def initialize(options = {})
         @next_fire = 0
         @orders = []
         @seconds_elapsed = 0
-        @x = options[:x]
-        @y = options[:y]
         @location = options[:location]
         @ai = options[:ai]
+        @shape = options[:shape]
+        @shape.body.p = CP::Vec2.new(options[:x], options[:y])
+        @shape.body.v = CP::Vec2.new(0.0, 0.0)
+
         @pieces = []
-        @velocity_x = 0
-        @velocity_y = 0
-        @angle = 0
 
         options[:schematic].build(self) if options[:schematic]
         @location.place(self)
       end
 
       def rate_of_acceleration
-        400 * @seconds_elapsed
+        2500
       end
 
       def rate_of_braking
-        120 * @seconds_elapsed
+        1500
       end
 
       def turn_left
-        @angle -= 300 * @seconds_elapsed
+        @shape.body.t -= 1000
         notify(:turned)
       end
 
@@ -38,11 +37,6 @@ module Spacestuff
         process_received_input
 
         @next_fire -= @seconds_elapsed
-
-        @x += @velocity_x * @seconds_elapsed
-        @y += @velocity_y * @seconds_elapsed
-
-        apply_damping_effect
       end
 
       def order(order)
@@ -54,23 +48,31 @@ module Spacestuff
         @orders = []
       end
 
-      def apply_damping_effect
-        @velocity_x *= 1 - (0.3 * @seconds_elapsed)
-        @velocity_y *= 1 - (0.3 * @seconds_elapsed)
-      end
-
       def scan
+        # TODO: Could be replaced by a largish collision detection in the physics?
         distances = []
         @location.each_entity do |entity|
           next if entity == self
-          distances.push({:square_distance => (@x - entity.x) ** 2 + (@y - entity.y) ** 2, :entity => entity})
+          distances.push({:square_distance => (self.x - entity.x) ** 2 + (self.y - entity.y) ** 2, :entity => entity})
         end
         return nil if distances == []
         distances.min_by {|x| x[:square_distance]}[:entity]
       end
 
+      def x
+        @shape.body.p.x
+      end
+
+      def y
+        @shape.body.p.y
+      end
+
+      def angle
+        @shape.body.a
+      end
+
       def turn_right
-        @angle += 5
+        @shape.body.t += 1000
         notify(:turned)
       end
 
@@ -94,14 +96,12 @@ module Spacestuff
       end
 
       def fire_main_engines
-        @velocity_x += offset_x(@angle, rate_of_acceleration)
-        @velocity_y += offset_y(@angle, rate_of_acceleration)
+        @shape.body.apply_force((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
         notify(:engine_fired)
       end
 
       def fire_reverse_engines
-        @velocity_x -= offset_x(@angle, rate_of_braking)
-        @velocity_y -= offset_y(@angle, rate_of_braking)
+        @shape.body.apply_force(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
         notify(:engine_fired)
       end
 
