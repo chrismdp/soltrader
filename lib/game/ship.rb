@@ -4,6 +4,8 @@ module Spacestuff
       attr :pieces, :x, :y, :velocity_x, :velocity_y, :angle
 
       def initialize(options = {})
+        @orders = []
+        @seconds_elapsed = 0
         @x = options[:x]
         @y = options[:y]
         @location = options[:location]
@@ -17,34 +19,41 @@ module Spacestuff
         @location.place(self)
       end
 
-      def seconds_elapsed
-        @seconds_elapsed ||= $window.milliseconds_since_last_tick / 1000.0
-      end
-
       def rate_of_acceleration
-        7 * seconds_elapsed
+        7 * @seconds_elapsed
       end
 
       def rate_of_braking
-        2 * seconds_elapsed
+        2 * @seconds_elapsed
       end
 
       def turn_left
-        @angle -= 200 * seconds_elapsed
+        @angle -= 200 * @seconds_elapsed
         notify(:turned)
       end
 
-      def update
-        @seconds_elapsed = nil
-        @ai.update if @ai
+      def update(elapsed)
+        @seconds_elapsed = elapsed
+        process_received_input
+
         @x += @velocity_x
         @y += @velocity_y
+
         apply_damping_effect
       end
 
+      def order(order)
+        @orders << order
+      end
+
+      def process_received_input
+        @orders.each {|order| self.send(order) }
+        @orders = []
+      end
+
       def apply_damping_effect
-        @velocity_x *= 1 - (0.3 * seconds_elapsed)
-        @velocity_y *= 1 - (0.3 * seconds_elapsed)
+        @velocity_x *= 1 - (0.3 * @seconds_elapsed)
+        @velocity_y *= 1 - (0.3 * @seconds_elapsed)
       end
 
       def scan

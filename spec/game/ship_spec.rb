@@ -7,7 +7,6 @@ describe Spacestuff::Game::Ship do
   let(:listener) { double }
 
   subject { Spacestuff::Game::Ship.new(:x => 1, :y => 2, :location => location) }
-  before  { subject.stub(:seconds_elapsed).and_return(1) }
 
   context "initialization" do
     it "has a position" do
@@ -24,12 +23,6 @@ describe Spacestuff::Game::Ship do
     it "builds itself from the given schematic (if any)" do
       schematic.should_receive(:build)
       Spacestuff::Game::Ship.new(:x => 1, :y => 2, :schematic => schematic, :location => location)
-    end
-
-    let(:ai) { double }
-    it "updates the AI each frame if passed" do
-      ai.should_receive(:update)
-      Spacestuff::Game::Ship.new(:ai => ai, :location => location, :x => 1, :y => 2).update
     end
   end
 
@@ -62,21 +55,24 @@ describe Spacestuff::Game::Ship do
 
     it "can fire main engines" do
       vx, vy = subject.velocity_x, subject.velocity_y
-      subject.fire_main_engines
+      subject.order(:fire_main_engines)
+      subject.update(1)
       subject.velocity_y.should < vy
     end
 
     it "can fire reverse engines" do
       vx, vy = subject.velocity_x, subject.velocity_y
-      subject.fire_reverse_engines
+      subject.order(:fire_reverse_engines)
+      subject.update(1)
       subject.velocity_y.should > vy
     end
 
     it "notifies listeners" do
       subject.listen(listener, :engine_fired)
       listener.should_receive(:engine_fired).twice
-      subject.fire_main_engines
-      subject.fire_reverse_engines
+      subject.order(:fire_main_engines)
+      subject.order(:fire_reverse_engines)
+      subject.update(1)
     end
 
   end
@@ -84,10 +80,12 @@ describe Spacestuff::Game::Ship do
   context "turning" do
     it "changes the angle" do
       angle = subject.angle
-      subject.turn_left
+      subject.order(:turn_left)
+      subject.update(1)
       angle2 = subject.angle
       angle2.should < angle
-      subject.turn_right
+      subject.order(:turn_right)
+      subject.update(1)
       subject.angle.should > angle2
     end
 

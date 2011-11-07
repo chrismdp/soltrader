@@ -7,8 +7,9 @@ module Spacestuff
         @target = nil
       end
 
-      def update
-        @next_run -= $window.milliseconds_since_last_tick
+      def update(seconds_elapsed)
+        elapsed = seconds_elapsed * 1000.0
+        @next_run -= elapsed
         if (@next_run <= 0)
           @next_run = rand(200) + 900
           @target = find_target
@@ -23,14 +24,14 @@ module Spacestuff
         angle_to_other = Gosu::angle(@ship.x, @ship.y, @target.x, @target.y)
         diff = Gosu::angle_diff(@ship.angle, angle_to_other)
         if (diff < -10)
-          @ship.turn_left
+          @ship.order(:turn_left)
         elsif(diff > 10)
-          @ship.turn_right
+          @ship.order(:turn_right)
         else
           distance = Gosu::distance(@ship.x, @ship.y, @target.x, @target.y)
-          distance > 250 ? @ship.fire_main_engines : @ship.fire_reverse_engines
+          distance > 250 ? @ship.order(:fire_main_engines) : @ship.order(:fire_reverse_engines)
           #if (distance < 250)
-            #@ship.fire
+            #@ship.order(:fire)
           #end
         end
       end

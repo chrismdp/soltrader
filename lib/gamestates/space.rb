@@ -39,23 +39,23 @@ module Spacestuff
       end
 
       def go_faster
-        @player_ship.fire_main_engines
+        @player_ship.order :fire_main_engines
       end
 
       def go_slower
-        @player_ship.fire_reverse_engines
+        @player_ship.order :fire_reverse_engines
       end
 
       def turn_left
-        @player_ship.turn_left
+        @player_ship.order :turn_left
       end
 
       def turn_right
-        @player_ship.turn_right
+        @player_ship.order :turn_right
       end
 
       def fire
-        @player_ship.fire
+        @player_ship.order :fire
       end
 
       # stub implementation just return the equiv gfx object for now
@@ -66,11 +66,11 @@ module Spacestuff
       end
 
       def update
-        @minds.each { |ai| ai.update }
+        seconds_elapsed = $window.milliseconds_since_last_tick / 1000.0
+        @minds.each { |ai| ai.update(seconds_elapsed) }
         @current_location.each_entity do |entity|
-          entity.update
+          entity.update(seconds_elapsed)
         end
-
         super
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
