@@ -7,6 +7,7 @@ describe Spacestuff::Game::Ship do
   let(:listener) { double }
 
   subject { Spacestuff::Game::Ship.new(:x => 1, :y => 2, :location => location) }
+  before  { subject.stub(:seconds_elapsed).and_return(1) }
 
   context "initialization" do
     it "has a position" do

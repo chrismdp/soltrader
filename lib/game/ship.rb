@@ -17,25 +17,34 @@ module Spacestuff
         @location.place(self)
       end
 
+      def seconds_elapsed
+        @seconds_elapsed ||= $window.milliseconds_since_last_tick / 1000.0
+      end
+
       def rate_of_acceleration
-        0.2
+        7 * seconds_elapsed
       end
 
       def rate_of_braking
-        0.05
+        2 * seconds_elapsed
       end
 
       def turn_left
-        @angle -= 5
+        @angle -= 200 * seconds_elapsed
         notify(:turned)
       end
 
       def update
+        @seconds_elapsed = nil
         @ai.update if @ai
         @x += @velocity_x
         @y += @velocity_y
-        @velocity_x *= 0.99
-        @velocity_y *= 0.99
+        apply_damping_effect
+      end
+
+      def apply_damping_effect
+        @velocity_x *= 1 - (0.3 * seconds_elapsed)
+        @velocity_y *= 1 - (0.3 * seconds_elapsed)
       end
 
       def scan
