@@ -25,15 +25,17 @@ module Spacestuff
       end
 
       def engine_fired
+        #Chingu::Particle.create( :x => self.x,
+                              #:y => self.y,
+                              #:animation => @fireball_animation,
+                              #:scale_rate => +0.05,
+                              #:fade_rate => -50,
+                              #:rotation_rate => +1
+                            #)
+      end
+
+      def update
         @velocity_x, @velocity_y = @ship.velocity_x, @ship.velocity_y
-        Chingu::Particle.create( :x => self.x,
-                              :y => self.y,
-                              :animation => @fireball_animation,
-                              :scale_rate => +0.05,
-                              :fade_rate => -25,
-                              :rotation_rate => +1,
-                              :mode => :additive
-                            )
       end
 
       def fired

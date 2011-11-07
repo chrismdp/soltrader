@@ -12,12 +12,20 @@ describe Spacestuff::Game::ShipAi do
     ship.should_receive(:turn_left)
     ship.stub(:scan => ship_on_left)
     subject.update
+    subject.track
   end
 
   it "turns the ship left if that's the best way" do
     ship.should_receive(:turn_right)
     ship.stub(:scan => ship_on_right)
     subject.update
+    subject.track
   end
 
+  it "only runs this once per second" do
+    ship.stub(:scan => ship_on_right)
+    subject.update
+    ship.should_not_receive(:turn_right)
+    subject.update
+  end
 end

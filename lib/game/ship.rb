@@ -34,6 +34,8 @@ module Spacestuff
         @ai.update if @ai
         @x += @velocity_x
         @y += @velocity_y
+        @velocity_x *= 0.99
+        @velocity_y *= 0.99
       end
 
       def scan

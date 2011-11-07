@@ -17,8 +17,8 @@ module Spacestuff
         @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location)
 
         @minds = []
-        50.times do
-          ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(@current_location.width), :y => rand(@current_location.height), :location => @current_location)
+        20.times do
+          ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(1000) + 4500, :y => rand(1000) + 4500, :location => @current_location)
           @minds << Spacestuff::Game::ShipAi.new(:ship => ship)
         end
 
