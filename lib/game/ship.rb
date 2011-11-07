@@ -29,7 +29,7 @@ module Spacestuff
       end
 
       def turn_left
-        @angle -= 200 * @seconds_elapsed
+        @angle -= 300 * @seconds_elapsed
         notify(:turned)
       end
 

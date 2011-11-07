@@ -5,6 +5,7 @@ GEM
       crack
       gosu (>= 0.7.25)
       rest-client
+    chipmunk (5.3.4.5)
     crack (0.3.1)
     diff-lcs (1.1.3)
     gosu (0.7.38)
@@ -29,6 +30,7 @@ PLATFORMS
 
 DEPENDENCIES
   chingu
+  chipmunk
   rspec
   rspec-given
   texplay

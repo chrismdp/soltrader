@@ -1,6 +1,9 @@
 module Spacestuff
   module Graphics
     class Ship < Chingu::GameObject
+      trait :collision_detection
+      trait :bounding_circle
+
       def initialize(ship)
         @ship = ship
         @bullet_speed = 500
@@ -34,13 +37,18 @@ module Spacestuff
 
       def update
         @x, @y = @ship.x, @ship.y
+        each_bounding_circle_collision(Fireball) do |ship, fireball|
+          Chingu::Particle.create(:x => self.x, :y => self.y, :animation => @fireball_animation, :scale_rate => +0.05, :fade_rate => -50, :factor => 3, :rotation_rate => +1)
+          fireball.destroy
+          ship.destroy
+        end
       end
 
       def fired
         velocity_y = @ship.velocity_y + offset_y(@angle, @bullet_speed)
         velocity_x = @ship.velocity_x + offset_x(@angle, @bullet_speed)
-        Fireball.create(:x => self.x,
-                        :y => self.y,
+        Fireball.create(:x => self.x + offset_x(@angle, 50),
+                        :y => self.y + offset_y(@angle, 50),
                         :velocity_y => velocity_y,
                         :velocity_x => velocity_x,
                         :animation => @fireball_animation)
@@ -48,7 +56,7 @@ module Spacestuff
     end
 
     class Fireball < Chingu::GameObject
-      traits :collision_detection, :timer
+      traits :collision_detection
       trait :bounding_circle, :scale => 0.7
       attr :velocity_x, :velocity_y
 

@@ -2,6 +2,7 @@ source :rubygems
 
 gem "chingu"
 gem "texplay"
+gem "chipmunk"
 
 group :development do
   gem "rspec"

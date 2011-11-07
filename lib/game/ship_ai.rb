@@ -30,7 +30,7 @@ module Spacestuff
         else
           distance = Gosu::distance(@ship.x, @ship.y, @target.x, @target.y)
           distance > 250 ? @ship.order(:fire_main_engines) : @ship.order(:fire_reverse_engines)
-          if (distance < 250)
+          if (distance < 250 && distance > 200)
             @ship.order(:fire)
           end
         end
