@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/chrismdp/texplay.git
+  revision: 199f6bef724d20ee731e2f564bb005cc051f8f5a
+  specs:
+    texplay (0.4)
+      gosu (>= 0.7.25)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -22,8 +29,6 @@ GEM
     rspec-given (1.4.0)
       rspec (> 1.2.8)
     rspec-mocks (2.7.0)
-    texplay (0.3.5)
-      gosu (>= 0.7.25)
 
 PLATFORMS
   ruby
@@ -33,4 +38,4 @@ DEPENDENCIES
   chipmunk
   rspec
   rspec-given
-  texplay
+  texplay!

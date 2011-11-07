@@ -1,7 +1,7 @@
 source :rubygems
 
 gem "chingu"
-gem "texplay"
+gem "texplay", :git => "git://github.com/chrismdp/texplay.git"
 gem "chipmunk"
 
 group :development do
