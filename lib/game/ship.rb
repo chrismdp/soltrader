@@ -37,7 +37,9 @@ module Spacestuff
         1500
       end
 
-      TURN_RATE = 12000
+      TURN_RATE = 7000
+      ROTATIONAL_DAMPING = 0.9
+
       def turn_left
         @shape.body.t -= TURN_RATE
         notify(:turned)
@@ -45,7 +47,7 @@ module Spacestuff
 
       def update(elapsed)
         @seconds_elapsed = elapsed
-        @shape.body.w *= 0.8
+        @shape.body.w *= ROTATIONAL_DAMPING
         process_received_input
 
         @next_fire -= @seconds_elapsed
