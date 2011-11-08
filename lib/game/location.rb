@@ -8,16 +8,24 @@ module Spacestuff
         @width = options[:width]
         @height = options[:height]
         @placements = []
+        @space = CP::Space.new
+        @space.damping = 0.8
       end
 
       def place(entity)
         @placements << entity
+        @space.add_body(entity.body)
+        @space.add_shape(entity.shape)
       end
 
       def each_entity
         @placements.each do |placement|
           yield placement
         end
+      end
+
+      def update_physics(dt)
+        @space.step(dt)
       end
 
     end

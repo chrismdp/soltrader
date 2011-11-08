@@ -1,7 +1,7 @@
 module Spacestuff
   module Game
     class Ship
-      attr :pieces, :shape
+      attr :pieces, :shape, :body
 
       def initialize(options = {})
         @next_fire = 0
@@ -9,15 +9,25 @@ module Spacestuff
         @seconds_elapsed = 0
         @location = options[:location]
         @ai = options[:ai]
-        @shape = options[:shape]
-        @shape.body.p = CP::Vec2.new(options[:x], options[:y])
-        @shape.body.v = CP::Vec2.new(0.0, 0.0)
+
+        initialize_physics(options)
 
         @pieces = []
 
         options[:schematic].build(self) if options[:schematic]
         @location.place(self)
       end
+
+      def initialize_physics(options)
+        @body = CP::Body.new(10.0, 150.0)
+        shape_array = [CP::Vec2.new(-25.0, -25.0), CP::Vec2.new(-25.0, 25.0), CP::Vec2.new(25.0, 1.0), CP::Vec2.new(25.0, -1.0)]
+        @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
+        @shape.collision_type = :ship
+
+        @shape.body.p = CP::Vec2.new(options[:x], options[:y])
+        @shape.body.v = CP::Vec2.new(0.0, 0.0)
+      end
+
 
       def rate_of_acceleration
         2500
@@ -27,13 +37,15 @@ module Spacestuff
         1500
       end
 
+      TURN_RATE = 12000
       def turn_left
-        @shape.body.t -= 1000
+        @shape.body.t -= TURN_RATE
         notify(:turned)
       end
 
       def update(elapsed)
         @seconds_elapsed = elapsed
+        @shape.body.w *= 0.8
         process_received_input
 
         @next_fire -= @seconds_elapsed
@@ -72,7 +84,7 @@ module Spacestuff
       end
 
       def turn_right
-        @shape.body.t += 1000
+        @shape.body.t += TURN_RATE
         notify(:turned)
       end
 

@@ -7,15 +7,6 @@ module Spacestuff
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
         @dt = 1.0/60.0
 
-        @space = CP::Space.new
-        @space.damping = 0.8
-        body = CP::Body.new(10.0, 150.0)
-        shape_array = [CP::Vec2.new(-25.0, -25.0), CP::Vec2.new(-25.0, 25.0), CP::Vec2.new(25.0, 1.0), CP::Vec2.new(25.0, -1.0)]
-        shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
-        shape.collision_type = :ship
-        @space.add_body(body)
-        @space.add_shape(shape)
-
         # earth = Spacestuff::Game::CelestialBody.new
         #current_location.place(earth, :x => 5000, :y => 5000)
 
@@ -24,17 +15,11 @@ module Spacestuff
         schematic.draw(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
         schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
         schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
-        @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location, :shape => shape)
+        @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location)
 
         @minds = []
         20.times do
-          body = CP::Body.new(10.0, 150.0)
-          shape_array = [CP::Vec2.new(-25.0, -25.0), CP::Vec2.new(-25.0, 25.0), CP::Vec2.new(25.0, 1.0), CP::Vec2.new(25.0, -1.0)]
-          shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
-          shape.collision_type = :ship
-          @space.add_body(body)
-          @space.add_shape(shape)
-          ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(1000) + 4500, :y => rand(1000) + 4500, :location => @current_location, :shape => shape)
+          ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(1000) + 4500, :y => rand(1000) + 4500, :location => @current_location)
           @minds << Spacestuff::Game::ShipAi.new(:ship => ship)
         end
 
@@ -89,8 +74,8 @@ module Spacestuff
           entity.shape.body.reset_forces # FIXME: best place for this?
           entity.update(seconds_elapsed)
         end
+        @current_location.update_physics(@dt)
 
-        @space.step(@dt)
         #puts @player_ship.x, @player_ship.y
 
         @stars.update(viewport)

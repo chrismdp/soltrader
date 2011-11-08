@@ -1,5 +1,8 @@
 require 'spec_helper'
+
 require 'game/ship'
+require 'core_ext/radians_to_vec2'
+
 require 'chipmunk'
 
 describe Spacestuff::Game::Ship do
@@ -17,7 +20,7 @@ describe Spacestuff::Game::Ship do
 
     it "places itself in the location" do
       location.should_receive(:place)
-      Spacestuff::Game::Ship.new(:location => location)
+      Spacestuff::Game::Ship.new(:location => location, :x => 1, :y => 2)
     end
 
     let(:schematic) { double }
@@ -55,17 +58,15 @@ describe Spacestuff::Game::Ship do
   context "firing engines" do
 
     it "can fire main engines" do
-      vx, vy = subject.velocity_x, subject.velocity_y
+      subject.body.should_receive(:apply_force)
       subject.order(:fire_main_engines)
       subject.update(1)
-      subject.velocity_y.should < vy
     end
 
     it "can fire reverse engines" do
-      vx, vy = subject.velocity_x, subject.velocity_y
+      subject.body.should_receive(:apply_force)
       subject.order(:fire_reverse_engines)
       subject.update(1)
-      subject.velocity_y.should > vy
     end
 
     it "notifies listeners" do
@@ -91,15 +92,15 @@ describe Spacestuff::Game::Ship do
   end
 
   context "turning" do
-    it "changes the angle" do
-      angle = subject.angle
-      subject.order(:turn_left)
-      subject.update(1)
-      angle2 = subject.angle
-      angle2.should < angle
-      subject.order(:turn_right)
-      subject.update(1)
-      subject.angle.should > angle2
+    it "changes the torque rate" do
+      expect {
+        subject.order(:turn_left)
+        subject.update(1)
+      }.to change(subject.body, :t)
+      expect {
+        subject.order(:turn_right)
+        subject.update(1)
+      }.to change(subject.body, :t)
     end
 
     it "notifies listeners" do
