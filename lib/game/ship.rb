@@ -1,7 +1,7 @@
 module Spacestuff
   module Game
     class Ship
-      attr :pieces, :shape, :body
+      attr :pieces, :shape, :body, :lives
       include Spacestuff::Listenable
 
       def initialize(options = {})
@@ -17,6 +17,17 @@ module Spacestuff
 
         options[:schematic].build(self) if options[:schematic]
         @location.place(self)
+        @lives = 5
+        @hit_this_frame
+      end
+
+      def hit!
+        @lives -= 1 unless @hit_this_frame
+        @hit_this_frame = true
+      end
+
+      def dead?
+        @lives <= 0
       end
 
       def initialize_physics(options)
@@ -38,8 +49,8 @@ module Spacestuff
         1500
       end
 
-      TURN_RATE = 7000
-      ROTATIONAL_DAMPING = 0.9
+      TURN_RATE = 9000
+      ROTATIONAL_DAMPING = 0.85
 
       def turn_left
         @shape.body.t -= TURN_RATE
@@ -52,6 +63,7 @@ module Spacestuff
         process_received_input
 
         @next_fire -= @seconds_elapsed
+        @hit_this_frame = false
       end
 
       def order(order)

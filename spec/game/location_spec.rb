@@ -32,6 +32,16 @@ describe Spacestuff::Game::Location do
         subject.remove(entity)
       }.to change(subject, :entity_count).from(1).to(0)
     end
+
+    it "allows things to be removed later" do
+      subject.place(entity)
+      expect {
+        subject.remove_later(entity)
+      }.not_to change(subject, :entity_count)
+      expect {
+        subject.do_removals
+      }.to change(subject, :entity_count).from(1).to(0)
+    end
   end
 
   it "allows updating of the physics" do

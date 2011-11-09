@@ -9,13 +9,19 @@ module Spacestuff
         @width = options[:width]
         @height = options[:height]
         @placements = {}
+        @remove_list = []
         @space = CP::Space.new
         @space.damping = 0.8
         @space.add_collision_func(:ship, :bullet) do |ship, bullet|
-          ship = @placements[ship]
-          remove(ship) if ship
-          bullet = @placements[bullet]
-          remove(bullet) if bullet
+          remove_later(@placements[bullet])
+          if (ship = @placements[ship])
+            ship.hit!
+            if (ship.dead?)
+              remove_later(ship)
+              false
+            end
+          end
+          true
         end
       end
 
@@ -27,9 +33,19 @@ module Spacestuff
       end
 
       def remove(entity)
+        return if entity.nil?
         @placements.delete(entity.shape)
         @space.remove_body(entity.shape.body)
         @space.remove_shape(entity.shape)
+      end
+
+      def remove_later(entity)
+        @remove_list << entity
+      end
+
+      def do_removals
+        @remove_list.each {|e| remove(e) }
+        @remove_list = []
       end
 
       def each_entity
@@ -44,6 +60,7 @@ module Spacestuff
 
       def update_physics(dt)
         @space.step(dt)
+        do_removals
       end
     end
   end

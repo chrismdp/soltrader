@@ -119,4 +119,26 @@ describe Spacestuff::Game::Ship do
       subject.turn_left
     end
   end
+
+  context "hitting" do
+    it "reduces lives" do
+      expect { subject.hit! }.to change(subject, :lives).by(-1)
+    end
+
+    it "can only happen once per frame" do
+      expect {
+        subject.hit!
+        subject.hit!
+      }.to change(subject, :lives).by(-1)
+    end
+
+    it "causes death after too many hits" do
+      expect {
+        5.times {
+          subject.hit!
+          subject.update(1)
+        }
+      }.to change(subject, :dead?).to(true)
+    end
+  end
 end

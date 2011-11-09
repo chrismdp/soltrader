@@ -3,8 +3,10 @@ module Spacestuff
     class Ship
       def self.render(ship, viewport)
         @image ||= SchematicRenderer.new(ship).render
+        @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
         if (viewport.inside?(ship))
           @image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle * 180 / Math::PI + 90)
+          @font.draw(ship.lives, ship.x - viewport.x, ship.y - viewport.y, 2)
         end
       end
     end
