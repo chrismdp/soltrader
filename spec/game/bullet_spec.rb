@@ -14,15 +14,15 @@ describe Spacestuff::Game::Bullet do
     it "sets up its physics" do
       CP::Body.should_receive(:new).and_return(body)
       CP::Shape::Circle.should_receive(:new).and_return(shape)
-      Spacestuff::Game::Bullet.new(:position => position, :velocity => velocity)
+      Spacestuff::Game::Bullet.new(:position => position, :angle => angle)
     end
 
     let(:position) { double }
-    let(:velocity) { double }
-    it "sets the position and velocity to the passed in value" do
+    let(:angle) { double.as_null_object }
+    it "sets the position and applies force based on the passed in value" do
       body.should_receive(:p=).with(position)
-      body.should_receive(:v=).with(velocity)
-      Spacestuff::Game::Bullet.new(:position => position, :velocity => velocity)
+      body.should_receive(:apply_force)
+      Spacestuff::Game::Bullet.new(:position => position, :angle => angle)
     end
   end
 
