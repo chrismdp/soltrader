@@ -6,7 +6,7 @@ module Spacestuff
         super
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
         @dt = 1.0/60.0
-        #@current_location.listen(:placed, self)
+        @current_location.listen(self, :placed)
 
         # earth = Spacestuff::Game::CelestialBody.new
         #current_location.place(earth, :x => 5000, :y => 5000)
@@ -26,9 +26,6 @@ module Spacestuff
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @current_location.width, @current_location.height]
-        @current_location.each_entity do |entity|
-         graphics_class_for(entity, @current_location).create(entity)
-        end
         self.input = {
           :holding_up => :go_faster,
           :holding_down => :go_slower,
@@ -38,6 +35,10 @@ module Spacestuff
         }
 
         @stars = Graphics::BackgroundStars.new
+      end
+
+      def placed(entity)
+        graphics_class_for(entity, @current_location).create(entity)
       end
 
       def go_faster
@@ -64,7 +65,8 @@ module Spacestuff
       def graphics_class_for(entity, location)
         {
           Spacestuff::Game::Ship => Spacestuff::Graphics::Ship,
-        }[entity.class]
+          Spacestuff::Game::Bullet => Spacestuff::Graphics::Bullet,
+        }.fetch(entity.class)
       end
 
       def update

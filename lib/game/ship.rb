@@ -96,7 +96,7 @@ module Spacestuff
           @next_fire = 0.3
           notify(:fired)
           offset = self.angle.radians_to_vec2
-          position = vec2(self.x + offset.x * 20, self.y + offset.y * 20)
+          position = vec2(self.x + offset.x * 40, self.y + offset.y * 40)
           @location.place(Spacestuff::Game::Bullet.new(:position => position, :angle => self.angle))
         end
       end

@@ -1,10 +1,11 @@
 require 'spec_helper'
-
-require 'game/ship'
+require 'listenable'
 require 'game/bullet'
 require 'core_ext/radians_to_vec2'
 
 require 'chipmunk'
+
+require 'game/ship'
 
 describe Spacestuff::Game::Ship do
   let(:hull) { double }

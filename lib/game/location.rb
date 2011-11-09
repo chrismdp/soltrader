@@ -1,6 +1,7 @@
 module Spacestuff
   module Game
     class Location
+      include Spacestuff::Listenable
       attr :name, :width, :height
 
       def initialize(options = {})
@@ -16,7 +17,7 @@ module Spacestuff
         @placements << entity
         @space.add_body(entity.body)
         @space.add_shape(entity.shape)
-        #notify(:placed)
+        notify(:placed, entity)
       end
 
       def each_entity
