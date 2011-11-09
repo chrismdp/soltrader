@@ -1,41 +1,23 @@
 module Spacestuff
   module Graphics
-    class Ship < Chingu::GameObject
-      def initialize(ship)
-        @ship = ship
-        super({
-          :x => @ship.shape.body.p.x,
-          :y => @ship.shape.body.p.y
-        }.merge(:image => image))
-      end
-
-      def image
-        @image ||= SchematicRenderer.new(@ship).render
-      end
-
-      def update
-        @angle = @ship.angle * 180.0 / Math::PI + 90
-        @x, @y = @ship.shape.body.p.x, @ship.shape.body.p.y
+    class Ship
+      def self.render(ship, viewport)
+        @image ||= SchematicRenderer.new(ship).render
+        if (viewport.inside?(ship))
+          @image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle * 180 / Math::PI + 90)
+        end
       end
     end
 
-    class Bullet < Chingu::GameObject
-      def initialize(bullet)
-        @bullet = bullet
-        super({
-          :x => @bullet.shape.body.p.x,
-          :y => @bullet.shape.body.p.y
-        })
-        @animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
-        @image = @animation.first
-      end
-
-      def update
-        @angle = @bullet.angle * 180.0 / Math::PI + 90
-        @x, @y = @bullet.shape.body.p.x, @bullet.shape.body.p.y
+    class Bullet
+      def self.render(bullet, viewport)
+        @animation ||= Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
+        @image ||= @animation.first
         @image = @animation.next
+        if (viewport.inside?(bullet))
+          @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 1, bullet.angle * 180 / Math::PI + 90)
+        end
       end
     end
-
   end
 end

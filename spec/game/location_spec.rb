@@ -25,6 +25,15 @@ describe Spacestuff::Game::Location do
     end
   end
 
+  context "removal" do
+    it "allows the removal of entities from the location" do
+      subject.place(entity)
+      expect {
+        subject.remove(entity)
+      }.to change(subject, :entity_count).from(1).to(0)
+    end
+  end
+
   it "allows updating of the physics" do
     space.should_receive(:step).with(0)
     subject.update_physics(0)

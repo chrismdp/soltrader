@@ -6,7 +6,6 @@ module Spacestuff
         super
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
         @dt = 1.0/60.0
-        @current_location.listen(self, :placed)
 
         # earth = Spacestuff::Game::CelestialBody.new
         #current_location.place(earth, :x => 5000, :y => 5000)
@@ -35,10 +34,6 @@ module Spacestuff
         }
 
         @stars = Graphics::BackgroundStars.new
-      end
-
-      def placed(entity)
-        graphics_class_for(entity, @current_location).create(entity)
       end
 
       def go_faster
@@ -76,20 +71,21 @@ module Spacestuff
         @current_location.each_entity do |entity|
           entity.shape.body.reset_forces # FIXME: best place for this?
           entity.update(seconds_elapsed)
+          @current_location.remove(entity) if (viewport.outside_game_area?(entity))
         end
         @current_location.update_physics(@dt)
 
-        #puts @player_ship.x, @player_ship.y
-
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
-        $window.caption = "FPS: #{$window.fps} ms: #{$window.milliseconds_since_last_tick} GO: #{game_objects.size}"
-        game_objects.destroy_if { |object| viewport.outside_game_area?(object) || object.color.alpha == 0 }
+        $window.caption = "FPS: #{$window.fps} ms: #{$window.milliseconds_since_last_tick} Entities: #{@current_location.entity_count}"
       end
 
       def draw
-        @stars.draw
         super
+        @stars.draw
+        @current_location.each_entity do |entity|
+          graphics_class_for(entity, @location).render(entity, self.viewport)
+        end
       end
     end
   end
