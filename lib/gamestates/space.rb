@@ -6,6 +6,7 @@ module Spacestuff
         super
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
         @dt = 1.0/60.0
+        #@current_location.listen(:placed, self)
 
         # earth = Spacestuff::Game::CelestialBody.new
         #current_location.place(earth, :x => 5000, :y => 5000)

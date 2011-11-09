@@ -16,6 +16,7 @@ module Spacestuff
         @placements << entity
         @space.add_body(entity.body)
         @space.add_shape(entity.shape)
+        #notify(:placed)
       end
 
       def each_entity
@@ -27,7 +28,6 @@ module Spacestuff
       def update_physics(dt)
         @space.step(dt)
       end
-
     end
   end
 end

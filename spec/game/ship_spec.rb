@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 require 'game/ship'
+require 'game/bullet'
 require 'core_ext/radians_to_vec2'
 
 require 'chipmunk'
@@ -87,6 +88,14 @@ describe Spacestuff::Game::Ship do
       subject.update(0.2)
       subject.order(:fire)
       subject.update(0.2)
+    end
+
+    let(:bullet) { double }
+    it "tells the location to add a bullet" do
+      Spacestuff::Game::Bullet.stub(:new => bullet)
+      location.should_receive(:place).with(bullet)
+      subject.order(:fire)
+      subject.update(1)
     end
 
   end

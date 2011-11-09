@@ -2,6 +2,7 @@ module Spacestuff
   module Game
     class Ship
       attr :pieces, :shape, :body
+      include Spacestuff::Listenable
 
       def initialize(options = {})
         @next_fire = 0
@@ -94,6 +95,10 @@ module Spacestuff
         if (@next_fire <= 0)
           @next_fire = 0.3
           notify(:fired)
+          offset = self.angle.radians_to_vec2
+          velocity = vec2(offset.x * 20, offset.y * 20)
+          position = vec2(self.x + offset.x * 20, self.y + offset.y * 20)
+          @location.place(Spacestuff::Game::Bullet.new(:position => position, :velocity => velocity))
         end
       end
 
@@ -126,18 +131,6 @@ module Spacestuff
           y << piece.y + piece.height
         end
         [x.max, y.max]
-      end
-
-      # listening
-      def listen(listener, event)
-        @listeners ||= Hash.new([])
-        @listeners[event].push(listener)
-      end
-
-      def notify(event)
-        if @listeners && listeners_for_event = @listeners[event]
-          listeners_for_event.each { |listener| listener.send(event) }
-        end
       end
     end
   end
