@@ -5,7 +5,7 @@ require 'chipmunk'
 require 'game/location'
 
 describe Spacestuff::Game::Location do
-  let(:entity) { double(:entity, :body => double, :shape => double) }
+  let(:entity) { double(:entity).as_null_object }
   subject { Spacestuff::Game::Location.new(:width => 1000, :height => 1001, :name => "name") }
   before { CP::Space.stub(:new => space) }
   let(:listener) { double }
