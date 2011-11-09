@@ -20,19 +20,19 @@ module Spacestuff
     end
 
     class Bullet < Chingu::GameObject
-      def initialize(ship)
-        @ship = ship
+      def initialize(bullet)
+        @bullet = bullet
         super({
-          :x => @ship.shape.body.p.x,
-          :y => @ship.shape.body.p.y
+          :x => @bullet.shape.body.p.x,
+          :y => @bullet.shape.body.p.y
         })
         @animation = Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
         @image = @animation.first
       end
 
       def update
-        @angle = @ship.angle * 180.0 / Math::PI + 90
-        @x, @y = @ship.shape.body.p.x, @ship.shape.body.p.y
+        @angle = @bullet.angle * 180.0 / Math::PI + 90
+        @x, @y = @bullet.shape.body.p.x, @bullet.shape.body.p.y
         @image = @animation.next
       end
     end
