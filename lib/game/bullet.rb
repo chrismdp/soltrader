@@ -30,7 +30,6 @@ module Spacestuff
       def angle
         @shape.body.a
       end
-
     end
   end
 end

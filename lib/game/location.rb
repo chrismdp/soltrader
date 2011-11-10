@@ -54,6 +54,13 @@ module Spacestuff
         end
       end
 
+      def each_entity_with_box(left, top, right, bottom)
+        bb = CP::BB.new(left, top, right, bottom)
+        @space.bb_query(bb) do |shape|
+          yield @placements[shape]
+        end
+      end
+
       def entity_count
         @placements.size
       end

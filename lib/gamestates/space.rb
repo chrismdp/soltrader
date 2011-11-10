@@ -83,7 +83,7 @@ module Spacestuff
       def draw
         super
         @stars.draw
-        @current_location.each_entity do |entity|
+        @current_location.each_entity_with_box(self.viewport.x, self.viewport.y, self.viewport.x + $window.width, self.viewport.y + $window.height) do |entity|
           graphics_class_for(entity, @location).render(entity, self.viewport)
         end
       end
