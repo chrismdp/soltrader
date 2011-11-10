@@ -60,13 +60,13 @@ describe Spacestuff::Game::Ship do
   context "firing engines" do
 
     it "can fire main engines" do
-      subject.body.should_receive(:apply_force)
+      subject.body.should_receive(:apply_impulse)
       subject.order(:fire_main_engines)
       subject.update(1)
     end
 
     it "can fire reverse engines" do
-      subject.body.should_receive(:apply_force)
+      subject.body.should_receive(:apply_impulse)
       subject.order(:fire_reverse_engines)
       subject.update(1)
     end
@@ -106,11 +106,11 @@ describe Spacestuff::Game::Ship do
       expect {
         subject.order(:turn_left)
         subject.update(1)
-      }.to change(subject.body, :t)
+      }.to change(subject.body, :w)
       expect {
         subject.order(:turn_right)
         subject.update(1)
-      }.to change(subject.body, :t)
+      }.to change(subject.body, :w)
     end
 
     it "notifies listeners" do

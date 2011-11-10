@@ -42,20 +42,26 @@ module Spacestuff
 
 
       def rate_of_acceleration
-        2500
+        100
       end
 
       def rate_of_braking
-        1500
+        50
       end
 
-      TURN_RATE = 9000
+      TURN_RATE = 0.8
       ROTATIONAL_DAMPING = 0.85
 
       def turn_left
-        @shape.body.t -= TURN_RATE
+        @shape.body.w -= TURN_RATE
         notify(:turned)
       end
+
+      def turn_right
+        @shape.body.w += TURN_RATE
+        notify(:turned)
+      end
+
 
       def update(elapsed)
         @seconds_elapsed = elapsed
@@ -98,18 +104,13 @@ module Spacestuff
         @shape.body.a
       end
 
-      def turn_right
-        @shape.body.t += TURN_RATE
-        notify(:turned)
-      end
-
       def fire
         if (@next_fire <= 0)
           @next_fire = 0.3
           notify(:fired)
           offset = self.angle.radians_to_vec2
-          position = vec2(self.x + offset.x * 40, self.y + offset.y * 40)
-          @location.place(Spacestuff::Game::Bullet.new(:position => position, :angle => self.angle))
+          position = self.body.p + offset * 40
+          @location.place(Spacestuff::Game::Bullet.new(:position => position, :velocity => self.body.v, :angle => self.angle))
         end
       end
 
@@ -126,12 +127,12 @@ module Spacestuff
       end
 
       def fire_main_engines
-        @shape.body.apply_force((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
+        @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
         notify(:engine_fired)
       end
 
       def fire_reverse_engines
-        @shape.body.apply_force(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
+        @shape.body.apply_impulse(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
         notify(:engine_fired)
       end
 

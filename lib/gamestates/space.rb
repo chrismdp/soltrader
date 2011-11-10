@@ -69,7 +69,6 @@ module Spacestuff
         seconds_elapsed = $window.milliseconds_since_last_tick / 1000.0
         @minds.each { |ai| ai.update(seconds_elapsed) }
         @current_location.each_entity do |entity|
-          entity.shape.body.reset_forces # FIXME: best place for this?
           entity.update(seconds_elapsed)
           @current_location.remove(entity) if (viewport.outside_game_area?(entity))
         end

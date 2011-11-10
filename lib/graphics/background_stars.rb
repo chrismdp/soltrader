@@ -5,8 +5,8 @@ module Spacestuff
         super(options.merge(:x => 0, :y => 0, :rotation_center => :top_left))
         self << { :image => make_stars(20, 0xff333333), :repeat_x => true, :repeat_y => true, :damping => 6, :factor => 1, :zorder => -1 }
         self << { :image => make_stars(10, 0xff444444), :repeat_x => true, :repeat_y => true, :damping => 5.8, :factor => 1, :zorder => -1 }
-        self << { :image => make_stars(2, 0x3fffffff), :repeat_x => true, :repeat_y => true, :damping => 1, :factor => 1 }
-        self << { :image => make_stars(2, 0x3fffffff), :repeat_x => true, :repeat_y => true, :damping => 0.6, :factor => 1 }
+        self << { :image => make_stars(2, 0x5fffffff), :repeat_x => true, :repeat_y => true, :damping => 1, :factor => 1 }
+        self << { :image => make_stars(2, 0x5fffffff), :repeat_x => true, :repeat_y => true, :damping => 0.6, :factor => 1 }
       end
 
       def make_stars(count, colour)

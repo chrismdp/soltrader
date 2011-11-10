@@ -12,11 +12,11 @@ module Spacestuff
 
         @body.p = options[:position]
         @body.a = options[:angle]
-        @speed = 600
+        @body.v = options[:velocity]
+        @body.apply_impulse(@body.a.radians_to_vec2 * 5000, CP::Vec2::ZERO)
       end
 
       def update(elapsed)
-        @body.v = @body.a.radians_to_vec2 * @speed
       end
 
       def x

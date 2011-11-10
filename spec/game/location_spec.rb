@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'listenable'
 require 'chipmunk'
 
+require 'core_ext/radians_to_vec2'
 require 'game/bullet'
 require 'game/location'
 
@@ -67,15 +68,15 @@ describe Spacestuff::Game::Location do
   end
 
   it "allows iteration through entities within a specific box" do
-    inside = Spacestuff::Game::Bullet.new(:position => vec2(20, 20), :angle => 0)
-    edge = Spacestuff::Game::Bullet.new(:position => vec2(50, 50), :angle => 0)
-    outside = Spacestuff::Game::Bullet.new(:position => vec2(200, 200), :angle => 0)
+    inside = Spacestuff::Game::Bullet.new(:position => vec2(20, 20), :velocity => CP::Vec2::ZERO, :angle => 0)
+    edge = Spacestuff::Game::Bullet.new(:position => vec2(50, 50), :velocity => CP::Vec2::ZERO, :angle => 0)
+    outside = Spacestuff::Game::Bullet.new(:position => vec2(200, 200), :velocity => CP::Vec2::ZERO, :angle => 0)
     subject.place(inside)
     subject.place(edge)
     subject.place(outside)
 
     entities = []
-    subject.update_physics(1)
+    subject.update_physics(0)
     subject.each_entity_with_box(0,0,50,50) do |entity|
       entities << entity
     end
