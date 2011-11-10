@@ -10,4 +10,11 @@ describe Spacestuff::Game::Physical do
     subject.should respond_to(:body)
   end
 
+  it "responds to x, y and angle" do
+    subject.should respond_to(:x)
+    subject.should respond_to(:y)
+    subject.should respond_to(:angle)
+
+  end
+
 end

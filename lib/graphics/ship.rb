@@ -26,7 +26,7 @@ module Spacestuff
         color = Gosu::Color::WHITE.dup
         color.alpha = 255 - (bullet.percentage_lifetime * 255)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
-        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 1, bullet.angle * 180 / Math::PI + 90, 0.5, 0.5, 0.5 + bullet.percentage_lifetime, 0.5 + bullet.percentage_lifetime, color)
+        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle * 180 / Math::PI + 90, 0.5, 0.5, 0.5 + bullet.percentage_lifetime, 0.5 + bullet.percentage_lifetime, color)
       end
     end
   end

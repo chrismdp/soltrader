@@ -11,9 +11,9 @@ module Spacestuff
         @placements = {}
         @remove_list = []
         @space = CP::Space.new
-        @space.add_collision_func(:ship, :bullet) do |ship, bullet|
-          remove_later(@placements[bullet])
-          if (ship = @placements[ship])
+        @space.add_collision_func(:ship, :bullet) do |ship_shape, bullet_shape|
+          remove_later(@placements[bullet_shape.body])
+          if (ship = @placements[ship_shape.body])
             ship.hit!
             if (ship.dead?)
               remove_later(ship)
@@ -22,11 +22,10 @@ module Spacestuff
           end
           true
         end
-        @space.add_collision_func(:bullet, :bullet, &nil)
       end
 
       def place(entity)
-        @placements[entity.shape] = entity
+        @placements[entity.body] = entity
         @space.add_body(entity.body)
         @space.add_shape(entity.shape)
         notify(:placed, entity)
@@ -34,8 +33,8 @@ module Spacestuff
 
       def remove(entity)
         return if entity.nil?
-        @placements.delete(entity.shape)
-        @space.remove_body(entity.shape.body)
+        @placements.delete(entity.body)
+        @space.remove_body(entity.body)
         @space.remove_shape(entity.shape)
       end
 
@@ -57,7 +56,7 @@ module Spacestuff
       def each_entity_with_box(left, top, right, bottom)
         bb = CP::BB.new(left, top, right, bottom)
         @space.bb_query(bb) do |shape|
-          yield @placements[shape]
+          yield @placements[shape.body]
         end
       end
 

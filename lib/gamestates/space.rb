@@ -61,6 +61,7 @@ module Spacestuff
         {
           Spacestuff::Game::Ship => Spacestuff::Graphics::Ship,
           Spacestuff::Game::Bullet => Spacestuff::Graphics::Bullet,
+          Spacestuff::Game::Exhaust => Spacestuff::Graphics::Bullet,
         }.fetch(entity.class)
       end
 

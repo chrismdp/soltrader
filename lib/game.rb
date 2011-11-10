@@ -1,4 +1,5 @@
 require_relative "game/physical"
+require_relative "game/lifespan"
 require_relative "game/ship"
 require_relative "game/pieces"
 require_relative "game/schematic"

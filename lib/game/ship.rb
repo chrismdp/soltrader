@@ -19,7 +19,7 @@ module Spacestuff
         options[:schematic].build(self) if options[:schematic]
         @location.place(self)
         @lives = 5
-        @hit_this_frame
+        @hit_this_frame = false
       end
 
       def hit!
@@ -36,6 +36,7 @@ module Spacestuff
         shape_array = [CP::Vec2.new(-25.0, -25.0), CP::Vec2.new(-25.0, 25.0), CP::Vec2.new(25.0, 1.0), CP::Vec2.new(25.0, -1.0)]
         @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
         @shape.collision_type = :ship
+        @shape.layers = 1
 
         @shape.body.p = CP::Vec2.new(options[:x], options[:y])
         @shape.body.v = CP::Vec2.new(0.0, 0.0)
@@ -83,10 +84,9 @@ module Spacestuff
       end
 
       def scan
-        # TODO: Could be replaced by a largish collision detection in the physics?
         distances = []
-        @location.each_entity do |entity|
-          next if entity == self
+        @location.each_entity_with_box(self.x - 400, self.y - 400, self.x + 400, self.y + 400) do |entity|
+          next if entity == self || !entity.is_a?(Spacestuff::Game::Ship)
           distances.push({:square_distance => (self.x - entity.x) ** 2 + (self.y - entity.y) ** 2, :entity => entity})
         end
         return nil if distances == []
@@ -118,6 +118,9 @@ module Spacestuff
       def fire_main_engines
         @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
         notify(:engine_fired)
+        offset = self.angle.radians_to_vec2
+        position = self.body.p - offset * 25
+        @location.place(Spacestuff::Game::Exhaust.new(:position => position, :velocity => self.body.v, :angle => self.angle))
       end
 
       def fire_reverse_engines

@@ -47,11 +47,12 @@ describe Spacestuff::Game::Ship do
   end
 
   context "scanning" do
-    let(:ship1) { double(:ship1, :x => 50, :y => 50) }
-    let(:ship2) { double(:ship2, :x => 60, :y => 60) }
+    let(:other_object) { double(:other, :x => 20, :y => 20) }
+    let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
+    let(:ship2) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
 
     it "scans location for nearest ship (use scanner piece later)" do
-      location.stub(:each_entity).and_yield(ship1).and_yield(ship2)
+      location.stub(:each_entity_with_box).and_yield(ship1).and_yield(ship2)
       subject.scan.should == ship1
     end
 
