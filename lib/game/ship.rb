@@ -1,7 +1,8 @@
 module Spacestuff
   module Game
     class Ship
-      attr :pieces, :shape, :body, :lives
+      attr :pieces, :lives
+      include Spacestuff::Game::Physical
       include Spacestuff::Listenable
 
       def initialize(options = {})
@@ -90,18 +91,6 @@ module Spacestuff
         end
         return nil if distances == []
         distances.min_by {|x| x[:square_distance]}[:entity]
-      end
-
-      def x
-        @shape.body.p.x
-      end
-
-      def y
-        @shape.body.p.y
-      end
-
-      def angle
-        @shape.body.a
       end
 
       def fire

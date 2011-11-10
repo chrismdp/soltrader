@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'listenable'
+require 'game/physical'
 require 'game/bullet'
 require 'core_ext/radians_to_vec2'
 

@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'game/physical'
 require 'game/bullet'
 require 'chipmunk'
 
@@ -14,7 +15,8 @@ describe Spacestuff::Game::Bullet do
     it "sets up its physics" do
       CP::Body.should_receive(:new).and_return(body)
       CP::Shape::Circle.should_receive(:new).and_return(shape)
-      Spacestuff::Game::Bullet.new(:position => position, :angle => angle)
+      b = Spacestuff::Game::Bullet.new(:position => position, :angle => angle)
+      b.body.should == body
     end
 
     let(:position) { double }

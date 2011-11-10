@@ -1,7 +1,7 @@
 module Spacestuff
   module Game
     class Bullet
-      attr :shape, :body
+      include Spacestuff::Game::Physical
 
       MASS = 10.0
       RADIUS = 10.0
@@ -17,18 +17,6 @@ module Spacestuff
       end
 
       def update(elapsed)
-      end
-
-      def x
-        @shape.body.p.x
-      end
-
-      def y
-        @shape.body.p.y
-      end
-
-      def angle
-        @shape.body.a
       end
     end
   end
