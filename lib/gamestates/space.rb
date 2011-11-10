@@ -5,7 +5,6 @@ module Spacestuff
       def initialize
         super
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
-        @dt = 1.0/60.0
 
         # earth = Spacestuff::Game::CelestialBody.new
         #current_location.place(earth, :x => 5000, :y => 5000)
@@ -18,7 +17,7 @@ module Spacestuff
         @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location)
 
         @minds = []
-        50.times do
+        100.times do
           ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @current_location)
           @minds << Spacestuff::Game::ShipAi.new(:ship => ship)
         end
@@ -71,13 +70,13 @@ module Spacestuff
         @minds.each { |ai| ai.update(seconds_elapsed) }
         @current_location.each_entity do |entity|
           remove = entity.update(seconds_elapsed)
-          @current_location.remove(entity) if (viewport.outside_game_area?(entity)) || remove
+          @current_location.remove(entity) if remove
         end
-        @current_location.update_physics(@dt)
+        @current_location.update_physics(seconds_elapsed)
 
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
-        $window.caption = "FPS: #{$window.fps} ms: #{$window.milliseconds_since_last_tick} Entities: #{@current_location.entity_count}"
+        $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{$window.milliseconds_since_last_tick} Entities: #{@current_location.entity_count}"
       end
 
       def draw
