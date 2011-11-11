@@ -12,12 +12,18 @@ module Spacestuff
     def initialize
       super
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "media")
-      self.input = { :escape => :exit }
+      self.input = { :escape => :ready_close }
       self.push_game_state(Spacestuff::Gamestates::Space)
+      @closing = false
     end
 
-    def update
+    def ready_close
+      @closing = true
+    end
+
+    def draw
       super
+      close if @closing
     end
   end
 end

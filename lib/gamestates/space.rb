@@ -76,7 +76,16 @@ module Spacestuff
 
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
-        $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{$window.milliseconds_since_last_tick} Entities: #{@current_location.entity_count}"
+        throttle(1000) { $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{$window.milliseconds_since_last_tick} Entities: #{@current_location.entity_count}" }
+      end
+
+      def throttle(every)
+        @throttle ||= 0
+        @throttle += $window.milliseconds_since_last_tick
+        if @throttle > every
+          @throttle = 0
+          yield
+        end
       end
 
       def draw

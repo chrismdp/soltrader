@@ -9,4 +9,14 @@ include Gosu
 
 require_relative "lib/spacestuff"
 
-Spacestuff::Window.new.show
+require 'perftools'
+if ARGV.first == '--profile'
+  puts "Profiling"
+  PerfTools::CpuProfiler.start("spacestuff.profile") do
+    Spacestuff::Window.new.show
+  end
+else
+  Spacestuff::Window.new.show
+end
+
+

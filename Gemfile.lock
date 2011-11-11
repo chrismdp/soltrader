@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/bearded/perftools.rb.git
+  revision: df73f93e4dda8953e77ba3be2945f4bf806b07cf
+  branch: perftools-1.8
+  specs:
+    perftools.rb (0.5.6)
+
+GIT
   remote: git://github.com/chrismdp/texplay.git
   revision: 199f6bef724d20ee731e2f564bb005cc051f8f5a
   specs:
@@ -36,6 +43,7 @@ PLATFORMS
 DEPENDENCIES
   chingu
   chipmunk
+  perftools.rb!
   rspec
   rspec-given
   texplay!
