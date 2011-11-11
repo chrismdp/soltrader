@@ -9,15 +9,16 @@ module Spacestuff
         @next_fire = 0
         @orders = []
         @seconds_elapsed = 0
-        @location = options[:location]
         @ai = options[:ai]
 
         initialize_physics(options)
 
         @pieces = []
-
         options[:schematic].build(self) if options[:schematic]
+
+        @location = options[:location]
         @location.place(self)
+
         @lives = 5
         @hit_this_frame = false
       end
@@ -33,10 +34,13 @@ module Spacestuff
 
       def initialize_physics(options)
         @body = CP::Body.new(10.0, 150.0)
+
+        # TODO: Should be defined by the pieces
         shape_array = [CP::Vec2.new(-25.0, -25.0), CP::Vec2.new(-25.0, 25.0), CP::Vec2.new(25.0, 1.0), CP::Vec2.new(25.0, -1.0)]
         @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
+
         @shape.collision_type = :ship
-        @shape.layers = 1
+        @shape.layers = Physical::LAYER_SHIP
 
         @shape.body.p = CP::Vec2.new(options[:x], options[:y])
         @shape.body.v = CP::Vec2.new(0.0, 0.0)

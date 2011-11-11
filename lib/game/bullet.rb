@@ -3,14 +3,11 @@ module Spacestuff
     class Bullet
       include Spacestuff::Game::Physical
 
-      MASS = 10.0
-      RADIUS = 10.0
       def initialize(options = {})
-        @body = CP::Body.new(MASS, CP.moment_for_circle(MASS, 0.0, RADIUS, CP::Vec2::ZERO))
-        @shape = CP::Shape::Circle.new(@body, RADIUS, CP::Vec2::ZERO)
+        self.make_circle(10, 10)
         @shape.collision_type = :bullet
         @shape.group = :bullet
-        @shape.layers = 1
+        @shape.layers = Physical::LAYER_SHIP
 
         @body.p = options[:position]
         @body.a = options[:angle]
@@ -33,14 +30,10 @@ module Spacestuff
       include Spacestuff::Game::Physical
       attr :lifetime
 
-      MASS = 1
-      RADIUS = 10
       def initialize(options = {})
-        @body = CP::Body.new(MASS, CP.moment_for_circle(MASS, 0.0, RADIUS, CP::Vec2::ZERO))
-        @shape = CP::Shape::Circle.new(@body, RADIUS, CP::Vec2::ZERO)
-        @shape.collision_type = :never
+        self.make_circle(1, 10)
         @shape.group = :bullet
-        @shape.layers = 2
+        @shape.layers = Physical::LAYER_EXHAUST
 
         @body.p = options[:position]
         @body.a = rand(2 * Math::PI)
