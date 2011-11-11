@@ -29,5 +29,11 @@ module Spacestuff
         @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle * 180 / Math::PI + 90, 0.5, 0.5, 0.5 + bullet.percentage_lifetime, 0.5 + bullet.percentage_lifetime, color)
       end
     end
+    class CelestialBody
+      def self.render(body, viewport)
+        @image ||= Image['earth.png']
+        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, -1, body.angle * 180 / Math::PI + 90)
+      end
+    end
   end
 end

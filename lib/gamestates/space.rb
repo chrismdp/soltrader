@@ -6,8 +6,7 @@ module Spacestuff
         super
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
 
-        # earth = Spacestuff::Game::CelestialBody.new
-        #current_location.place(earth, :x => 5000, :y => 5000)
+        earth = Spacestuff::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @current_location)
 
         schematic = Spacestuff::Game::Schematic.new
         schematic.draw(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
@@ -61,6 +60,7 @@ module Spacestuff
           Spacestuff::Game::Ship => Spacestuff::Graphics::Ship,
           Spacestuff::Game::Bullet => Spacestuff::Graphics::Bullet,
           Spacestuff::Game::Exhaust => Spacestuff::Graphics::Bullet,
+          Spacestuff::Game::CelestialBody => Spacestuff::Graphics::CelestialBody
         }.fetch(entity.class)
       end
 
@@ -91,7 +91,7 @@ module Spacestuff
       def draw
         super
         @stars.draw
-        @current_location.each_entity_with_box(self.viewport.x, self.viewport.y, self.viewport.x + $window.width, self.viewport.y + $window.height) do |entity|
+        @current_location.each_entity_with_box(self.viewport.x - 256, self.viewport.y - 256, self.viewport.x + $window.width + 256, self.viewport.y + $window.height + 256) do |entity|
           graphics_class_for(entity, @location).render(entity, self.viewport)
         end
       end
