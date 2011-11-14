@@ -10,14 +10,15 @@ require_relative "game/celestial_body"
 
 module Spacestuff
   class Window < Chingu::Window
-    def initialize
-      super
+    def initialize(options = {})
+      super(800, 600, false, 1.0)
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "media")
       self.input = { :escape => :ready_close }
       self.push_game_state(Spacestuff::Gamestates::Space)
       @closing = false
       @time_started = Time.now
       @frames = 0
+      @frame_count = options[:frame_count] || 0
     end
 
     def ready_close
@@ -31,7 +32,11 @@ module Spacestuff
 
     def draw
       super
-      close if @closing
+      close if @closing || time_to_end
+    end
+
+    def time_to_end
+      @frame_count > 0 && @frames > @frame_count
     end
 
     def close
