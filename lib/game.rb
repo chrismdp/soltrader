@@ -40,7 +40,10 @@ module Spacestuff
     end
 
     def close
-      puts "#{@frames} in #{Time.now - @time_started} AVG: #{@frames / (Time.now - @time_started).to_i}"
+      duration = (Time.now - @time_started).to_i
+      if (duration > 0)
+        puts "#{@frames} in #{duration} AVG: #{@frames / duration}"
+      end
       super
     end
   end
