@@ -7,7 +7,7 @@ module Spacestuff
       end
 
       def percentage_lifetime
-        1 - @remaining_life.to_f / @total_life.to_f
+        100 - @remaining_life * 100 / @total_life
       end
 
       def update(elapsed)

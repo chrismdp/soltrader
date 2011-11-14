@@ -24,9 +24,10 @@ module Spacestuff
         @animation ||= Chingu::Animation.new(:file => "fireball.png", :size => [32,32], :delay => 20)
         @image ||= @animation.first
         color = Gosu::Color::WHITE.dup
-        color.alpha = 255 - (bullet.percentage_lifetime * 255)
+        color.alpha = 255 - (bullet.percentage_lifetime * 255/100)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
-        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle * 180 / Math::PI + 90, 0.5, 0.5, 0.5 + bullet.percentage_lifetime, 0.5 + bullet.percentage_lifetime, color)
+        size = 0.5 + bullet.percentage_lifetime/100.0
+        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle * 180 / Math::PI + 90, 0.5, 0.5, size, size, color)
       end
     end
     class CelestialBody
