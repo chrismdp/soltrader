@@ -8,7 +8,7 @@ module Spacestuff
       def initialize(options = {})
         @next_fire = 0
         @orders = []
-        @seconds_elapsed = 0
+        @elapsed = 0
         @ai = options[:ai]
 
         initialize_physics(options)
@@ -43,7 +43,7 @@ module Spacestuff
         @shape.layers = Physical::LAYER_SHIP
 
         @shape.body.p = CP::Vec2.new(options[:x], options[:y])
-        @shape.body.v = CP::Vec2.new(0.0, 0.0)
+        @shape.body.v = CP::Vec2::ZERO
       end
 
 
@@ -70,11 +70,11 @@ module Spacestuff
 
 
       def update(elapsed)
-        @seconds_elapsed = elapsed
+        @elapsed = elapsed
         @shape.body.w *= ROTATIONAL_DAMPING
         process_received_input
 
-        @next_fire -= @seconds_elapsed
+        @next_fire -= @elapsed
         @hit_this_frame = false
       end
 
@@ -99,7 +99,7 @@ module Spacestuff
 
       def fire
         if (@next_fire <= 0)
-          @next_fire = 0.3
+          @next_fire = 300
           notify(:fired)
           offset = self.angle.radians_to_vec2
           position = self.body.p + offset * 40
@@ -120,7 +120,7 @@ module Spacestuff
       end
 
       def fire_main_engines
-        @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
+        @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
         notify(:engine_fired)
         offset = self.angle.radians_to_vec2
         position = self.body.p - offset * 25
@@ -128,7 +128,7 @@ module Spacestuff
       end
 
       def fire_reverse_engines
-        @shape.body.apply_impulse(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2.new(0.0, 0.0))
+        @shape.body.apply_impulse(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
         notify(:engine_fired)
       end
 

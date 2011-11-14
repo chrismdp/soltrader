@@ -65,7 +65,7 @@ module Spacestuff
       end
 
       def update_physics(dt)
-        @space.step(dt)
+        @space.step(dt/1000.0)
         do_removals
       end
     end

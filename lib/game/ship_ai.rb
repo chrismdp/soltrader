@@ -6,9 +6,9 @@ module Spacestuff
         @target = nil
       end
 
-      def update(seconds_elapsed)
-        throttle(:find, rand(200) + 900, seconds_elapsed * 1000.0) { find_target }
-        throttle(:track, 20, seconds_elapsed * 1000.0) { track }
+      def update(elapsed)
+        throttle(:find, rand(200) + 900, elapsed) { find_target }
+        throttle(:track, 20, elapsed) { track }
       end
 
       def track

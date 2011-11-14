@@ -13,7 +13,7 @@ module Spacestuff
         @body.a = options[:angle]
         @body.v = options[:velocity]
         @body.apply_impulse(@body.a.radians_to_vec2 * 5000, CP::Vec2::ZERO)
-        @lifespan = Spacestuff::Game::Lifespan.new(0.5)
+        @lifespan = Spacestuff::Game::Lifespan.new(500)
       end
 
       def update(elapsed)
@@ -38,7 +38,7 @@ module Spacestuff
         @body.p = options[:position]
         @body.a = rand(2 * Math::PI)
         @body.w = 20
-        @lifespan = Spacestuff::Game::Lifespan.new(0.5)
+        @lifespan = Spacestuff::Game::Lifespan.new(500)
       end
 
       def update(elapsed)

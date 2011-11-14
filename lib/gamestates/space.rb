@@ -66,18 +66,18 @@ module Spacestuff
 
       def update
         super
-        seconds_elapsed = $window.milliseconds_since_last_tick / 1000.0
-        @minds.each { |ai| ai.update(seconds_elapsed) }
+        elapsed = $window.milliseconds_since_last_tick
+        @minds.each { |ai| ai.update(elapsed) }
         @current_location.each_entity do |entity|
-          remove = entity.update(seconds_elapsed)
+          remove = entity.update(elapsed)
           @current_location.remove(entity) if remove
         end
-        @current_location.update_physics(seconds_elapsed)
+        @current_location.update_physics(elapsed)
 
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
-        throttle(:caption, 1000, $window.milliseconds_since_last_tick) do
-          $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{$window.milliseconds_since_last_tick} Entities: #{@current_location.entity_count}"
+        throttle(:caption, 1000, elapsed) do
+          $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} Entities: #{@current_location.entity_count}"
         end
       end
 

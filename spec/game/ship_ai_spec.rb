@@ -11,21 +11,19 @@ describe Spacestuff::Game::ShipAi do
   it "turns the ship in the direction of the nearest other ship" do
     ship.should_receive(:order).with(:turn_left)
     ship.stub(:scan => ship_on_left)
-    subject.update(1)
-    subject.track
+    subject.update(1200)
   end
 
   it "turns the ship left if that's the best way" do
     ship.should_receive(:order).with(:turn_right)
     ship.stub(:scan => ship_on_right)
-    subject.update(1)
-    subject.track
+    subject.update(2000)
   end
 
   it "only runs this once per second" do
     ship.stub(:scan => ship_on_right)
-    subject.update(1)
+    subject.update(2000)
     ship.should_not_receive(:turn_right)
-    subject.update(0.4)
+    subject.update(400)
   end
 end
