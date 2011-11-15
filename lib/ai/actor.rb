@@ -9,7 +9,7 @@ module Spacestuff
       end
 
       def update(elapsed)
-        super
+        choose_behaviour
       end
 
       def tagged?(tag)

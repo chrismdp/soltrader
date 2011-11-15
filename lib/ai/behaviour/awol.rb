@@ -10,11 +10,17 @@ module Spacestuff
 
         def initialize(options = {})
           @actor = options[:actor]
-          @behaviours = options[:behaviours] || []
+        end
+
+        def behaviours
+          @behaviours ||= [
+            Behaviour::FindTarget,
+            Behaviour::TrackTarget
+          ]
         end
 
         def update(elapsed)
-          super
+          choose_behaviour
         end
       end
     end
