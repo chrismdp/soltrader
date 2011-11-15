@@ -19,5 +19,13 @@ describe Spacestuff::Ai::Behaviour::Awol do
   context "update" do
     subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor) }
     it_behaves_like "it runs children by priority"
+
+    let(:elapsed) { double }
+    let(:behaviour) { double }
+    it "calls update in turn on the current behaviour" do
+      subject.stub(:choose_behaviour_for => nil, :current_behaviour => behaviour)
+      behaviour.should_receive(:update).with(elapsed)
+      subject.update(elapsed)
+    end
   end
 end

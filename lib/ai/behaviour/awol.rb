@@ -20,7 +20,8 @@ module Spacestuff
         end
 
         def update(elapsed)
-          choose_behaviour
+          choose_behaviour_for(@actor)
+          current_behaviour.update(elapsed)
         end
       end
     end

@@ -1,13 +1,17 @@
 require 'spec_helper'
 
 shared_examples_for "it runs children by priority" do
-  let(:behaviours) { (1..10).collect{|x| double(:behaviour, :priority => x) } }
+  let(:behaviour) { double.as_null_object }
+  let(:behaviours) { (1..10).collect{|x| double(:behaviour_class, :priority => x).as_null_object } }
   before do
     subject.behaviours = behaviours
+    behaviours.last.stub(:new => behaviour)
   end
 
-  it "picks the highest prioritised behaviour from his options" do
+  it "instantiates the highest priority behaviour" do
+    behaviours.last.should_receive(:new).and_return(behaviour)
     subject.update(1)
-    subject.current_behaviour.priority(subject).should == 10
+    subject.current_behaviour.should == behaviour
   end
+
 end

@@ -8,3 +8,12 @@ require_relative 'behaviour/idle'
 # 3. Call `update` on that behaviour
 #   a. The child might go through the same process, if it has children
 #   b. Otherwise `update` will execute the action.
+#
+module Spacestuff
+  module Ai
+    module Behaviour
+      class NoBehavioursToChooseFrom < Exception
+      end
+    end
+  end
+end

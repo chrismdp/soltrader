@@ -1,13 +1,14 @@
 require 'spec_helper'
 require 'shared_examples/ai/child_policies/run_children_by_priority'
 require 'ai/child_policies/run_children_by_priority'
+require 'ai/behaviour'
 require 'ai/actor'
 
 describe Spacestuff::Ai::Actor do
   subject { Spacestuff::Ai::Actor.new }
 
-  it "allows update with an elapsed durstion" do
-    subject.update(1)
+  it "does not allows update until behaviours are specified" do
+    expect { subject.update(1) }.to raise_error(Spacestuff::Ai::Behaviour::NoBehavioursToChooseFrom)
   end
 
   it_behaves_like "it runs children by priority"
