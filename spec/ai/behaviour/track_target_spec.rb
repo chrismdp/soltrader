@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 require 'shared_examples/ai/behaviour'
-require 'ai/behaviour'
+require 'ai/behaviour/behaviour'
 require 'ai/behaviour/track_target'
 
 describe Spacestuff::Ai::Behaviour::TrackTarget do

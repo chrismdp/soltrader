@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'shared_examples/ai/behaviour/with_children'
 require 'shared_examples/ai/child_policies/run_children_by_priority'
 require 'ai/child_policies/run_children_by_priority'
-require 'ai/behaviour'
+require 'ai/behaviour/behaviour'
 require 'ai/behaviour/root'
 
 describe Spacestuff::Ai::Behaviour::Root do
