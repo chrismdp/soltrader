@@ -8,8 +8,8 @@ module Spacestuff
         end
 
         def choose_behaviour_for(actor)
-          raise Behaviour::NoBehavioursToChooseFrom if @behaviours.nil? || @behaviours.empty?
-          @current_behaviour ||= @behaviours.max_by {|b| b.priority(actor) }.new(:actor => actor)
+          raise Behaviour::NoBehavioursToChooseFrom, self.class if behaviours.nil? || behaviours.empty?
+          @current_behaviour ||= behaviours.max_by {|b| b.priority(actor) }.new(:actor => actor)
         end
       end
     end
