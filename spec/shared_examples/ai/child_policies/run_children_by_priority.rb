@@ -8,6 +8,11 @@ shared_examples_for "it runs children by priority" do
     behaviours.last.stub(:new => behaviour)
   end
 
+  it "calls priority on the behaviours, passing the actor" do
+    behaviours.each { |b| b.should_receive(:priority).with(actor) }
+    subject.update(1)
+  end
+
   it "instantiates the highest priority behaviour" do
     behaviours.last.should_receive(:new).and_return(behaviour)
     subject.update(1)

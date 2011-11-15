@@ -5,9 +5,8 @@ module Spacestuff
         include Behaviour
 
         def self.priority(actor)
-          0
+          actor.current_target ? 100 : 0
         end
-
       end
     end
   end
