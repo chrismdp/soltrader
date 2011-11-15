@@ -17,4 +17,5 @@ describe Spacestuff::Ai::Behaviour::Awol do
   subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor) }
 
   it_behaves_like "a behaviour with children"
+  it_behaves_like "it runs children by priority"
 end

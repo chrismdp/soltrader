@@ -1,5 +1,6 @@
 require_relative 'behaviour/awol'
 require_relative 'behaviour/idle'
+require_relative 'behaviour/root'
 
 # The code process for running a behaviour, with children
 # 1. Decide the chosen behaviour based on our own methods

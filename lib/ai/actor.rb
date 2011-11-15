@@ -1,15 +1,14 @@
 module Spacestuff
   module Ai
     class Actor
-      include ChildPolicies::RunChildrenByPriority
-
       def initialize(options = {})
-        @behaviours = options[:behaviours] || []
+        @behaviour_tree = Behaviour::Root.new(:actor => self)
+        @behaviour_tree.behaviours = options[:behaviours]
         @tags = Hash.new(false)
       end
 
       def update(elapsed)
-        choose_behaviour_for(self)
+        @behaviour_tree.update(elapsed)
       end
 
       def tagged?(tag)
