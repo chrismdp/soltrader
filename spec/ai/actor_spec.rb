@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ai/child_policies/run_children_by_priority'
 require 'ai/actor'
 
 describe Spacestuff::Ai::Actor do

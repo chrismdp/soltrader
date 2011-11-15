@@ -1,0 +1,1 @@
+require_relative 'child_policies/run_children_by_priority'

@@ -2,7 +2,7 @@ module Spacestuff
   module Ai
     module Behaviour
       class Awol
-        attr :current_behaviour
+        include ChildPolicies::RunChildrenByPriority
 
         def self.priority(actor)
           actor.tagged?(:nutter) ? 100 : 0
@@ -14,7 +14,7 @@ module Spacestuff
         end
 
         def update(elapsed)
-          @current_behaviour = @behaviours.max_by {|b| b.priority(self) }
+          super
         end
       end
     end

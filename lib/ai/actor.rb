@@ -1,7 +1,7 @@
 module Spacestuff
   module Ai
     class Actor
-      attr :current_behaviour
+      include ChildPolicies::RunChildrenByPriority
 
       def initialize(options = {})
         @behaviours = options[:behaviours] || []
@@ -9,7 +9,7 @@ module Spacestuff
       end
 
       def update(elapsed)
-        @current_behaviour = @behaviours.max_by {|b| b.priority(self) }
+        super
       end
 
       def tagged?(tag)
