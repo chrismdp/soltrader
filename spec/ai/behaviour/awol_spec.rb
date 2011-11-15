@@ -16,6 +16,20 @@ describe Spacestuff::Ai::Behaviour::Awol do
     end
   end
 
+  context "initialization" do
+    it "accepts a hash of options" do
+      expect {
+        Spacestuff::Ai::Behaviour::Awol.new(:actor => actor)
+      }.not_to raise_error
+    end
+
+    it "requires an passed actor" do
+      expect {
+        Spacestuff::Ai::Behaviour::Awol.new(:foo => :bar)
+      }.to raise_error(ArgumentError)
+    end
+  end
+
   context "update" do
     subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor) }
     it_behaves_like "it runs children by priority"

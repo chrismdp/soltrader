@@ -10,6 +10,7 @@ module Spacestuff
 
         def initialize(options = {})
           @actor = options[:actor]
+          raise ArgumentError if @actor.nil?
         end
 
         def behaviours
