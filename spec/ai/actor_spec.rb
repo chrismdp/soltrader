@@ -1,19 +1,16 @@
 require 'spec_helper'
+require 'shared_examples/ai/child_policies/run_children_by_priority'
 require 'ai/child_policies/run_children_by_priority'
 require 'ai/actor'
 
 describe Spacestuff::Ai::Actor do
-  let(:behaviours) { (1..10).collect{|x| double(:behaviour, :priority => x) } }
-  subject { Spacestuff::Ai::Actor.new(:behaviours => behaviours) }
+  subject { Spacestuff::Ai::Actor.new }
 
-  it "allows update with an elapsed duration" do
+  it "allows update with an elapsed durstion" do
     subject.update(1)
   end
 
-  it "picks the highest prioritised behaviour from his options" do
-    subject.update(1)
-    subject.current_behaviour.priority(subject).should == 10
-  end
+  it_behaves_like "it runs children by priority"
 
   it "can be tagged" do
     subject.tagged?(:foo).should == false

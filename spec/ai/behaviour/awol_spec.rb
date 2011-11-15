@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+require 'shared_examples/ai/child_policies/run_children_by_priority'
+require 'ai/child_policies/run_children_by_priority'
 require 'ai/behaviour/awol'
 
 describe Spacestuff::Ai::Behaviour::Awol do
@@ -15,11 +17,7 @@ describe Spacestuff::Ai::Behaviour::Awol do
   end
 
   context "update" do
-    let(:behaviours) { (1..10).collect{|x| double(:behaviour, :priority => x) } }
-    subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor, :behaviours => behaviours) }
-    it "picks the highest prioritised behaviour from his options" do
-      subject.update(1)
-      subject.current_behaviour.priority(subject).should == 10
-    end
+    subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor) }
+    it_behaves_like "it runs children by priority"
   end
 end
