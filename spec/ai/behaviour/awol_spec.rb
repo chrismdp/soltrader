@@ -1,45 +1,20 @@
 require 'spec_helper'
 
-require 'shared_examples/ai/child_policies/run_children_by_priority'
+require 'shared_examples/ai/behaviour/with_children'
 require 'ai/child_policies/run_children_by_priority'
 require 'ai/behaviour/awol'
 
 describe Spacestuff::Ai::Behaviour::Awol do
   let(:actor) { double }
 
-  context "priority" do
-    it "Will go awol if the actor is tagged 'nutter'" do
-      actor.stub(:tagged?).with(:nutter).and_return(false)
-      Spacestuff::Ai::Behaviour::Awol.priority(actor).should == 0
-      actor.stub(:tagged?).with(:nutter).and_return(true)
-      Spacestuff::Ai::Behaviour::Awol.priority(actor).should == 100
-    end
+  it "will prioritise if the actor is tagged 'nutter'" do
+    actor.stub(:tagged?).with(:nutter).and_return(false)
+    Spacestuff::Ai::Behaviour::Awol.priority(actor).should == 0
+    actor.stub(:tagged?).with(:nutter).and_return(true)
+    Spacestuff::Ai::Behaviour::Awol.priority(actor).should == 100
   end
 
-  context "initialization" do
-    it "accepts a hash of options" do
-      expect {
-        Spacestuff::Ai::Behaviour::Awol.new(:actor => actor)
-      }.not_to raise_error
-    end
+  subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor) }
 
-    it "requires an passed actor" do
-      expect {
-        Spacestuff::Ai::Behaviour::Awol.new(:foo => :bar)
-      }.to raise_error(ArgumentError)
-    end
-  end
-
-  context "update" do
-    subject { Spacestuff::Ai::Behaviour::Awol.new(:actor => actor) }
-    it_behaves_like "it runs children by priority"
-
-    let(:elapsed) { double }
-    let(:behaviour) { double }
-    it "calls update in turn on the current behaviour" do
-      subject.stub(:choose_behaviour_for => nil, :current_behaviour => behaviour)
-      behaviour.should_receive(:update).with(elapsed)
-      subject.update(elapsed)
-    end
-  end
+  it_behaves_like "a behaviour with children"
 end
