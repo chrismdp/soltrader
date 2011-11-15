@@ -13,4 +13,10 @@ describe Spacestuff::Ai::Actor do
     subject.update(1)
     subject.current_behaviour.priority(subject).should == 10
   end
+
+  it "can be tagged" do
+    subject.tagged?(:foo).should == false
+    subject.tag!(:foo)
+    subject.tagged?(:foo).should == true
+  end
 end
