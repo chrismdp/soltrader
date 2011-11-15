@@ -11,7 +11,7 @@ describe Spacestuff::Game::Lifespan do
 
   it "over time this should increase" do
     subject.update(0.25)
-    subject.percentage_lifetime.should == 0.5
+    subject.percentage_lifetime.should == 50
   end
 
   it "until it's done" do
