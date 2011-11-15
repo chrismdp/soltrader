@@ -14,6 +14,17 @@ module Spacestuff
     module Behaviour
       class NoBehavioursToChooseFrom < Exception
       end
+
+      def initialize(options = {})
+        @actor = options[:actor]
+        raise ArgumentError if @actor.nil?
+      end
+
+      # default implementaton of `update`. Leaf notes will override with custom behaviour
+      def update(elapsed)
+        choose_behaviour_for(@actor)
+        current_behaviour.update(elapsed)
+      end
     end
   end
 end
