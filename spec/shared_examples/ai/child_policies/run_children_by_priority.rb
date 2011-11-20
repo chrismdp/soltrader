@@ -26,5 +26,4 @@ shared_examples_for "it runs children by priority" do
     }.to raise_error(Spacestuff::Ai::Behaviour::NoChildBehavioursWantToRun)
   end
 
-
 end

@@ -9,7 +9,6 @@ module Spacestuff
         @next_fire = 0
         @orders = []
         @elapsed = 0
-        @ai = options[:ai]
 
         initialize_physics(options)
 

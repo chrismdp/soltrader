@@ -18,7 +18,11 @@ module Spacestuff
         @minds = []
         100.times do
           ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @current_location)
-          @minds << Spacestuff::Game::ShipAi.new(:ship => ship)
+          actor = Spacestuff::Ai::Actor.new :behaviours => [
+            Spacestuff::Ai::Behaviour::Awol
+          ]
+          actor.take_controls_of(ship)
+          @minds << actor
         end
 
         self.viewport.lag = 0.95

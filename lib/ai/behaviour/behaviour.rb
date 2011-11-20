@@ -11,10 +11,10 @@
 module Spacestuff
   module Ai
     module Behaviour
-      class NoBehavioursToChooseFrom < Exception
-      end
-      class NoChildBehavioursWantToRun < Exception
-      end
+      DONE = :done
+
+      class NoBehavioursToChooseFrom < Exception; end
+      class NoChildBehavioursWantToRun < Exception; end
 
       def initialize(options = {})
         @actor = options[:actor]
@@ -24,7 +24,9 @@ module Spacestuff
       # default implementaton of `update`. Leaf notes will override with custom behaviour
       def update(elapsed)
         choose_behaviour_for(@actor)
-        current_behaviour.update(elapsed)
+        if (current_behaviour.update(elapsed) == DONE)
+          @current_behaviour = nil
+        end
       end
     end
   end

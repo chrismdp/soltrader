@@ -12,6 +12,7 @@ Given /^(\d+) ships with basic tracking AI$/ do |ship_count|
     actor = Spacestuff::Ai::Actor.new :behaviours => [
       Spacestuff::Ai::Behaviour::Awol
     ]
+    actor.take_controls_of(ship)
     @ships << ship
     @minds << actor
   end
