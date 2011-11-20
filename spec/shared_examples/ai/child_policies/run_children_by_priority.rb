@@ -19,4 +19,12 @@ shared_examples_for "it runs children by priority" do
     subject.current_behaviour.should == behaviour
   end
 
+  it "throws an exception if all the priorities are zero" do
+    subject.behaviours = [ double(:priority => 0), double(:priority => 0) ]
+    expect {
+      subject.update(1)
+    }.to raise_error(Spacestuff::Ai::Behaviour::NoChildBehavioursWantToRun)
+  end
+
+
 end

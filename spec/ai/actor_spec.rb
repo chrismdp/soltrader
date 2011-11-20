@@ -13,4 +13,18 @@ describe Spacestuff::Ai::Actor do
     subject.tag!(:foo)
     subject.tagged?(:foo).should == true
   end
+
+  it "can have a ship it controls" do
+    ship = double
+    subject.take_controls_of(ship)
+    subject.ship.should_not be_nil
+  end
+
+  it "can acquire a target" do
+    target = double
+    ship = double(:scan => target)
+    subject.take_controls_of(ship)
+    subject.acquire_target
+    subject.current_target.should == target
+  end
 end

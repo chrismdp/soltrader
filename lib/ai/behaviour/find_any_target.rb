@@ -14,7 +14,7 @@ module Spacestuff
           @wait_time ||= 0
           throttle(:find, @wait_time, elapsed) do
             @wait_time = rand(200) + 900
-            @actor.ship.scan
+            @actor.acquire_target
           end
         end
       end

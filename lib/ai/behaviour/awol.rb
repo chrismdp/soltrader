@@ -6,6 +6,8 @@ module Spacestuff
         include ChildPolicies::RunChildrenByPriority
 
         def self.priority(actor)
+          # everyone is a nutter right now
+          return 100 # TEMP
           actor.tagged?(:nutter) ? 100 : 0
         end
 

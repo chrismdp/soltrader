@@ -13,6 +13,8 @@ module Spacestuff
     module Behaviour
       class NoBehavioursToChooseFrom < Exception
       end
+      class NoChildBehavioursWantToRun < Exception
+      end
 
       def initialize(options = {})
         @actor = options[:actor]

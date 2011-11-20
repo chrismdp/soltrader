@@ -35,16 +35,14 @@ describe Spacestuff::Ai::Behaviour::FindAnyTarget do
 
   context "updating" do
     it "scans for a ship" do
-      ship.should_receive(:scan)
+      actor.should_receive(:acquire_target)
       subject.update(1)
     end
 
     it "only scans once in a while" do
-      ship.should_receive(:scan).once
+      actor.should_receive(:acquire_target).once
       subject.update(1)
       subject.update(1)
     end
-
-
   end
 end
