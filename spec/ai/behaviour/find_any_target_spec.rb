@@ -44,5 +44,11 @@ describe Spacestuff::Ai::Behaviour::FindAnyTarget do
       subject.update(1)
       subject.update(1)
     end
+
+    it "is done when we've found a target" do
+      actor.stub(:acquire_target)
+      actor.stub(:current_target => double)
+      subject.update(1).should == Spacestuff::Ai::Behaviour::DONE
+    end
   end
 end

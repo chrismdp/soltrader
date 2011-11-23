@@ -15,9 +15,9 @@ module Spacestuff
           elsif(angle_to > 5)
             @actor.ship.order(:turn_right)
           else
-            distance = @actor.ship.distance_to(@actor.current_target)
-            distance > 250 ? @actor.ship.order(:fire_main_engines) : @actor.ship.order(:fire_reverse_engines)
-            return DONE if distance > 75 && distance < 250
+            distance = @actor.ship.squared_distance_to(@actor.current_target)
+            distance > 250 ** 2 ? @actor.ship.order(:fire_main_engines) : @actor.ship.order(:fire_reverse_engines)
+            return DONE if distance > 75 ** 2 && distance < 250 ** 2
           end
         end
       end

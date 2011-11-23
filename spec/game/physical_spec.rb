@@ -29,7 +29,6 @@ describe Spacestuff::Game::Physical do
       CP::Shape::Circle.should_receive(:new).with(body, mass, anything)
       subject.make_circle(mass, radius)
     end
-
   end
 
   it "calculates angles to other physical objects" do
@@ -46,4 +45,10 @@ describe Spacestuff::Game::Physical do
     subject.angle_to(stub(:position => vec2(60, 60))).should == 0
   end
 
+  it "calculates the squared distance to another object" do
+    subject.stub(:position => vec2(60, 60))
+    subject.squared_distance_to(stub(:position => vec2(60, 60))).should == 0
+    subject.squared_distance_to(stub(:position => vec2(60, 70))).should == 100.0
+    subject.squared_distance_to(stub(:position => vec2(70, 70))).should == 200.0
+  end
 end

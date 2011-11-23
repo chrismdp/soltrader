@@ -40,19 +40,19 @@ describe Spacestuff::Ai::Behaviour::TrackTarget do
         ship.stub(:angle_to => 1)
       end
       it "moves close to a target it is facing" do
-        ship.stub(:distance_to => 300)
+        ship.stub(:squared_distance_to => 300 ** 2)
         ship.should_receive(:order).with(:fire_main_engines)
         subject.update(1)
       end
 
       it "backs away from a target it is too close to" do
-        ship.stub(:distance_to => 200)
+        ship.stub(:squared_distance_to => 200 ** 2)
         ship.should_receive(:order).with(:fire_reverse_engines)
         subject.update(1)
       end
 
       it "is done if we're between 250 and 75 of the target" do
-        ship.stub(:distance_to => 200, :order => nil)
+        ship.stub(:squared_distance_to => 200 ** 2, :order => nil)
         subject.update(1).should == Spacestuff::Ai::Behaviour::DONE
       end
     end

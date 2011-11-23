@@ -23,7 +23,7 @@ describe Spacestuff::Ai::Behaviour::FireAtTarget do
   it "has a priority if there is a target and we're close to it and facing" do
     actor.stub(:current_target => target)
     ship.stub(:angle_to => 0.4)
-    ship.stub(:distance_to => 100)
+    ship.stub(:squared_distance_to => 100 ** 2)
     Spacestuff::Ai::Behaviour::FireAtTarget.priority(actor).should > 0
   end
 end

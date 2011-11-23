@@ -29,6 +29,10 @@ module Spacestuff
         return ((angle - self.angle + 180) % 360) - 180
       end
 
+      def squared_distance_to(other)
+        return position.distsq(other.position)
+      end
+
       def position
         @body.p
       end

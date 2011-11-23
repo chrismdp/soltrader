@@ -1,6 +1,7 @@
 require 'spec_helper'
 require 'listenable'
 require 'game/physical'
+require 'game/lifespan'
 require 'game/bullet'
 require 'core_ext/radians_to_vec2'
 
@@ -46,7 +47,7 @@ describe Spacestuff::Game::Ship do
     end
   end
 
-  context "scanning" do
+  context "detection" do
     let(:other_object) { double(:other, :x => 20, :y => 20) }
     let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
     let(:ship2) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
@@ -55,7 +56,6 @@ describe Spacestuff::Game::Ship do
       location.stub(:each_entity_with_box).and_yield(ship1).and_yield(ship2)
       subject.scan.should == ship1
     end
-
   end
 
 
