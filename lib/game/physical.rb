@@ -19,6 +19,20 @@ module Spacestuff
         end
       end
 
+      def angle_to(other)
+        distance = other.position - position
+        return 0 if distance == CP::Vec2::ZERO
+        return angle_diff(Math.atan2(distance.y, distance.x) * 180 / Math::PI)
+      end
+
+      def angle_diff(angle)
+        return ((angle - self.angle + 180) % 360) - 180
+      end
+
+      def position
+        @body.p
+      end
+
       def x
         @body.p.x
       end

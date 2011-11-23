@@ -32,4 +32,18 @@ describe Spacestuff::Game::Physical do
 
   end
 
+  it "calculates angles to other physical objects" do
+    subject.stub(:position => vec2(60, 60), :angle => 90)
+    subject.angle_to(stub(:position => vec2(70, 70))).should == -45
+    subject.angle_to(stub(:position => vec2(50, 50))).should == 135
+    subject.stub(:angle => 180)
+    subject.angle_to(stub(:position => vec2(70, 70))).should == -135
+    subject.angle_to(stub(:position => vec2(50, 50))).should == 45
+  end
+
+  it "returns 0 if the physical objects are on the same position" do
+    subject.stub(:position => vec2(60, 60), :angle => 90)
+    subject.angle_to(stub(:position => vec2(60, 60))).should == 0
+  end
+
 end
