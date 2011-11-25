@@ -11,6 +11,7 @@ module Spacestuff
         @placements = {}
         @remove_list = []
         @space = CP::Space.new
+        @space.damping = 0.75
         @space.add_collision_func(:ship, :bullet) do |ship_shape, bullet_shape|
           remove_later(@placements[bullet_shape.body])
           if (ship = @placements[ship_shape.body])

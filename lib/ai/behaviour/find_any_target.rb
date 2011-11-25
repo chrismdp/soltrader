@@ -7,7 +7,7 @@ module Spacestuff
         def self.priority(actor)
           # This behaviour only works on ships currently
           return 0 if actor.ship.nil?
-          actor.current_target ? 0 : 100
+          actor.current_target && (!actor.current_target.dead?) ? 0 : 100
         end
 
         def update(elapsed)

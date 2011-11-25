@@ -16,6 +16,12 @@ module Spacestuff
         @player_ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5050, :location => @current_location)
 
         @minds = []
+        ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 5000, :y => 5000, :location => @current_location)
+        actor = Spacestuff::Ai::Actor.new :behaviours => [
+          Spacestuff::Ai::Behaviour::Awol
+        ]
+        actor.take_controls_of(ship)
+        @minds << actor
         100.times do
           ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @current_location)
           actor = Spacestuff::Ai::Actor.new :behaviours => [

@@ -14,8 +14,8 @@ module Spacestuff
         def behaviours
           @behaviours ||= [
             Behaviour::FindAnyTarget,
-            Behaviour::TrackTarget,
-            Behaviour::FireAtTarget
+            Behaviour::FireAtTarget,
+            Behaviour::TrackTarget
           ]
         end
       end

@@ -15,7 +15,7 @@ module Spacestuff
       def self.render(ship, viewport)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
         graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle * 180 / Math::PI + 90)
-        @font.draw(ship.lives, ship.x - viewport.x, ship.y - viewport.y, 2)
+        #@font.draw(ship.lives.to_s + "#{ship.debug_message && " DBG: "+ship.debug_message}", ship.x - viewport.x, ship.y - viewport.y, 2)
       end
     end
 

@@ -2,6 +2,8 @@ module Spacestuff
   module Game
     class Ship
       attr :pieces, :lives
+      attr_accessor :debug_message
+
       include Spacestuff::Game::Physical
       include Spacestuff::Listenable
 
@@ -45,13 +47,12 @@ module Spacestuff
         @shape.body.v = CP::Vec2::ZERO
       end
 
-
       def rate_of_acceleration
-        100
+        50
       end
 
       def rate_of_braking
-        50
+        20
       end
 
       TURN_RATE = 0.8
@@ -111,11 +112,11 @@ module Spacestuff
       end
 
       def offset_y(angle, rate)
-        -Math.cos(angle * Math::PI / 180.0) * rate
+        -Math.cos(angle) * rate
       end
 
       def offset_x(angle, rate)
-        Math.sin(angle * Math::PI / 180.0) * rate
+        Math.sin(angle) * rate
       end
 
       def fire_main_engines

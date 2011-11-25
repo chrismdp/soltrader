@@ -22,11 +22,11 @@ module Spacestuff
       def angle_to(other)
         distance = other.position - position
         return 0 if distance == CP::Vec2::ZERO
-        return angle_diff(Math.atan2(distance.y, distance.x) * 180 / Math::PI)
+        return angle_diff(Math.atan2(distance.y, distance.x))
       end
 
       def angle_diff(angle)
-        return ((angle - self.angle + 180) % 360) - 180
+        return ((angle - self.angle + Math::PI) % (2 * Math::PI)) - Math::PI
       end
 
       def squared_distance_to(other)
