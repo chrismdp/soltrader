@@ -20,5 +20,6 @@ end
 
 Then /^the ships should track each other$/ do
   @ships.first.angle.should be_between(0, Math::PI)
-  @ships.last.angle.should be_between(Math::PI, 2 * Math::PI)
+  @ships.last.angle.should be_between(-Math::PI, 0)
 end
+

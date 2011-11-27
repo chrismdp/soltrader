@@ -69,6 +69,14 @@ module Spacestuff
         @placements.size
       end
 
+      def update(elapsed)
+        each_entity do |entity|
+          remove = entity.update(elapsed)
+          remove(entity) if remove
+        end
+        update_physics(elapsed)
+      end
+
       def update_physics(dt)
         @space.step(dt/1000.0)
         do_removals

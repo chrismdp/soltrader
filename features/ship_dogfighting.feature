@@ -6,6 +6,5 @@ Feature: Ship dogfighting
   Scenario:
     Given a simple game location
     And 2 ships with basic tracking AI
-    When I run the AI
+    When I run the simulation
     Then the ships should track each other
-    And the ships should fire on each other

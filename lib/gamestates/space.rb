@@ -78,11 +78,7 @@ module Spacestuff
         super
         elapsed = $window.milliseconds_since_last_tick
         @minds.each { |ai| ai.update(elapsed) }
-        @current_location.each_entity do |entity|
-          remove = entity.update(elapsed)
-          @current_location.remove(entity) if remove
-        end
-        @current_location.update_physics(elapsed)
+        @current_location.update(elapsed)
 
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
