@@ -67,13 +67,6 @@ describe Spacestuff::Game::Ship do
       subject.update(1)
     end
 
-    it "does not fire engines if we are over the speed limit" do
-      subject.body.v = vec2(10, 10)
-      subject.body.should_not_receive(:apply_impulse)
-      subject.order(:fire_main_engines)
-      subject.update(1)
-    end
-
     it "can fire reverse engines" do
       subject.body.should_receive(:apply_impulse)
       subject.order(:fire_reverse_engines)

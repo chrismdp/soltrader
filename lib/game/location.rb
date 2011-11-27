@@ -10,6 +10,10 @@ module Spacestuff
         @height = options[:height]
         @placements = {}
         @remove_list = []
+        setup_space
+      end
+
+      def setup_space
         @space = CP::Space.new
         @space.damping = 0.75
         @space.add_collision_func(:ship, :bullet) do |ship_shape, bullet_shape|

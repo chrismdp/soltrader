@@ -1,11 +1,13 @@
 require 'spec_helper'
 
+require 'core_ext/throttle'
+require 'core_ext/radians'
 require 'shared_examples/ai/behaviour'
 require 'ai/behaviour/behaviour'
 require 'ai/behaviour/track_target'
 
 describe Spacestuff::Ai::Behaviour::TrackTarget do
-  let(:ship) { double }
+  let(:ship) { double.as_null_object }
   let(:actor) { double(:actor, :current_target => nil, :ship => ship) }
   subject { Spacestuff::Ai::Behaviour::TrackTarget.new(:actor => actor) }
 
@@ -22,38 +24,38 @@ describe Spacestuff::Ai::Behaviour::TrackTarget do
 
   describe "update" do
     it "tracks left toward a target that is left of it" do
-      ship.stub(:angle_to => -10)
+      ship.stub(:angle_to => -15.to_radians)
 
       ship.should_receive(:order).with(:turn_left)
-      subject.update(1)
+      subject.update(100)
     end
 
     it "tracks right toward a target that is right of it" do
-      ship.stub(:angle_to => 10)
+      ship.stub(:angle_to => 15.to_radians)
 
       ship.should_receive(:order).with(:turn_right)
-      subject.update(1)
+      subject.update(100)
     end
 
     context "ship is facing target" do
       before do
-        ship.stub(:angle_to => 1)
+        ship.stub(:angle_to => 1.to_radians)
       end
       it "moves close to a target it is facing" do
         ship.stub(:squared_distance_to => 300 ** 2)
         ship.should_receive(:order).with(:fire_main_engines)
-        subject.update(1)
+        subject.update(100)
       end
 
       it "backs away from a target it is too close to" do
-        ship.stub(:squared_distance_to => 200 ** 2)
+        ship.stub(:squared_distance_to => 50 ** 2)
         ship.should_receive(:order).with(:fire_reverse_engines)
-        subject.update(1)
+        subject.update(100)
       end
 
       it "is done if we're between 250 and 75 of the target" do
         ship.stub(:squared_distance_to => 200 ** 2, :order => nil)
-        subject.update(1).should == Spacestuff::Ai::Behaviour::DONE
+        subject.update(100).should == Spacestuff::Ai::Behaviour::DONE
       end
     end
   end

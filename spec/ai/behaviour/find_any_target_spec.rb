@@ -28,8 +28,13 @@ describe Spacestuff::Ai::Behaviour::FindAnyTarget do
     end
 
     it "has no priority if there is a target" do
-      actor.should_receive(:current_target).and_return(double)
+      actor.should_receive(:current_target).twice.and_return(double(:dead? => false))
       priority.should == 0
+    end
+
+    it "has a priority if the current target is dead" do
+      actor.should_receive(:current_target).twice.and_return(double(:dead? => true))
+      priority.should == 100
     end
   end
 
