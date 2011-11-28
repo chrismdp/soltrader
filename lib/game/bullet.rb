@@ -37,7 +37,7 @@ module Spacestuff
 
         @body.p = options[:position]
         @body.a = rand(2 * Math::PI)
-        @body.w = 20
+        @body.w = rand(5)
         @lifespan = Spacestuff::Game::Lifespan.new(500)
       end
 
