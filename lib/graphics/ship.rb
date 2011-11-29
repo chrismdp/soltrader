@@ -26,8 +26,8 @@ module Spacestuff
         color = Gosu::Color::WHITE.dup
         color.alpha = 255 - (bullet.percentage_lifetime * 255/100)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
-        size = 0.5 + bullet.percentage_lifetime/100.0
-        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle.to_degrees + 90, 0.5, 0.5, size, size, color)
+        size = 0.25 + bullet.percentage_lifetime/200.0
+        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle.to_degrees, 0.5, 0.5, size, size, color)
       end
     end
     class CelestialBody
