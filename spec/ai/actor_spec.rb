@@ -22,9 +22,11 @@ describe Spacestuff::Ai::Actor do
 
   it "can acquire a target" do
     target = double
-    ship = double(:scan => target)
+    options = double
+    ship = double
+    ship.should_receive(:scan).with(options).and_return(target)
     subject.take_controls_of(ship)
-    subject.acquire_target
+    subject.acquire_target(options)
     subject.current_target.should == target
   end
 end

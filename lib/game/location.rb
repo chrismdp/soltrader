@@ -81,6 +81,16 @@ module Spacestuff
         @space.step(dt/1000.0)
         do_removals
       end
+
+      def nearest_to(target)
+        distances = []
+        each_entity_with_box(target.x - 400, target.y - 400, target.x + 400, target.y + 400) do |entity|
+          next if entity == target || !entity.is_a?(Spacestuff::Game::Ship)
+          distances.push({:square_distance => (target.x - entity.x) ** 2 + (target.y - entity.y) ** 2, :entity => entity})
+        end
+        return nil if distances == []
+        distances.min_by {|x| x[:square_distance]}[:entity]
+      end
     end
   end
 end

@@ -3,8 +3,11 @@ require 'listenable'
 require 'chipmunk'
 
 require 'core_ext/radians_to_vec2'
+require 'game/physical'
 require 'game/bullet'
+require 'game/ship'
 require 'game/location'
+require 'game/lifespan'
 
 describe Spacestuff::Game::Location do
   let(:entity) { double(:entity).as_null_object }
@@ -83,5 +86,14 @@ describe Spacestuff::Game::Location do
     entities.should include(inside)
     entities.should include(edge)
     entities.should_not include(outside)
+  end
+
+  let(:other_object) { double(:other, :x => 60, :y => 60) }
+  let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
+  let(:ship2) { double(:ship, :x => 20, :y => 20, :is_a? => Spacestuff::Game::Ship) }
+
+  it "checks nearest to a target" do
+    subject.stub(:each_entity_with_box).and_yield(other_object).and_yield(ship2)
+    subject.nearest_to(ship1).should == ship2
   end
 end

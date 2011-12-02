@@ -87,14 +87,11 @@ module Spacestuff
         @orders = []
       end
 
-      def scan
-        distances = []
-        @location.each_entity_with_box(self.x - 400, self.y - 400, self.x + 400, self.y + 400) do |entity|
-          next if entity == self || !entity.is_a?(Spacestuff::Game::Ship)
-          distances.push({:square_distance => (self.x - entity.x) ** 2 + (self.y - entity.y) ** 2, :entity => entity})
+      def scan(options)
+        if (options.include?(:exit_to))
+          return @location.exit_to(options[:exit_to])
         end
-        return nil if distances == []
-        distances.min_by {|x| x[:square_distance]}[:entity]
+        @location.nearest_to(self)
       end
 
       def fire

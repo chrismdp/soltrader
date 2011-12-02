@@ -26,8 +26,8 @@ module Spacestuff
         @ship = ship
       end
 
-      def acquire_target
-        @current_target = @ship.scan
+      def acquire_target(options)
+        @current_target = @ship.scan(options)
       end
     end
   end
