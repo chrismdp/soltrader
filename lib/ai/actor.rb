@@ -2,6 +2,7 @@ module Spacestuff
   module Ai
     class Actor
       attr :ship, :current_target
+      attr_accessor :destination
 
       def initialize(options = {})
         @behaviour_tree = Behaviour::Root.new(:actor => self)

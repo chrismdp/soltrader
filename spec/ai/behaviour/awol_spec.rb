@@ -2,6 +2,8 @@ require 'spec_helper'
 
 require 'shared_examples/ai/behaviour/with_children'
 require 'ai/child_policies/run_children_by_priority'
+require 'shared_examples/ai/child_policies/run_children_by_priority'
+require 'ai/behaviour/behaviour'
 require 'ai/behaviour/awol'
 
 describe Spacestuff::Ai::Behaviour::Awol do

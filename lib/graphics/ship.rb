@@ -14,7 +14,7 @@ module Spacestuff
 
       def self.render(ship, viewport)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
-        graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle * 180 / Math::PI + 90)
+        graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle.to_degrees + 90)
         #@font.draw(ship.lives.to_s + "#{ship.debug_message && " DBG: "+ship.debug_message}", ship.x - viewport.x, ship.y - viewport.y, 2)
       end
     end
@@ -33,7 +33,14 @@ module Spacestuff
     class CelestialBody
       def self.render(body, viewport)
         @image ||= Image['earth.png']
-        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, -1, body.angle * 180 / Math::PI + 90)
+        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, -1, body.angle.to_degrees + 90)
+      end
+    end
+
+    class JumpGate
+      def self.render(body, viewport)
+        @image ||= Image['jumpgate.png']
+        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, 2, body.angle.to_degrees)
       end
     end
   end
