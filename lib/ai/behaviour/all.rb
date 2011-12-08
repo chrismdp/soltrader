@@ -19,7 +19,7 @@ end
 
 behaviour :find_exit do
   priority do |actor|
-    next 0 unless actor.current_target
+    next 0 if actor.current_target
     actor.destination ? 100 : 0
   end
   update do |elapsed|

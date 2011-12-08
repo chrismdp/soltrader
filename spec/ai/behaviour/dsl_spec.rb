@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'singleton'
-require 'ai/behaviour/behaviour'
 require 'ai/behaviour/dsl'
 require 'ai/child_policies/run_children_by_priority'
 

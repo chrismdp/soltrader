@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'listenable'
 require 'game/physical'
 require 'game/lifespan'
 require 'game/bullet'
@@ -12,7 +11,6 @@ require 'game/ship'
 describe Spacestuff::Game::Ship do
   let(:hull) { double }
   let(:location) { double.as_null_object }
-  let(:listener) { double }
 
   subject { Spacestuff::Game::Ship.new(:x => 1, :y => 2, :location => location) }
 
@@ -76,28 +74,20 @@ describe Spacestuff::Game::Ship do
       subject.order(:fire_reverse_engines)
       subject.update(1)
     end
-
-    it "notifies listeners" do
-      subject.listen(listener, :engine_fired)
-      listener.should_receive(:engine_fired).twice
-      subject.order(:fire_main_engines)
-      subject.order(:fire_reverse_engines)
-      subject.update(1)
-    end
-
   end
 
   context "firing guns" do
+    let(:bullet) { double }
     it "can only fire once per second" do
-      subject.listen(listener, :fired)
-      listener.should_receive(:fired).once
+      Spacestuff::Game::Bullet.stub(:new => bullet)
+      location.should_receive(:place).with(bullet).once
       subject.order(:fire)
-      subject.update(0.2)
+      subject.update(2)
       subject.order(:fire)
-      subject.update(0.2)
+      subject.update(2)
+      location.should_have
     end
 
-    let(:bullet) { double }
     it "tells the location to add a bullet" do
       Spacestuff::Game::Bullet.stub(:new => bullet)
       location.should_receive(:place).with(bullet)
@@ -117,12 +107,6 @@ describe Spacestuff::Game::Ship do
         subject.order(:turn_right)
         subject.update(1)
       }.to change(subject.body, :w)
-    end
-
-    it "notifies listeners" do
-      subject.listen(listener, :turned)
-      listener.should_receive(:turned)
-      subject.turn_left
     end
   end
 

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'listenable'
 require 'chipmunk'
 
 require 'core_ext/radians_to_vec2'
@@ -13,18 +12,11 @@ describe Spacestuff::Game::Location do
   let(:entity) { double(:entity).as_null_object }
   subject { Spacestuff::Game::Location.new(:width => 1000, :height => 1001, :name => "name") }
   let(:space) { double.as_null_object }
-  let(:listener) { double }
 
   context "with fake physics" do
     before { CP::Space.stub(:new => space) }
 
     context "placing" do
-      it "notifies listeners" do
-        subject.listen(listener, :placed)
-        listener.should_receive(:placed).with(entity)
-        subject.place(entity)
-      end
-
       it "adds any placed objects to an internal CP::Space" do
         space.should_receive(:add_body)
         space.should_receive(:add_shape)

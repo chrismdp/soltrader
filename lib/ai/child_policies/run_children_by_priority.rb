@@ -11,10 +11,10 @@ module Spacestuff
         end
 
         def choose_behaviour_for(actor)
-          raise "No children given to #{@name}" if children.nil? || children.empty?
+          raise "No children given to '#{@name}'" if children.nil? || children.empty?
           return @current_behaviour if @current_behaviour
           priorities = children.group_by {|b| behaviour_for(b).do_priority(actor) }
-          raise "No children of #{@name} want to run:\nChildren: #{children.inspect}" if priorities.keys == [0]
+          raise "No children of '#{@name}' want to run:\nChildren: #{children.inspect}" if priorities.keys == [0]
           chosen = priorities[priorities.keys.max].first
           @current_behaviour = behaviour_for(chosen).start_for(actor)
         end

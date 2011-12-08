@@ -5,7 +5,6 @@ module Spacestuff
       attr_accessor :debug_message
 
       include Spacestuff::Game::Physical
-      include Spacestuff::Listenable
 
       def initialize(options = {})
         @next_fire = 0
@@ -60,12 +59,10 @@ module Spacestuff
 
       def turn_left
         @shape.body.w -= TURN_RATE
-        notify(:turned)
       end
 
       def turn_right
         @shape.body.w += TURN_RATE
-        notify(:turned)
       end
 
 
@@ -97,7 +94,6 @@ module Spacestuff
       def fire
         if (@next_fire <= 0)
           @next_fire = 300
-          notify(:fired)
           offset = self.angle.radians_to_vec2
           position = self.body.p + offset * 40
           @location.place(Spacestuff::Game::Bullet.new(:position => position, :velocity => self.body.v, :angle => self.angle))
@@ -118,7 +114,6 @@ module Spacestuff
 
       def fire_main_engines
         @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
-        notify(:engine_fired)
         offset = self.angle.radians_to_vec2
         position = self.body.p - offset * 25
         @location.place(Spacestuff::Game::Exhaust.new(:position => position, :velocity => self.body.v, :angle => self.angle))
@@ -126,7 +121,6 @@ module Spacestuff
 
       def fire_reverse_engines
         @shape.body.apply_impulse(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
-        notify(:engine_fired)
       end
 
       def size
