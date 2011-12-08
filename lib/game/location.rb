@@ -1,7 +1,6 @@
 module Spacestuff
   module Game
     class Location
-      include Spacestuff::Listenable
       attr :name, :width, :height
 
       def initialize(options = {})
@@ -33,7 +32,6 @@ module Spacestuff
         @placements[entity.body] = entity
         @space.add_body(entity.body)
         @space.add_shape(entity.shape)
-        notify(:placed, entity)
       end
 
       def remove(entity)
@@ -90,6 +88,17 @@ module Spacestuff
         end
         return nil if distances == []
         distances.min_by {|x| x[:square_distance]}[:entity]
+      end
+
+      def exit_to(location)
+        each_entity do |entity|
+          if (entity.respond_to?(:connected_gate) &&
+            entity.connected_gate &&
+            entity.connected_gate.location == location)
+            return entity
+          end
+        end
+        return nil
       end
     end
   end

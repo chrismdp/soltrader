@@ -1,7 +1,7 @@
 module Spacestuff
   module Game
     class JumpGate
-      attr :location
+      attr :location, :connected_gate
 
       include Spacestuff::Game::Physical
       def initialize(options = {})

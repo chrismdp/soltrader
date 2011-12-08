@@ -7,6 +7,7 @@ require 'game/bullet'
 require 'game/ship'
 require 'game/location'
 require 'game/lifespan'
+require 'game/jump_gate'
 
 describe Spacestuff::Game::Location do
   let(:entity) { double(:entity).as_null_object }
@@ -87,5 +88,13 @@ describe Spacestuff::Game::Location do
   it "checks nearest to a target" do
     subject.stub(:each_entity_with_box).and_yield(other_object).and_yield(ship2)
     subject.nearest_to(ship1).should == ship2
+  end
+
+  let(:gate) { Spacestuff::Game::JumpGate.new(:position => vec2(20, 20), :location => subject) }
+  let(:other_location) { double }
+  let(:other_gate) { double(:location => other_location) }
+  it "finds the right exit to the given location" do
+    gate.connect_to(other_gate)
+    subject.exit_to(other_location).should == gate
   end
 end
