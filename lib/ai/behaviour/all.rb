@@ -53,8 +53,8 @@ behaviour :track_target do
       else
         distance = actor.ship.squared_distance_to(actor.current_target)
         actor.ship.debug_message += ' dist %.2f' % Math.sqrt(distance)
-        distance > 100 ** 2 ? actor.ship.order(:fire_main_engines) : actor.ship.order(:fire_reverse_engines)
-        if distance > 75 ** 2 && distance < 250 ** 2
+        distance > 200 ** 2 ? actor.ship.order(:fire_main_engines) : actor.ship.order(:fire_reverse_engines)
+        if distance > 100 ** 2 && distance < 350 ** 2
           next DONE
         end
       end
@@ -86,7 +86,7 @@ behaviour :fire_at_target do
     angle_diff = actor.ship.angle_to(actor.current_target)
     next 0 if (angle_diff < -5.to_radians || angle_diff > 5.to_radians)
     distance = actor.ship.squared_distance_to(actor.current_target)
-    next 0 if distance > 250 ** 2 || distance < 75 ** 2
+    next 0 if distance > 250 ** 2
     100
   end
 

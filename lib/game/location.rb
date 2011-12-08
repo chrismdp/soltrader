@@ -26,6 +26,13 @@ module Spacestuff
           end
           true
         end
+
+        @space.add_collision_func(:ship, :gate) do |ship_shape, gate_shape|
+          ship = @placements[ship_shape.body]
+          #@placements[gate_shape.body].warp(ship)
+          remove_later(ship)
+          false
+        end
       end
 
       def place(entity)

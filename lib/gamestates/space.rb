@@ -6,8 +6,12 @@ module Spacestuff
         super
         @current_location = Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
 
+        @second_location = Spacestuff::Game::Location.new(:name => "Mars Orbit", :width => 10000, :height => 10000)
+        earth_gate = Spacestuff::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @current_location)
+        mars_gate = Spacestuff::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @second_location)
+        earth_gate.connect_to(mars_gate)
+
         earth = Spacestuff::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @current_location)
-        jump_gate = Spacestuff::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @current_location)
 
         @schematic = Spacestuff::Game::Schematic.new
         @schematic.draw(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
@@ -35,8 +39,9 @@ module Spacestuff
       def add_ships(x)
         x.times do
           ship = Spacestuff::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @current_location)
-          actor = Spacestuff::Ai::Actor.new :behaviours => [:awol]
+          actor = Spacestuff::Ai::Actor.new :behaviours => [:travel]
           actor.take_controls_of(ship)
+          actor.destination = @second_location
           @minds << actor
         end
       end
@@ -64,13 +69,14 @@ module Spacestuff
 
       # stub implementation just return the equiv gfx object for now
       def graphics_class_for(entity, location)
-        {
+        @klasses ||= {
           Spacestuff::Game::Ship => Spacestuff::Graphics::Ship,
           Spacestuff::Game::Bullet => Spacestuff::Graphics::Bullet,
           Spacestuff::Game::Exhaust => Spacestuff::Graphics::Bullet,
           Spacestuff::Game::CelestialBody => Spacestuff::Graphics::CelestialBody,
           Spacestuff::Game::JumpGate => Spacestuff::Graphics::JumpGate
-        }.fetch(entity.class)
+        }
+        @klasses.fetch(entity.class)
       end
 
       def update

@@ -43,6 +43,7 @@ module Spacestuff
       def y
         @body.p.y
       end
+
       def angle
         @body.a
       end

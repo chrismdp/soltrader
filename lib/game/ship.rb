@@ -51,7 +51,7 @@ module Spacestuff
       end
 
       def rate_of_braking
-        20
+        5
       end
 
       TURN_RATE = 0.8
