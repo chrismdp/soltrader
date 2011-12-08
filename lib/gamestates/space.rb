@@ -17,7 +17,7 @@ module Spacestuff
         @player_ship = Spacestuff::Game::Ship.new(:schematic => @schematic, :x => 5000, :y => 5050, :location => @current_location)
 
         @minds = []
-        #add_ships(100)
+        add_ships(100)
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @current_location.width, @current_location.height]
@@ -35,9 +35,7 @@ module Spacestuff
       def add_ships(x)
         x.times do
           ship = Spacestuff::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @current_location)
-          actor = Spacestuff::Ai::Actor.new :behaviours => [
-            Spacestuff::Ai::Behaviour::Awol
-          ]
+          actor = Spacestuff::Ai::Actor.new :behaviours => [:awol]
           actor.take_controls_of(ship)
           @minds << actor
         end

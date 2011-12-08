@@ -9,7 +9,7 @@ def schematic
   return @schematic
 end
 
-def ship(count = 1, behaviour = [ Spacestuff::Ai::Behaviour::Awol])
+def ship(count = 1, behaviour = [:awol])
   @ships ||= []
   @minds ||= []
   count.times do |count|
@@ -33,7 +33,7 @@ Then /^the ships should track each other$/ do
 end
 
 Given /^a ship ordered to travel between the two locations$/ do
-  ship(1, [Spacestuff::Ai::Behaviour::Travel])
+  ship(1, [:travel])
   @minds.last.destination = @second_location
 end
 

@@ -1,9 +1,4 @@
-require_relative 'behaviour/behaviour'
-require_relative 'behaviour/awol'
-require_relative 'behaviour/travel'
-require_relative 'behaviour/find_exit'
-require_relative 'behaviour/idle'
-require_relative 'behaviour/root'
-require_relative 'behaviour/find_any_target'
-require_relative 'behaviour/track_target'
-require_relative 'behaviour/fire_at_target'
+require_relative 'behaviour/dsl'
+include Spacestuff::Ai::Behaviour::Dsl
+require_relative 'behaviour/all'
+

@@ -5,13 +5,13 @@ module Spacestuff
       attr_accessor :destination
 
       def initialize(options = {})
-        @behaviour_tree = Behaviour::Root.new(:actor => self)
-        @behaviour_tree.behaviours = options[:behaviours]
+        @behaviour_tree = behaviour_for(:root).start_for(self)
+        @behaviour_tree.children(options[:behaviours])
         @tags = Hash.new(false)
       end
 
       def update(elapsed)
-        @behaviour_tree.update(elapsed)
+        @behaviour_tree.do_update(elapsed)
       end
 
       def tagged?(tag)

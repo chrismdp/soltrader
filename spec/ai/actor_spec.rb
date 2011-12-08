@@ -1,7 +1,8 @@
 require 'spec_helper'
 require 'shared_examples/ai/child_policies/run_children_by_priority'
 require 'ai/child_policies/run_children_by_priority'
-require 'ai/behaviour/behaviour'
+require 'singleton'
+require 'ai/behaviour'
 require 'ai/behaviour/root'
 require 'ai/actor'
 

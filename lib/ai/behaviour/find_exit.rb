@@ -11,7 +11,7 @@ module Spacestuff
 
         def update(elapsed)
           @actor.acquire_target(:exit_to => @actor.destination)
-          return DONE if @actor.current_target
+          return Behaviour::DONE if @actor.current_target
         end
       end
     end

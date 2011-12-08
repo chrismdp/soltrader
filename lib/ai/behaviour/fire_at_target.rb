@@ -4,7 +4,7 @@ module Spacestuff
       class FireAtTarget
         include Behaviour
 
-        def self.priority(actor)
+       def self.priority(actor)
           # only for ships, currently
           return 0 unless actor.ship
           return 0 unless actor.current_target
@@ -17,7 +17,7 @@ module Spacestuff
 
         def update(elapsed)
           @actor.ship.order(:fire)
-          return DONE
+          return Behaviour::DONE
         end
       end
     end

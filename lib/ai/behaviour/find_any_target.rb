@@ -16,7 +16,7 @@ module Spacestuff
             @wait_time = rand(200) + 900
             @actor.acquire_target
           end
-          return DONE if @actor.current_target
+          return Behaviour::DONE if @actor.current_target
         end
       end
     end

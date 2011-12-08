@@ -30,7 +30,7 @@ module Spacestuff
               @actor.ship.debug_message += ' dist %.2f' % Math.sqrt(distance)
               distance > 100 ** 2 ? @actor.ship.order(:fire_main_engines) : @actor.ship.order(:fire_reverse_engines)
               if distance > 75 ** 2 && distance < 250 ** 2
-                return DONE
+                return Behaviour::DONE
               end
             end
           end
