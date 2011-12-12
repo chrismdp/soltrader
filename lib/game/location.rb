@@ -46,7 +46,6 @@ module Spacestuff
 
       def remove(entity)
         return if entity.nil?
-        #puts "REMOVE #{entity.inspect} #{caller.inspect}" if entity.is_a?(Spacestuff::Game::Ship)
         @placements.delete(entity.body)
         @space.remove_body(entity.body)
         @space.remove_shape(entity.shape)
