@@ -37,6 +37,10 @@ module Spacestuff
         @body.p
       end
 
+      def position=(position)
+        @body.p=(position)
+      end
+
       def x
         @body.p.x
       end

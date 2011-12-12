@@ -39,7 +39,7 @@ describe Spacestuff::Game::Location do
           subject.remove_later(entity)
         }.not_to change(subject, :entity_count)
         expect {
-          subject.do_removals
+          subject.do_changes
         }.to change(subject, :entity_count).from(1).to(0)
       end
     end
@@ -92,7 +92,7 @@ describe Spacestuff::Game::Location do
 
   let(:gate) { Spacestuff::Game::JumpGate.new(:position => vec2(20, 20), :location => subject) }
   let(:other_location) { double }
-  let(:other_gate) { double(:location => other_location) }
+  let(:other_gate) { double(:location => other_location).as_null_object }
   it "finds the right exit to the given location" do
     gate.connect_to(other_gate)
     subject.exit_to(other_location).should == gate

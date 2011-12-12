@@ -1,7 +1,7 @@
 module Spacestuff
   module Game
     class Ship
-      attr :pieces, :lives
+      attr :pieces, :lives, :location
       attr_accessor :debug_message
 
       include Spacestuff::Game::Physical
@@ -77,6 +77,12 @@ module Spacestuff
 
       def order(order)
         @orders << order
+      end
+
+      def drop_in(location, position)
+        @location = location
+        @location.add_later(self)
+        self.position = position + vec2(0, 200)
       end
 
       def process_received_input

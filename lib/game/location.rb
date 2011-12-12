@@ -9,12 +9,14 @@ module Spacestuff
         @height = options[:height]
         @placements = {}
         @remove_list = []
+        @add_list = []
         setup_space
       end
 
       def setup_space
         @space = CP::Space.new
         @space.damping = 0.75
+ 
         @space.add_collision_func(:ship, :bullet) do |ship_shape, bullet_shape|
           remove_later(@placements[bullet_shape.body])
           if (ship = @placements[ship_shape.body])
@@ -29,8 +31,9 @@ module Spacestuff
 
         @space.add_collision_func(:ship, :gate) do |ship_shape, gate_shape|
           ship = @placements[ship_shape.body]
-          #@placements[gate_shape.body].warp(ship)
-          remove_later(ship)
+          if (ship.location == self) # might have already moved this frame
+            @placements[gate_shape.body].move_from(ship)
+          end
           false
         end
       end
@@ -43,6 +46,7 @@ module Spacestuff
 
       def remove(entity)
         return if entity.nil?
+        #puts "REMOVE #{entity.inspect} #{caller.inspect}" if entity.is_a?(Spacestuff::Game::Ship)
         @placements.delete(entity.body)
         @space.remove_body(entity.body)
         @space.remove_shape(entity.shape)
@@ -52,9 +56,15 @@ module Spacestuff
         @remove_list << entity
       end
 
-      def do_removals
+      def add_later(entity)
+        @add_list << entity
+      end
+
+      def do_changes
         @remove_list.each {|e| remove(e) }
         @remove_list = []
+        @add_list.each {|e| place(e) }
+        @add_list = []
       end
 
       def each_entity
@@ -84,7 +94,7 @@ module Spacestuff
 
       def update_physics(dt)
         @space.step(dt/1000.0)
-        do_removals
+        do_changes
       end
 
       def nearest_to(target)

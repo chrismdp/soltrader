@@ -24,6 +24,17 @@ module Spacestuff
         raise ArgumentError if self == other
         raise ArgumentError if self.location == other.location
         @connected_gate = other
+        other.connect_to(self) if other.connected_gate.nil?
+      end
+
+      def move_from(ship)
+        raise "Cannot move without connection!" unless @connected_gate
+        ship.location.remove_later(ship)
+        @connected_gate.move_to(ship)
+      end
+
+      def move_to(ship)
+        ship.drop_in(@location, position)
       end
     end
   end
