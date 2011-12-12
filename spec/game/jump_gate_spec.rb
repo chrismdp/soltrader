@@ -7,7 +7,7 @@ describe Sol::Game::JumpGate do
   let(:other_location) { double.as_null_object }
 
   subject do
-    Sol::Game::JumpGate.new(:position => vec2(1,1), :location => location)
+    Sol::Game::JumpGate.new(:position => vec2(1,1), :location => location, :jump_seconds => 1)
   end
 
   def connect!(loc = other_location)
@@ -47,20 +47,32 @@ describe Sol::Game::JumpGate do
     context "from" do
       it "removes ships from the current location" do
         connect!
-        ship.location.should_receive(:remove_later).with(ship)
-        subject.move_from(ship)
-      end
-
-      it "causes the ship to move to the connected gate" do
-        other_gate = connect!
-        other_gate.should_receive(:move_to).with(ship)
+        subject.update(100)
+        ship.should_receive(:jump_into_gate).with(subject, 1.1)
         subject.move_from(ship)
       end
 
       it "raises if there's no connection" do
         expect { subject.move_from(ship) }.to raise_error
       end
+
+      it "holds jumping ships in a jumping list until the elapsed time is up" do
+        connect!
+        subject.move_from(ship)
+        ship.should_not_receive(:drop_in)
+        subject.update(100)
+      end
+
+      it "moves them to the new location when the jump time is up and is removed from list" do
+        connect!
+        subject.move_from(ship)
+        ship.should_receive(:drop_in).once
+        subject.update(750)
+        subject.update(750)
+        subject.update(750)
+      end
     end
+
     context "to" do
       it "adds ships to the current location" do
         other_gate = connect!

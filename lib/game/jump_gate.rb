@@ -1,7 +1,7 @@
 module Sol
   module Game
     class JumpGate
-      attr :location, :connected_gate
+      attr :location, :connected_gate, :jumping
 
       include Sol::Game::Physical
       def initialize(options = {})
@@ -14,11 +14,30 @@ module Sol
         @shape.collision_type = :gate
         @shape.group = :bullet
         @body.p = options[:position]
+        @jump_seconds = options[:jump_seconds] || 5
+        @jumping = []
+        @total_seconds_elapsed = 0
       end
 
       def update(elapsed)
         @elapsed = elapsed
+        @total_seconds_elapsed += elapsed / 1000.0
+
+        @jumping.each do |arrival_time, jumper|
+          if arrival_time < @total_seconds_elapsed
+            @connected_gate.move_to(jumper)
+            @jumping.shift
+          else
+            break
+          end
+        end
+
+        # FIXME: Not happy about this boolean primitive here: should return REMOVE or similar
         return false
+      end
+
+      def time_to(time)
+        time - @total_seconds_elapsed
       end
 
       def connect_to(other)
@@ -31,8 +50,9 @@ module Sol
 
       def move_from(ship)
         raise "Cannot move without connection!" unless @connected_gate
-        ship.location.remove_later(ship)
-        @connected_gate.move_to(ship)
+        destination_time = @total_seconds_elapsed + @jump_seconds
+        ship.jump_into_gate(self, destination_time)
+        @jumping << [destination_time, ship]
       end
 
       def move_to(ship)

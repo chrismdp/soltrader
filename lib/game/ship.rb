@@ -1,7 +1,7 @@
 module Sol
   module Game
     class Ship
-      attr :pieces, :lives, :location, :fired_engines_this_frame
+      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate
       attr_accessor :debug_message
 
       include Sol::Game::Physical
@@ -80,7 +80,19 @@ module Sol
         @orders << order
       end
 
+      def jump_into_gate(gate, destination_time_in_seconds)
+        @gate = gate
+        @gate_destination_in_seconds = destination_time_in_seconds
+        @location.remove_later(self)
+        @location = nil
+      end
+
+      def gate_destination_in_seconds
+        gate.time_to(@gate_destination_in_seconds)
+      end
+
       def drop_in(location, position)
+        @gate = nil
         @location = location
         @location.add_later(self)
         self.position = position + @body.v

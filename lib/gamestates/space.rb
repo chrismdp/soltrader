@@ -91,12 +91,25 @@ module Sol
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
         throttle(:caption, 1000, elapsed) do
-          $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
+          caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
+          if @player_ship.location
+            caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
+          end
+          $window.caption = caption
         end
       end
 
       def draw
         super
+
+        if (@player_ship.location.nil?)
+          @font ||= Font["good-times.ttf", 35]
+          @font.draw("Hyperspace", 200, 200, 2)
+          @font.draw("Jumping to #{@player_ship.gate.connected_gate.location.name}", 200, 250, 2)
+          @font.draw("ETA %.1f" % [@player_ship.gate_destination_in_seconds], 200, 300, 2)
+          return
+        end
+
         @stars.draw
         @player_ship.location.each_entity_with_box(self.viewport.x - 256, self.viewport.y - 256, self.viewport.x + $window.width + 256, self.viewport.y + $window.height + 256) do |entity|
           graphics_class_for(entity, @player_ship.location).render(entity, self.viewport)
