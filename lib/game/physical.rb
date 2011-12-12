@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Game
     module Physical
       LAYER_SHIP = 1

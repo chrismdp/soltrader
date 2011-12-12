@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Game
     class Location
       attr :name, :width, :height
@@ -99,7 +99,7 @@ module Spacestuff
       def nearest_to(target)
         distances = []
         each_entity_with_box(target.x - 400, target.y - 400, target.x + 400, target.y + 400) do |entity|
-          next if entity == target || !entity.is_a?(Spacestuff::Game::Ship)
+          next if entity == target || !entity.is_a?(Sol::Game::Ship)
           distances.push({:square_distance => (target.x - entity.x) ** 2 + (target.y - entity.y) ** 2, :entity => entity})
         end
         return nil if distances == []

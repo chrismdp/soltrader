@@ -1,10 +1,10 @@
 def schematic
   unless @schematic
-    @schematic = Spacestuff::Game::Schematic.new
-    @schematic.draw(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
-    @schematic.draw(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
-    @schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
-    @schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
+    @schematic = Sol::Game::Schematic.new
+    @schematic.draw(Sol::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
+    @schematic.draw(Sol::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
+    @schematic.draw(Sol::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
+    @schematic.draw(Sol::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
   end
   return @schematic
 end
@@ -13,8 +13,8 @@ def ship(count = 1, behaviour = [:awol])
   @ships ||= []
   @minds ||= []
   count.times do |count|
-    ship = Spacestuff::Game::Ship.new(:schematic => schematic, :x => 1000 + (count * 200), :y => 1000 + (count * 200), :location => @location)
-    actor = Spacestuff::Ai::Actor.new :behaviours => behaviour
+    ship = Sol::Game::Ship.new(:schematic => schematic, :x => 1000 + (count * 200), :y => 1000 + (count * 200), :location => @location)
+    actor = Sol::Ai::Actor.new :behaviours => behaviour
     actor.take_controls_of(ship)
     @ships << ship
     @minds << actor

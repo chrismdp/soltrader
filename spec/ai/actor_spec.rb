@@ -6,8 +6,8 @@ require 'ai/behaviour'
 require 'ai/behaviour/root'
 require 'ai/actor'
 
-describe Spacestuff::Ai::Actor do
-  subject { Spacestuff::Ai::Actor.new }
+describe Sol::Ai::Actor do
+  subject { Sol::Ai::Actor.new }
 
   it "can be tagged" do
     subject.tagged?(:foo).should == false

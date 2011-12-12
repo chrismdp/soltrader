@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Ai
     module Behaviour
       class FindAnyTarget

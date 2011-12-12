@@ -1,6 +1,6 @@
 #!/bin/bash
 
 set -e
-ruby spacestuff.rb --profile
-bundle exec pprof.rb --svg spacestuff.profile > spacestuff-profile.svg
-open spacestuff-profile.svg
+ruby sol.rb --profile
+bundle exec pprof.rb --svg sol.profile > sol-profile.svg
+open sol-profile.svg

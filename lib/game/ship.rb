@@ -1,10 +1,10 @@
-module Spacestuff
+module Sol
   module Game
     class Ship
       attr :pieces, :lives, :location
       attr_accessor :debug_message
 
-      include Spacestuff::Game::Physical
+      include Sol::Game::Physical
 
       def initialize(options = {})
         @next_fire = 0
@@ -102,7 +102,7 @@ module Spacestuff
           @next_fire = 300
           offset = self.angle.radians_to_vec2
           position = self.body.p + offset * 40
-          @location.place(Spacestuff::Game::Bullet.new(:position => position, :velocity => self.body.v, :angle => self.angle))
+          @location.place(Sol::Game::Bullet.new(:position => position, :velocity => self.body.v, :angle => self.angle))
         end
       end
 
@@ -122,7 +122,7 @@ module Spacestuff
         @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
         offset = self.angle.radians_to_vec2
         position = self.body.p - offset * 25
-        @location.place(Spacestuff::Game::Exhaust.new(:position => position, :velocity => self.body.v, :angle => self.angle))
+        @location.place(Sol::Game::Exhaust.new(:position => position, :velocity => self.body.v, :angle => self.angle))
       end
 
       def fire_reverse_engines

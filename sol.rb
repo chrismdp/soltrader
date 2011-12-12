@@ -7,16 +7,16 @@ require 'chipmunk'
 
 include Gosu
 
-require_relative "lib/spacestuff"
+require_relative "lib/sol"
 
 require 'perftools'
 if ARGV.first == '--profile'
   puts "Profiling"
-  PerfTools::CpuProfiler.start("spacestuff.profile") do
-    Spacestuff::Window.new.show
+  PerfTools::CpuProfiler.start("sol.profile") do
+    Sol::Window.new.show
   end
 else
-  Spacestuff::Window.new.show
+  Sol::Window.new.show
 end
 
 

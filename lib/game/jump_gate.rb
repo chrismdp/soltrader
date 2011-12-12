@@ -1,9 +1,9 @@
-module Spacestuff
+module Sol
   module Game
     class JumpGate
       attr :location, :connected_gate
 
-      include Spacestuff::Game::Physical
+      include Sol::Game::Physical
       def initialize(options = {})
         @body = CP::Body.new(10000, 128)
         shape_array = [CP::Vec2.new(-80.0, -16.0), CP::Vec2.new(-80.0, 16.0), CP::Vec2.new(80.0, 16.0), CP::Vec2.new(80.0, -16.0)]

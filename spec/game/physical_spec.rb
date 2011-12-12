@@ -7,8 +7,8 @@ require 'core_ext/radians'
 class Thing
 end
 
-describe Spacestuff::Game::Physical do
-  subject { Thing.new.extend(Spacestuff::Game::Physical) }
+describe Sol::Game::Physical do
+  subject { Thing.new.extend(Sol::Game::Physical) }
 
   it "allows shape and body access" do
     subject.should respond_to(:shape)

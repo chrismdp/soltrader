@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Game
     class ShipPiece
       attr :x

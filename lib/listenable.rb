@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Listenable
     # listening
     def listen(listener, event)

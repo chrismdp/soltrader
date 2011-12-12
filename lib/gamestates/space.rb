@@ -1,26 +1,26 @@
-module Spacestuff
+module Sol
   module Gamestates
     class Space < Chingu::GameState
       trait :viewport
       def initialize
         super
         @locations = []
-        @locations << Spacestuff::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
+        @locations << Sol::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
 
-        @locations << Spacestuff::Game::Location.new(:name => "Mars Orbit", :width => 10000, :height => 10000)
-        earth_gate = Spacestuff::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations.first)
-        mars_gate = Spacestuff::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations[1])
+        @locations << Sol::Game::Location.new(:name => "Mars Orbit", :width => 10000, :height => 10000)
+        earth_gate = Sol::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations.first)
+        mars_gate = Sol::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations[1])
         earth_gate.connect_to(mars_gate)
 
-        earth = Spacestuff::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations.first)
-        mars = Spacestuff::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[1])
+        earth = Sol::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations.first)
+        mars = Sol::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[1])
 
-        @schematic = Spacestuff::Game::Schematic.new
-        @schematic.draw(Spacestuff::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
-        @schematic.draw(Spacestuff::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
-        @schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
-        @schematic.draw(Spacestuff::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
-        @player_ship = Spacestuff::Game::Ship.new(:schematic => @schematic, :x => 5000, :y => 5050, :location => @locations.first)
+        @schematic = Sol::Game::Schematic.new
+        @schematic.draw(Sol::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
+        @schematic.draw(Sol::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
+        @schematic.draw(Sol::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
+        @schematic.draw(Sol::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
+        @player_ship = Sol::Game::Ship.new(:schematic => @schematic, :x => 5000, :y => 5050, :location => @locations.first)
 
         @minds = []
         #add_ships(100)
@@ -40,8 +40,8 @@ module Spacestuff
 
       def add_ships(x)
         x.times do
-          ship = Spacestuff::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @locations.first)
-          actor = Spacestuff::Ai::Actor.new :behaviours => [:travel]
+          ship = Sol::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @locations.first)
+          actor = Sol::Ai::Actor.new :behaviours => [:travel]
           actor.take_controls_of(ship)
           actor.destination = @locations[1]
           @minds << actor
@@ -72,11 +72,11 @@ module Spacestuff
       # stub implementation just return the equiv gfx object for now
       def graphics_class_for(entity, location)
         @klasses ||= {
-          Spacestuff::Game::Ship => Spacestuff::Graphics::Ship,
-          Spacestuff::Game::Bullet => Spacestuff::Graphics::Bullet,
-          Spacestuff::Game::Exhaust => Spacestuff::Graphics::Bullet,
-          Spacestuff::Game::CelestialBody => Spacestuff::Graphics::CelestialBody,
-          Spacestuff::Game::JumpGate => Spacestuff::Graphics::JumpGate
+          Sol::Game::Ship => Sol::Graphics::Ship,
+          Sol::Game::Bullet => Sol::Graphics::Bullet,
+          Sol::Game::Exhaust => Sol::Graphics::Bullet,
+          Sol::Game::CelestialBody => Sol::Graphics::CelestialBody,
+          Sol::Game::JumpGate => Sol::Graphics::JumpGate
         }
         @klasses.fetch(entity.class)
       end

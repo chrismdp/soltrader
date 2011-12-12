@@ -3,10 +3,10 @@ require 'singleton'
 require 'ai/behaviour/dsl'
 require 'ai/child_policies/run_children_by_priority'
 
-describe Spacestuff::Ai::Behaviour::Dsl do
+describe Sol::Ai::Behaviour::Dsl do
   context "straight behaviours" do
     def behaviour(name)
-      dsl = double.extend(Spacestuff::Ai::Behaviour::Dsl)
+      dsl = double.extend(Sol::Ai::Behaviour::Dsl)
       dsl.behaviour name do
         def foo
           99
@@ -42,7 +42,7 @@ describe Spacestuff::Ai::Behaviour::Dsl do
 
   context "selectors" do
     it "has a number of children" do
-      dsl = double.extend(Spacestuff::Ai::Behaviour::Dsl)
+      dsl = double.extend(Sol::Ai::Behaviour::Dsl)
       b = dsl.behaviour :one do
         def called; @called; end
         priority { @called = true }

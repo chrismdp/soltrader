@@ -1,5 +1,5 @@
 When /^an actor is created$/ do
-  @actor = Spacestuff::Ai::Actor.new :behaviours => [:awol, :idle]
+  @actor = Sol::Ai::Actor.new :behaviours => [:awol, :idle]
 end
 
 Then /^he picks from a number of high\-level options$/ do

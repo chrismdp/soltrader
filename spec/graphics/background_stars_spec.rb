@@ -1,6 +1,6 @@
 require 'spec_gosu'
 
-describe Spacestuff::Graphics::BackgroundStars do
+describe Sol::Graphics::BackgroundStars do
   it "creates 4 layers of parallax" do
     subject.should have(4).layers
   end

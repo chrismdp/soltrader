@@ -1,7 +1,7 @@
 require 'singleton'
 
 DONE = :done
-module Spacestuff
+module Sol
   module Ai
     module Behaviour
       class ConcreteBehaviour

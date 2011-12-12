@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Graphics
     class BackgroundStars < Chingu::Parallax
       def initialize(options = {})

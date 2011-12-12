@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Game
     class Lifespan
       def initialize(total_life)

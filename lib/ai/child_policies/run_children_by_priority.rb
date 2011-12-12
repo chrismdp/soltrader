@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Ai
     module ChildPolicies
       module RunChildrenByPriority

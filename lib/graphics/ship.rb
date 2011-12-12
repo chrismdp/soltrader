@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Graphics
     class Ship
       attr :image

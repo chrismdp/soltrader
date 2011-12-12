@@ -16,7 +16,7 @@ shared_examples_for "a behaviour with children" do
 
   it "when update returns DONE, forces a reprioritize" do
     subject.stub(:choose_behaviour_for => nil, :current_behaviour => behaviour)
-    behaviour.stub(:update => Spacestuff::Ai::Behaviour::DONE)
+    behaviour.stub(:update => Sol::Ai::Behaviour::DONE)
     subject.update(elapsed)
     subject.should_receive(:choose_behaviour_for)
     subject.update(elapsed)

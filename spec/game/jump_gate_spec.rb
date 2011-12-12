@@ -2,16 +2,16 @@ require 'spec_gosu'
 require 'game/physical'
 require 'game/jump_gate'
 
-describe Spacestuff::Game::JumpGate do
+describe Sol::Game::JumpGate do
   let(:location) { double.as_null_object }
   let(:other_location) { double.as_null_object }
 
   subject do
-    Spacestuff::Game::JumpGate.new(:position => vec2(1,1), :location => location)
+    Sol::Game::JumpGate.new(:position => vec2(1,1), :location => location)
   end
 
   def connect!(loc = other_location)
-    Spacestuff::Game::JumpGate.new(:position => vec2(1,1), :location => loc).tap do |other|
+    Sol::Game::JumpGate.new(:position => vec2(1,1), :location => loc).tap do |other|
       subject.connect_to(other)
     end
   end

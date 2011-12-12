@@ -2,8 +2,8 @@ require 'spec_helper'
 
 require 'listenable'
 
-describe Spacestuff::Listenable do
-  subject { stub.extend(Spacestuff::Listenable) }
+describe Sol::Listenable do
+  subject { stub.extend(Sol::Listenable) }
   let(:listener) { double }
   let(:target) { double }
 

@@ -1,4 +1,4 @@
-module Spacestuff
+module Sol
   module Ai
     class Actor
       attr :ship, :current_target

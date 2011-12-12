@@ -23,7 +23,7 @@ shared_examples_for "it runs children by priority" do
     subject.behaviours = [ double(:priority => 0), double(:priority => 0) ]
     expect {
       subject.update(1)
-    }.to raise_error(Spacestuff::Ai::Behaviour::NoChildBehavioursWantToRun)
+    }.to raise_error(Sol::Ai::Behaviour::NoChildBehavioursWantToRun)
   end
 
 end

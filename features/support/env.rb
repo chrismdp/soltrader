@@ -5,4 +5,4 @@ require 'texplay'
 require 'chipmunk'
 include Gosu
 
-require_relative "../../lib/spacestuff"
+require_relative "../../lib/sol"

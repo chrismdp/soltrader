@@ -9,9 +9,9 @@ require 'game/location'
 require 'game/lifespan'
 require 'game/jump_gate'
 
-describe Spacestuff::Game::Location do
+describe Sol::Game::Location do
   let(:entity) { double(:entity).as_null_object }
-  subject { Spacestuff::Game::Location.new(:width => 1000, :height => 1001, :name => "name") }
+  subject { Sol::Game::Location.new(:width => 1000, :height => 1001, :name => "name") }
   let(:space) { double.as_null_object }
 
   context "with fake physics" do
@@ -64,9 +64,9 @@ describe Spacestuff::Game::Location do
   end
 
   it "allows iteration through entities within a specific box" do
-    inside = Spacestuff::Game::Bullet.new(:position => vec2(20, 20), :velocity => CP::Vec2::ZERO, :angle => 0)
-    edge = Spacestuff::Game::Bullet.new(:position => vec2(50, 50), :velocity => CP::Vec2::ZERO, :angle => 0)
-    outside = Spacestuff::Game::Bullet.new(:position => vec2(200, 200), :velocity => CP::Vec2::ZERO, :angle => 0)
+    inside = Sol::Game::Bullet.new(:position => vec2(20, 20), :velocity => CP::Vec2::ZERO, :angle => 0)
+    edge = Sol::Game::Bullet.new(:position => vec2(50, 50), :velocity => CP::Vec2::ZERO, :angle => 0)
+    outside = Sol::Game::Bullet.new(:position => vec2(200, 200), :velocity => CP::Vec2::ZERO, :angle => 0)
     subject.place(inside)
     subject.place(edge)
     subject.place(outside)
@@ -82,15 +82,15 @@ describe Spacestuff::Game::Location do
   end
 
   let(:other_object) { double(:other, :x => 60, :y => 60) }
-  let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
-  let(:ship2) { double(:ship, :x => 20, :y => 20, :is_a? => Spacestuff::Game::Ship) }
+  let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Sol::Game::Ship) }
+  let(:ship2) { double(:ship, :x => 20, :y => 20, :is_a? => Sol::Game::Ship) }
 
   it "checks nearest to a target" do
     subject.stub(:each_entity_with_box).and_yield(other_object).and_yield(ship2)
     subject.nearest_to(ship1).should == ship2
   end
 
-  let(:gate) { Spacestuff::Game::JumpGate.new(:position => vec2(20, 20), :location => subject) }
+  let(:gate) { Sol::Game::JumpGate.new(:position => vec2(20, 20), :location => subject) }
   let(:other_location) { double }
   let(:other_gate) { double(:location => other_location).as_null_object }
   it "finds the right exit to the given location" do

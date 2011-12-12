@@ -1,7 +1,7 @@
-module Spacestuff
+module Sol
   module Game
     class CelestialBody
-      include Spacestuff::Game::Physical
+      include Sol::Game::Physical
       def initialize(options = {})
         make_circle(1, 256)
         @location = options[:location]

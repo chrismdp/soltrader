@@ -8,11 +8,11 @@ require 'chipmunk'
 
 require 'game/ship'
 
-describe Spacestuff::Game::Ship do
+describe Sol::Game::Ship do
   let(:hull) { double }
   let(:location) { double.as_null_object }
 
-  subject { Spacestuff::Game::Ship.new(:x => 1, :y => 2, :location => location) }
+  subject { Sol::Game::Ship.new(:x => 1, :y => 2, :location => location) }
 
   context "initialization" do
     it "has a position" do
@@ -22,13 +22,13 @@ describe Spacestuff::Game::Ship do
 
     it "places itself in the location" do
       location.should_receive(:place)
-      Spacestuff::Game::Ship.new(:location => location, :x => 1, :y => 2)
+      Sol::Game::Ship.new(:location => location, :x => 1, :y => 2)
     end
 
     let(:schematic) { double }
     it "builds itself from the given schematic (if any)" do
       schematic.should_receive(:build)
-      Spacestuff::Game::Ship.new(:x => 1, :y => 2, :schematic => schematic, :location => location)
+      Sol::Game::Ship.new(:x => 1, :y => 2, :schematic => schematic, :location => location)
     end
   end
 
@@ -46,10 +46,10 @@ describe Spacestuff::Game::Ship do
   end
 
   context "detection" do
-    let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Spacestuff::Game::Ship) }
+    let(:ship1) { double(:ship, :x => 60, :y => 60, :is_a? => Sol::Game::Ship) }
     it "scans location for nearest ship (use scanner piece later)" do
       location.stub(:nearest_to => ship1)
-      subject.scan(:of_type => Spacestuff::Game::Ship).should == ship1
+      subject.scan(:of_type => Sol::Game::Ship).should == ship1
     end
 
     let(:other_location) { double }
@@ -79,7 +79,7 @@ describe Spacestuff::Game::Ship do
   context "firing guns" do
     let(:bullet) { double }
     it "can only fire once per second" do
-      Spacestuff::Game::Bullet.stub(:new => bullet)
+      Sol::Game::Bullet.stub(:new => bullet)
       location.should_receive(:place).with(bullet).once
       subject.order(:fire)
       subject.update(2)
@@ -89,7 +89,7 @@ describe Spacestuff::Game::Ship do
     end
 
     it "tells the location to add a bullet" do
-      Spacestuff::Game::Bullet.stub(:new => bullet)
+      Sol::Game::Bullet.stub(:new => bullet)
       location.should_receive(:place).with(bullet)
       subject.order(:fire)
       subject.update(1)
