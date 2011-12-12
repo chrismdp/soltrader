@@ -48,7 +48,6 @@ module Sol
         end
       end
 
-
       def go_faster
         @player_ship.order :fire_main_engines
       end

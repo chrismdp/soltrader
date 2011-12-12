@@ -14,6 +14,8 @@ module Sol
         @body.v = options[:velocity] if options[:velocity]
         @body.w = rand(5)
         @lifespan = Sol::Game::Lifespan.new(options[:lifetime] || 500)
+        
+        super
       end
 
       def update(elapsed)

@@ -16,8 +16,7 @@ module Sol
         @pieces = []
         options[:schematic].build(self) if options[:schematic]
 
-        @location = options[:location]
-        @location.place(self)
+        super
 
         @lives = 5
         @hit_this_frame = false
@@ -115,7 +114,7 @@ module Sol
           @next_fire = 300
           offset = self.angle.radians_to_vec2
           position = self.body.p + offset * 30
-          @location.place(Sol::Game::Bullet.new(:position => position, :velocity => self.body.v, :angle => self.angle))
+          Sol::Game::Bullet.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
         end
       end
 
@@ -139,7 +138,7 @@ module Sol
       def place_smoke
         offset = self.angle.radians_to_vec2
         position = self.body.p - offset * 25
-        @location.place(Sol::Game::Exhaust.new(:position => position, :velocity => self.body.v, :angle => self.angle))
+        Sol::Game::Exhaust.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
       end
 
       def fire_reverse_engines

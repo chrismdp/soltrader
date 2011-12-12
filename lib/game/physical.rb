@@ -19,6 +19,11 @@ module Sol
         end
       end
 
+      def initialize(options)
+        @location = options[:location]
+        @location.place(self)
+      end
+
       def angle_to(other)
         distance = other.position - position
         return 0 if distance == CP::Vec2::ZERO

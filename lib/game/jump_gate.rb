@@ -8,15 +8,17 @@ module Sol
         @body = CP::Body.new(10000, 128)
         shape_array = [CP::Vec2.new(-80.0, -16.0), CP::Vec2.new(-80.0, 16.0), CP::Vec2.new(80.0, 16.0), CP::Vec2.new(80.0, -16.0)]
         @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
-        @location = options[:location]
-        @location.place(self)
+
         @shape.layers = Physical::LAYER_SHIP
         @shape.collision_type = :gate
         @shape.group = :bullet
         @body.p = options[:position]
+
         @jump_seconds = options[:jump_seconds] || 5
         @jumping = []
         @total_seconds_elapsed = 0
+
+        super
       end
 
       def update(elapsed)
@@ -61,7 +63,7 @@ module Sol
 
       def add_spooky_purple_smoke
         throttle(:purple_smoke, 200, @elapsed) do
-          @location.place(Sol::Game::Mist.new(:position => position, :velocity => vec2(rand(100) - 50, rand(300) - 150), :lifetime => 10000))
+          Sol::Game::Mist.new(:location => @location, :position => position, :velocity => vec2(rand(100) - 50, rand(300) - 150), :lifetime => 10000)
         end
       end
     end
