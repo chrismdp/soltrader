@@ -36,6 +36,14 @@ module Sol
           end
           false
         end
+
+        @space.add_collision_func(:ship, :celestial_body) do |ship_shape, celestial_body_shape|
+          ship = @placements[ship_shape.body]
+          if (ship.trying_to_enter_planet_this_frame && ship.location == self) # might have already moved this frame
+            @placements[celestial_body_shape.body].move_from(ship)
+          end
+          false
+        end
       end
 
       def place(entity)

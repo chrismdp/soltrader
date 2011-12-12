@@ -1,7 +1,7 @@
 module Sol
   module Game
     class Ship
-      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate
+      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate, :trying_to_enter_planet_this_frame
       attr_accessor :debug_message
 
       include Sol::Game::Physical
@@ -38,8 +38,8 @@ module Sol
         shape_array = [CP::Vec2.new(-25.0, -25.0), CP::Vec2.new(-25.0, 25.0), CP::Vec2.new(25.0, 1.0), CP::Vec2.new(25.0, -1.0)]
         @shape = CP::Shape::Poly.new(body, shape_array, CP::Vec2.new(0,0))
 
-        @shape.collision_type = :ship
         @shape.layers = Physical::LAYER_SHIP
+        @shape.collision_type = :ship
 
         @shape.body.p = CP::Vec2.new(options[:x], options[:y])
         @shape.body.v = CP::Vec2::ZERO
@@ -67,6 +67,7 @@ module Sol
 
       def update(elapsed)
         @fired_engines_this_frame = false
+        @trying_to_enter_planet_this_frame = false
         @elapsed = elapsed
         @shape.body.w *= ROTATIONAL_DAMPING
         process_received_input
@@ -116,6 +117,10 @@ module Sol
           position = self.body.p + offset * 30
           Sol::Game::Bullet.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
         end
+      end
+
+      def enter_planet
+        @trying_to_enter_planet_this_frame = true
       end
 
       def bolt_on(piece)

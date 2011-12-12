@@ -31,42 +31,21 @@ describe Sol::Game::Gate do
     subject.should respond_to(:jumping)
   end
 
-  def connect!(loc = other_location)
-    Thing.new.extend(Sol::Game::Gate).tap do |other|
-      other.stub(:location => loc)
-      subject.connect_to(other)
-    end
-  end
-
-  context "connection" do
-    it "connects to other jump gates" do
-      connect!
-    end
-    it "sets up the other gate to connect to this one" do
-      other_gate = connect!
-      other_gate.connected_gate.should == subject
-    end
-    it "cannot connect to itself" do
-      expect { subject.connect_to(subject) }.to raise_error(ArgumentError)
-    end
-    it "cannot connect to jump gates in the same location" do
-      expect { connect!(location) }.to raise_error(ArgumentError)
-    end
-    it "cannot connect to multiple gates" do
-      connect!
-      expect { connect! }.to raise_error(ArgumentError)
-    end
-
-  end
-
   context "moving" do
     let(:ship) { double(:location => location).as_null_object }
     context "from" do
-      it "removes ships from the current location" do
-        connect!
-        subject.update(100)
-        ship.should_receive(:got_here)
+      it "holds jumping ships in a jumping list until the elapsed time is up" do
         subject.move_from(ship)
+        subject.should_not_receive(:after_move_to)
+        subject.update(100)
+      end
+
+      it "moves them to the new location when the jump time is up and is removed from list" do
+        subject.move_from(ship)
+        subject.should_receive(:after_move_to).once
+        subject.update(750)
+        subject.update(750)
+        subject.update(750)
       end
     end
   end

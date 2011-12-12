@@ -1,5 +1,8 @@
 require 'spec_helper'
 
+require 'game/gate'
+require 'game/physical'
+require 'chipmunk'
 require 'game/celestial_body'
 
 describe Sol::Game::CelestialBody do

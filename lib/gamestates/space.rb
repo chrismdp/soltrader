@@ -12,8 +12,8 @@ module Sol
         mars_gate = Sol::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations[1])
         earth_gate.connect_to(mars_gate)
 
-        earth = Sol::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations.first, :image => 'earth.png')
-        mars = Sol::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[1], :image => 'mars.png')
+        earth = Sol::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations.first, :image => 'earth.png', :name => 'Earth')
+        mars = Sol::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[1], :image => 'mars.png', :name => 'Mars')
 
         @schematic = Sol::Game::Schematic.new
         @schematic.draw(Sol::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
@@ -28,6 +28,7 @@ module Sol
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @locations.first.width, @locations.first.height]
         self.input = {
+          :e => :enter_planet,
           :holding_up => :go_faster,
           :holding_down => :go_slower,
           :holding_left => :turn_left,
@@ -46,6 +47,10 @@ module Sol
           actor.destination = @locations[1]
           @minds << actor
         end
+      end
+
+      def enter_planet
+        @player_ship.order :enter_planet
       end
 
       def go_faster
@@ -104,7 +109,7 @@ module Sol
         if (@player_ship.location.nil?)
           @font ||= Font["good-times.ttf", 35]
           @font.draw("Hyperspace", 200, 200, 2)
-          @font.draw("Jumping to #{@player_ship.gate.connected_gate.location.name}", 200, 250, 2)
+          @font.draw("Jumping to #{@player_ship.gate.destination}", 200, 250, 2)
           @font.draw("ETA %.1f" % [@player_ship.gate_destination_in_seconds], 200, 300, 2)
           return
         end
