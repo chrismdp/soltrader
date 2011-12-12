@@ -3,7 +3,11 @@ module Sol
     module Utils
       def fade_color(entity)
         Gosu::Color::WHITE.dup.tap do |color|
-          color.alpha = 255 - (entity.percentage_lifetime * 255/100)
+          if (entity.percentage_lifetime < 10)
+            color.alpha = (255 * entity.percentage_lifetime / 10)
+          else
+            color.alpha = 255 - (entity.percentage_lifetime * 255/100)
+          end
         end
       end
     end
