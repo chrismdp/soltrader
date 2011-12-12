@@ -22,13 +22,21 @@ module Sol
 
     class Bullet
       def self.render(bullet, viewport)
-        @animation ||= Chingu::Animation.new(:file => "smoke.png", :size => [128, 128], :delay => 20)
-        @image ||= @animation.first
+        @image ||= Image['bullet.png']
         color = Gosu::Color::WHITE.dup
         color.alpha = 255 - (bullet.percentage_lifetime * 255/100)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
-        size = 0.25 + bullet.percentage_lifetime/200.0
-        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle.to_degrees, 0.5, 0.5, size, size, color)
+        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle.to_degrees, 0.5, 0.5, 1, 1, color)
+      end
+    end
+    class Smoke
+      def self.render(smoke, viewport)
+        @image ||= Image['smoke.png']
+        color = Gosu::Color::WHITE.dup
+        color.alpha = 255 - (smoke.percentage_lifetime * 255/100)
+        @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
+        size = 0.25 + smoke.percentage_lifetime/200.0
+        @image.draw_rot(smoke.x - viewport.x, smoke.y - viewport.y, 2, smoke.angle.to_degrees, 0.5, 0.5, size, size, color)
       end
     end
     class CelestialBody

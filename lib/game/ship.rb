@@ -102,7 +102,7 @@ module Sol
         if (@next_fire <= 0)
           @next_fire = 300
           offset = self.angle.radians_to_vec2
-          position = self.body.p + offset * 40
+          position = self.body.p + offset * 30
           @location.place(Sol::Game::Bullet.new(:position => position, :velocity => self.body.v, :angle => self.angle))
         end
       end

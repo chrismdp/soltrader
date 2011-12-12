@@ -74,7 +74,7 @@ module Sol
         @klasses ||= {
           Sol::Game::Ship => Sol::Graphics::Ship,
           Sol::Game::Bullet => Sol::Graphics::Bullet,
-          Sol::Game::Exhaust => Sol::Graphics::Bullet,
+          Sol::Game::Exhaust => Sol::Graphics::Smoke,
           Sol::Game::CelestialBody => Sol::Graphics::CelestialBody,
           Sol::Game::JumpGate => Sol::Graphics::JumpGate
         }

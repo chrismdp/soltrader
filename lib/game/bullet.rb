@@ -12,8 +12,9 @@ module Sol
         @body.p = options[:position]
         @body.a = options[:angle]
         @body.v = options[:velocity]
+        @body.w = 15
         @body.apply_impulse(@body.a.radians_to_vec2 * 5000, CP::Vec2::ZERO)
-        @lifespan = Sol::Game::Lifespan.new(500)
+        @lifespan = Sol::Game::Lifespan.new(700)
       end
 
       def update(elapsed)
