@@ -1,18 +1,17 @@
 module Sol
   module Game
-    class Bullet
+    class Exhaust
       include Sol::Game::Physical
+      attr :lifetime
 
       def initialize(options = {})
-        self.make_circle(10, 10)
-        @shape.collision_type = :bullet
+        self.make_circle(1, 10)
         @shape.group = :bullet
-        @shape.layers = Physical::LAYER_SHIP
+        @shape.layers = Physical::LAYER_EXHAUST
 
         @body.p = options[:position]
-        @body.a = options[:angle]
-        @body.v = options[:velocity]
-        @body.apply_impulse(@body.a.radians_to_vec2 * 5000, CP::Vec2::ZERO)
+        @body.a = rand(2 * Math::PI)
+        @body.w = rand(5)
         @lifespan = Sol::Game::Lifespan.new(500)
       end
 
@@ -25,6 +24,5 @@ module Sol
         @lifespan.percentage_lifetime
       end
     end
-
   end
 end

@@ -23,7 +23,7 @@ module Sol
         @player_ship = Sol::Game::Ship.new(:schematic => @schematic, :x => 5000, :y => 5050, :location => @locations.first)
 
         @minds = []
-        #add_ships(100)
+        add_ships(100)
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @locations.first.width, @locations.first.height]

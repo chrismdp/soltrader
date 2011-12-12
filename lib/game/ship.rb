@@ -1,7 +1,7 @@
 module Sol
   module Game
     class Ship
-      attr :pieces, :lives, :location
+      attr :pieces, :lives, :location, :fired_engines_this_frame
       attr_accessor :debug_message
 
       include Sol::Game::Physical
@@ -67,6 +67,7 @@ module Sol
 
 
       def update(elapsed)
+        @fired_engines_this_frame = false
         @elapsed = elapsed
         @shape.body.w *= ROTATIONAL_DAMPING
         process_received_input
@@ -120,6 +121,10 @@ module Sol
 
       def fire_main_engines
         @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
+        @fired_engines_this_frame = true
+      end
+
+      def place_smoke
         offset = self.angle.radians_to_vec2
         position = self.body.p - offset * 25
         @location.place(Sol::Game::Exhaust.new(:position => position, :velocity => self.body.v, :angle => self.angle))

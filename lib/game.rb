@@ -6,6 +6,7 @@ require_relative "game/schematic"
 require_relative "game/location"
 require_relative "game/ship_ai"
 require_relative "game/bullet"
+require_relative "game/exhaust"
 require_relative "game/celestial_body"
 require_relative "game/jump_gate"
 

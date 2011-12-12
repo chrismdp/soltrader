@@ -15,6 +15,7 @@ module Sol
       def self.render(ship, viewport)
         @font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
         graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle.to_degrees + 90)
+        ship.place_smoke if (ship.fired_engines_this_frame)
         #@font.draw(ship.lives.to_s + "#{ship.debug_message && " DBG: "+ship.debug_message}", ship.x - viewport.x, ship.y - viewport.y, 2)
       end
     end
