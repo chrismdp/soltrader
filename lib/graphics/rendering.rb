@@ -31,9 +31,19 @@ module Sol
       end
     end
     class CelestialBody
+      attr :image
+
+      def self.graphics_for(body)
+        @bodies ||= {}
+        @bodies[body] ||= new(body)
+      end
+
+      def initialize(body)
+        @image ||= Image[body.image]
+      end
+
       def self.render(body, viewport)
-        @image ||= Image['earth.png']
-        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, -1, body.angle.to_degrees + 90)
+        graphics_for(body).image.draw_rot(body.x - viewport.x, body.y - viewport.y, -1, body.angle.to_degrees + 90)
       end
     end
 

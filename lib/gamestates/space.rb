@@ -12,8 +12,8 @@ module Sol
         mars_gate = Sol::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations[1])
         earth_gate.connect_to(mars_gate)
 
-        earth = Sol::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations.first)
-        mars = Sol::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[1])
+        earth = Sol::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations.first, :image => 'earth.png')
+        mars = Sol::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[1], :image => 'mars.png')
 
         @schematic = Sol::Game::Schematic.new
         @schematic.draw(Sol::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
