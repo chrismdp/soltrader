@@ -43,6 +43,20 @@ module Sol
         @image.draw_rot(smoke.x - viewport.x, smoke.y - viewport.y, 2, smoke.angle.to_degrees, 0.5, 0.5, size, size, fade_color(smoke))
       end
     end
+    class PurpleSmoke
+      extend Utils
+      def self.render(entity, viewport)
+        @image ||= Image['smoke.png']
+        size = 2 + entity.percentage_lifetime/200.0
+        color = Gosu::Color::WHITE.dup.tap do |color|
+          color.red = 0x6b
+          color.green = 0x5c
+          color.blue = 0xd2
+          color.alpha = 255 - (entity.percentage_lifetime * 255/100)
+        end
+        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 2, entity.angle.to_degrees, 0.5, 0.5, size, size, color)
+      end
+    end
     class CelestialBody
       attr :image
 
@@ -63,7 +77,8 @@ module Sol
     class JumpGate
       def self.render(body, viewport)
         @image ||= Image['jumpgate.png']
-        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, 2, body.angle.to_degrees)
+        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, 3, body.angle.to_degrees)
+        body.add_spooky_purple_smoke
       end
     end
   end

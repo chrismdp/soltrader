@@ -17,6 +17,8 @@ module Sol
       end
 
       def update(elapsed)
+        @elapsed = elapsed
+        return false
       end
 
       def connect_to(other)
@@ -35,6 +37,13 @@ module Sol
 
       def move_to(ship)
         ship.drop_in(@location, position)
+      end
+
+      def add_spooky_purple_smoke
+        throttle(:purple_smoke, 200, @elapsed) do
+
+          @location.place(Sol::Game::Mist.new(:position => position, :velocity => vec2(rand(100) - 50, rand(300) - 150), :lifetime => 10000))
+        end
       end
     end
   end

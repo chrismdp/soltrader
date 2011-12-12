@@ -11,8 +11,9 @@ module Sol
 
         @body.p = options[:position]
         @body.a = rand(2 * Math::PI)
+        @body.v = options[:velocity] if options[:velocity]
         @body.w = rand(5)
-        @lifespan = Sol::Game::Lifespan.new(500)
+        @lifespan = Sol::Game::Lifespan.new(options[:lifetime] || 500)
       end
 
       def update(elapsed)
@@ -24,5 +25,8 @@ module Sol
         @lifespan.percentage_lifetime
       end
     end
+    class Mist < Exhaust
+    end
   end
+
 end
