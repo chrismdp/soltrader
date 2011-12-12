@@ -1,8 +1,6 @@
 module Sol
   module Game
     class JumpGate
-      attr :location, :connected_gate, :jumping
-
       include Sol::Game::Physical
       include Sol::Game::Gate
 
@@ -25,13 +23,11 @@ module Sol
         return super
       end
 
-      def move_from(ship)
-        super do |destination_time|
-          ship.jump_into_gate(self, destination_time)
-        end
+      def after_move_from(ship, destination_time)
+        ship.jump_into_gate(self, destination_time)
       end
 
-      def move_to(ship)
+      def after_move_to(ship)
         ship.drop_in(@location, position)
       end
 

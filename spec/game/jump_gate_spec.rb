@@ -16,53 +16,9 @@ describe Sol::Game::JumpGate do
     end
   end
 
-  it "adds itself to the given location" do
-    location.should_receive(:place)
-    subject # create the to check the above expectation
-  end
-  context "connection" do
-    it "connects to other jump gates" do
-      connect!
-    end
-
-    it "sets up the other gate to connect to this one" do
-      other_gate = connect!
-      other_gate.connected_gate.should == subject
-    end
-
-    it "cannot connect to itself" do
-      expect { subject.connect_to(subject) }.to raise_error(ArgumentError)
-    end
-    it "cannot connect to jump gates in the same location" do
-      expect { connect!(location) }.to raise_error(ArgumentError)
-    end
-    it "cannot connect to multiple gates" do
-      connect!
-      expect { connect! }.to raise_error(ArgumentError)
-    end
-  end
-
   context "moving" do
     let(:ship) { double(:location => location).as_null_object }
     context "from" do
-      it "removes ships from the current location" do
-        connect!
-        subject.update(100)
-        ship.should_receive(:jump_into_gate).with(subject, 1.1)
-        subject.move_from(ship)
-      end
-
-      it "raises if there's no connection" do
-        expect { subject.move_from(ship) }.to raise_error
-      end
-
-      it "holds jumping ships in a jumping list until the elapsed time is up" do
-        connect!
-        subject.move_from(ship)
-        ship.should_not_receive(:drop_in)
-        subject.update(100)
-      end
-
       it "moves them to the new location when the jump time is up and is removed from list" do
         connect!
         subject.move_from(ship)

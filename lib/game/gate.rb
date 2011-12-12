@@ -7,7 +7,7 @@ module Sol
 
       def self.extended(thing)
         class_eval do
-          attr :location, :jumping
+          attr :location, :jumping, :connected_gate
         end
       end
 
@@ -49,9 +49,12 @@ module Sol
         raise "Cannot move without connection!" unless @connected_gate
         destination_time = @total_seconds_elapsed + @jump_seconds
         @jumping << [destination_time, ship]
-        yield(destination_time)
+        after_move_from(ship, destination_time)
       end
 
+      def move_to(ship)
+        after_move_to(ship)
+      end
     end
   end
 end
