@@ -30,6 +30,9 @@ module Sol
         return angle_diff(Math.atan2(distance.y, distance.x))
       end
 
+      def update(elapsed)
+      end
+
       def angle_diff(angle)
         return ((angle - self.angle + Math::PI) % (2 * Math::PI)) - Math::PI
       end

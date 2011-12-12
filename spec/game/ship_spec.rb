@@ -80,19 +80,11 @@ describe Sol::Game::Ship do
     let(:bullet) { double }
     it "can only fire once per second" do
       Sol::Game::Bullet.stub(:new => bullet)
-      location.should_receive(:place).with(bullet).once
       subject.order(:fire)
       subject.update(2)
       subject.order(:fire)
       subject.update(2)
       location.should_have
-    end
-
-    it "tells the location to add a bullet" do
-      Sol::Game::Bullet.stub(:new => bullet)
-      location.should_receive(:place).with(bullet)
-      subject.order(:fire)
-      subject.update(1)
     end
 
   end

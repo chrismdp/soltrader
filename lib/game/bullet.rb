@@ -15,6 +15,7 @@ module Sol
         @body.w = 15
         @body.apply_impulse(@body.a.radians_to_vec2 * 5000, CP::Vec2::ZERO)
         @lifespan = Sol::Game::Lifespan.new(700)
+        super
       end
 
       def update(elapsed)

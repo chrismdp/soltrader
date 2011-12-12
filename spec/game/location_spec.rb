@@ -3,6 +3,7 @@ require 'chipmunk'
 
 require 'core_ext/radians_to_vec2'
 require 'game/physical'
+require 'game/gate'
 require 'game/bullet'
 require 'game/ship'
 require 'game/location'
@@ -64,12 +65,9 @@ describe Sol::Game::Location do
   end
 
   it "allows iteration through entities within a specific box" do
-    inside = Sol::Game::Bullet.new(:position => vec2(20, 20), :velocity => CP::Vec2::ZERO, :angle => 0)
-    edge = Sol::Game::Bullet.new(:position => vec2(50, 50), :velocity => CP::Vec2::ZERO, :angle => 0)
-    outside = Sol::Game::Bullet.new(:position => vec2(200, 200), :velocity => CP::Vec2::ZERO, :angle => 0)
-    subject.place(inside)
-    subject.place(edge)
-    subject.place(outside)
+    inside = Sol::Game::Bullet.new(:location => subject, :position => vec2(20, 20), :velocity => CP::Vec2::ZERO, :angle => 0)
+    edge = Sol::Game::Bullet.new(:location => subject, :position => vec2(50, 50), :velocity => CP::Vec2::ZERO, :angle => 0)
+    outside = Sol::Game::Bullet.new(:location => subject, :position => vec2(200, 200), :velocity => CP::Vec2::ZERO, :angle => 0)
 
     entities = []
     subject.update_physics(0)

@@ -4,6 +4,8 @@ module Sol
       attr :location, :connected_gate, :jumping
 
       include Sol::Game::Physical
+      include Sol::Game::Gate
+
       def initialize(options = {})
         @body = CP::Body.new(10000, 128)
         shape_array = [CP::Vec2.new(-80.0, -16.0), CP::Vec2.new(-80.0, 16.0), CP::Vec2.new(80.0, 16.0), CP::Vec2.new(80.0, -16.0)]
@@ -15,46 +17,18 @@ module Sol
         @body.p = options[:position]
 
         @jump_seconds = options[:jump_seconds] || 5
-        @jumping = []
-        @total_seconds_elapsed = 0
-
         super
       end
 
       def update(elapsed)
         @elapsed = elapsed
-        @total_seconds_elapsed += elapsed / 1000.0
-
-        @jumping.each do |arrival_time, jumper|
-          if arrival_time < @total_seconds_elapsed
-            @connected_gate.move_to(jumper)
-            @jumping.shift
-          else
-            break
-          end
-        end
-
-        # FIXME: Not happy about this boolean primitive here: should return REMOVE or similar
-        return false
-      end
-
-      def time_to(time)
-        time - @total_seconds_elapsed
-      end
-
-      def connect_to(other)
-        raise ArgumentError unless @connected_gate.nil?
-        raise ArgumentError if self == other
-        raise ArgumentError if self.location == other.location
-        @connected_gate = other
-        other.connect_to(self) if other.connected_gate.nil?
+        return super
       end
 
       def move_from(ship)
-        raise "Cannot move without connection!" unless @connected_gate
-        destination_time = @total_seconds_elapsed + @jump_seconds
-        ship.jump_into_gate(self, destination_time)
-        @jumping << [destination_time, ship]
+        super do |destination_time|
+          ship.jump_into_gate(self, destination_time)
+        end
       end
 
       def move_to(ship)
