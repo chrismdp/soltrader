@@ -83,7 +83,7 @@ module Sol
       def drop_in(location, position)
         @location = location
         @location.add_later(self)
-        self.position = position + vec2(0, 200)
+        self.position = position + @body.v
       end
 
       def process_received_input

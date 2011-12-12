@@ -41,7 +41,6 @@ module Sol
 
       def add_spooky_purple_smoke
         throttle(:purple_smoke, 200, @elapsed) do
-
           @location.place(Sol::Game::Mist.new(:position => position, :velocity => vec2(rand(100) - 50, rand(300) - 150), :lifetime => 10000))
         end
       end
