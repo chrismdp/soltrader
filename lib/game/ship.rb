@@ -141,6 +141,7 @@ module Sol
       end
 
       def fire
+        return if landed? || in_gate? || entering_atmosphere?
         if (@next_fire <= 0)
           @next_fire = 300
           offset = self.angle.radians_to_vec2
@@ -166,6 +167,7 @@ module Sol
       end
 
       def fire_main_engines
+        return if landed? || in_gate? || entering_atmosphere?
         @shape.body.apply_impulse((@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
         @fired_engines_this_frame = true
       end
@@ -177,10 +179,13 @@ module Sol
       end
 
       def place_heat_shield_smoke
-        Sol::Game::Explosion.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
+        throttle(:heat_shield, 100, @elapsed) do
+          Sol::Game::Explosion.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
+        end
       end
 
       def fire_reverse_engines
+        return if landed? || in_gate? || entering_atmosphere?
         @shape.body.apply_impulse(-(@shape.body.a.radians_to_vec2 * rate_of_acceleration), CP::Vec2::ZERO)
       end
 
