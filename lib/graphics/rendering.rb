@@ -25,14 +25,17 @@ module Sol
       end
 
       def self.render(ship, viewport)
-        graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle.to_degrees + 90)
         ship.place_smoke if (ship.fired_engines_this_frame)
+        size = 1
         if (ship.entering_atmosphere?)
+          # FIXME: Relies on the time to enter the planet to be 5 seconds
+          size = ((ship.time_to_destination_in_seconds+2)/7.0)
           ship.place_heat_shield_smoke
           @font ||= Font["good-times.ttf", 15]
           @font.draw("%s: %1.f" % [ship.destination, ship.time_to_destination_in_seconds], ship.x - viewport.x + 10, ship.y - viewport.y + 10, 5)
 
         end
+        graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle.to_degrees + 90, 0.5, 0.5, size, size)
       end
     end
 

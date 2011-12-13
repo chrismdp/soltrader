@@ -1,6 +1,7 @@
 module Sol
   module Game
     class Ship
+      MAXIMUM_SPEED_TO_ENTER_ATMOSPHERE = 500
       attr :pieces, :lives, :location, :fired_engines_this_frame, :gate, :trying_to_enter_planet_this_frame, :planet
       attr_accessor :debug_message
 
@@ -151,7 +152,9 @@ module Sol
       end
 
       def enter_planet
-        @trying_to_enter_planet_this_frame = true
+        if (@body.v.lengthsq < MAXIMUM_SPEED_TO_ENTER_ATMOSPHERE)
+          @trying_to_enter_planet_this_frame = true
+        end
       end
 
       def bolt_on(piece)
