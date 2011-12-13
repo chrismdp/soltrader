@@ -80,6 +80,7 @@ module Sol
           Sol::Game::Bullet => Sol::Graphics::Bullet,
           Sol::Game::Exhaust => Sol::Graphics::Smoke,
           Sol::Game::Mist => Sol::Graphics::PurpleSmoke,
+          Sol::Game::Explosion => Sol::Graphics::Explosion,
           Sol::Game::CelestialBody => Sol::Graphics::CelestialBody,
           Sol::Game::JumpGate => Sol::Graphics::JumpGate
         }
@@ -106,11 +107,17 @@ module Sol
       def draw
         super
 
-        if (@player_ship.location.nil?)
+        if (@player_ship.in_gate?)
           @font ||= Font["good-times.ttf", 35]
           @font.draw("Hyperspace", 200, 200, 2)
-          @font.draw("Jumping to #{@player_ship.gate.destination}", 200, 250, 2)
-          @font.draw("ETA %.1f" % [@player_ship.gate_destination_in_seconds], 200, 300, 2)
+          @font.draw("Jumping to #{@player_ship.destination}", 200, 250, 2)
+          @font.draw("ETA %.1f" % [@player_ship.time_to_destination_in_seconds], 200, 300, 2)
+          return
+        end
+
+        if (@player_ship.landed?)
+          @font ||= Font["good-times.ttf", 35]
+          @font.draw("LANDED ON #{@player_ship.planet.name}", 200, 200, 2)
           return
         end
 

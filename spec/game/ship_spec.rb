@@ -79,12 +79,11 @@ describe Sol::Game::Ship do
   context "firing guns" do
     let(:bullet) { double }
     it "can only fire once per second" do
-      Sol::Game::Bullet.stub(:new => bullet)
+      Sol::Game::Bullet.should_receive(:new).once
       subject.order(:fire)
       subject.update(2)
       subject.order(:fire)
       subject.update(2)
-      location.should_have
     end
 
   end
@@ -121,6 +120,47 @@ describe Sol::Game::Ship do
           subject.update(1)
         }
       }.to change(subject, :dead?).to(true)
+    end
+  end
+
+  context "jumping between locations" do
+    let(:gate) { double }
+    context "jumping into a gate" do
+      it "sets the current location to nil" do
+        subject.jump_into_gate(gate, 1)
+        subject.location.should be_nil
+        subject.gate.should == gate
+      end
+    end
+
+    context "drop in to a location" do
+      it "sets up the new location" do
+        subject.drop_in(location, vec2(2,2))
+        subject.location.should == location
+      end
+
+      it "sets the gate to be nil" do
+        subject.jump_into_gate(gate, 1)
+        subject.drop_in(location, vec2(2,2))
+        subject.gate.should be_nil
+      end
+    end
+
+    context "entering atmosphere" do
+      let(:planet) { double }
+      it "starts the entry process" do
+        subject.enter_atmosphere(planet, 1)
+        subject.should be_entering_atmosphere
+      end
+
+      it "land should turn off entering atmosphere, location and gate" do
+        subject.enter_atmosphere(planet, 1)
+        subject.land(planet)
+        subject.should_not be_entering_atmosphere
+        subject.location.should be_nil
+        subject.gate.should be_nil
+      end
+
     end
   end
 end

@@ -5,6 +5,7 @@ module Sol
 
       include Sol::Game::Physical
       include Sol::Game::Gate
+
       def initialize(options = {})
         make_circle(128, 256)
 
@@ -19,11 +20,11 @@ module Sol
       end
 
       def after_move_from(ship, destination_time)
-        ship.jump_into_gate(self, destination_time)
+        ship.enter_atmosphere(self, destination_time)
       end
 
       def after_move_to(ship)
-        # TODO: Now on the planet
+        ship.land(self)
       end
 
       def destination

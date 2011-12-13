@@ -27,8 +27,12 @@ module Sol
       def self.render(ship, viewport)
         graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle.to_degrees + 90)
         ship.place_smoke if (ship.fired_engines_this_frame)
-        #@font ||= Gosu::Font.new($window, Gosu::default_font_name, 15)
-        #@font.draw(ship.lives.to_s + "#{ship.debug_message && " DBG: "+ship.debug_message}", ship.x - viewport.x, ship.y - viewport.y, 2)
+        if (ship.entering_atmosphere?)
+          ship.place_heat_shield_smoke
+          @font ||= Font["good-times.ttf", 15]
+          @font.draw("%s: %1.f" % [ship.destination, ship.time_to_destination_in_seconds], ship.x - viewport.x + 10, ship.y - viewport.y + 10, 5)
+
+        end
       end
     end
 
@@ -52,13 +56,24 @@ module Sol
       def self.render(entity, viewport)
         @image ||= Image['smoke.png']
         size = 2 + entity.percentage_lifetime/200.0
-        color = Gosu::Color::WHITE.dup.tap do |color|
+        color = fade_color(entity).tap do |color|
           color.red = 0x6b
           color.green = 0x5c
           color.blue = 0xd2
-          color.alpha = 255 - (entity.percentage_lifetime * 255/100)
         end
-        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 2, entity.angle.to_degrees, 0.5, 0.5, size, size, color)
+        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 2, entity.angle.to_degrees, 0.5, 0.5, size, size, color, :additive)
+      end
+    end
+    class Explosion
+      extend Utils
+      def self.render(entity, viewport)
+        @image ||= Image['smoke.png']
+        color = fade_color(entity).tap do |color|
+          color.red = 0xff
+          color.green = 0x33
+          color.blue = 0x33
+        end
+        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 0, entity.angle.to_degrees, 0.5, 0.5, 0.75, 0.75, color, :additive)
       end
     end
     class CelestialBody

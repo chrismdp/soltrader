@@ -1,7 +1,7 @@
 module Sol
   module Game
     class Ship
-      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate, :trying_to_enter_planet_this_frame
+      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate, :trying_to_enter_planet_this_frame, :planet
       attr_accessor :debug_message
 
       include Sol::Game::Physical
@@ -82,13 +82,21 @@ module Sol
 
       def jump_into_gate(gate, destination_time_in_seconds)
         @gate = gate
-        @gate_destination_in_seconds = destination_time_in_seconds
+        @destination_in_seconds = destination_time_in_seconds
         @location.remove_later(self)
         @location = nil
       end
 
-      def gate_destination_in_seconds
-        gate.time_to(@gate_destination_in_seconds)
+      def in_gate?
+        @location.nil? && @gate
+      end
+
+      def time_to_destination_in_seconds
+        gate.time_to(@destination_in_seconds)
+      end
+
+      def destination
+        @gate.destination
       end
 
       def drop_in(location, position)
@@ -96,6 +104,28 @@ module Sol
         @location = location
         @location.add_later(self)
         self.position = position + @body.v
+      end
+
+      def enter_atmosphere(planet, destination_time_in_seconds)
+        @gate = planet
+        @destination_in_seconds = destination_time_in_seconds
+        @entering_atmosphere = true
+      end
+
+      def entering_atmosphere?
+        @entering_atmosphere
+      end
+
+      def land(planet)
+        @entering_atmosphere = false
+        @gate = nil
+        @location = nil
+        @planet = planet
+      end
+      
+      # TODO: This will come out in future when we have planet locations
+      def landed?
+        @planet
       end
 
       def process_received_input
@@ -144,6 +174,10 @@ module Sol
         offset = self.angle.radians_to_vec2
         position = self.body.p - offset * 25
         Sol::Game::Exhaust.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
+      end
+
+      def place_heat_shield_smoke
+        Sol::Game::Explosion.new(:location => @location, :position => position, :velocity => self.body.v, :angle => self.angle)
       end
 
       def fire_reverse_engines

@@ -29,6 +29,9 @@ module Sol
     end
     class Mist < Exhaust
     end
+
+    class Explosion < Exhaust
+    end
   end
 
 end
