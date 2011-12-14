@@ -104,9 +104,10 @@ module Sol
         do_changes
       end
 
+      RANGE = 400
       def nearest_to(target)
         distances = []
-        each_entity_with_box(target.x - 400, target.y - 400, target.x + 400, target.y + 400) do |entity|
+        each_entity_with_box(target.x - RANGE, target.y - RANGE, target.x + RANGE, target.y + RANGE) do |entity|
           next if entity == target || !entity.is_a?(Sol::Game::Ship)
           distances.push({:square_distance => (target.x - entity.x) ** 2 + (target.y - entity.y) ** 2, :entity => entity})
         end

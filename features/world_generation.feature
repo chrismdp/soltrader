@@ -3,6 +3,10 @@ Feature: World generation
   As a player
   I want to understand a real history of the events of the world
 
+  Scenario: Loading basic world map
+    When I load a world map
+    Then the map should be loaded correctly
+
   Scenario: Actors choosing options in the world
     Given a system at a starting state
     When an actor is created

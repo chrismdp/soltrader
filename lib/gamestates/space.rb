@@ -4,27 +4,7 @@ module Sol
       trait :viewport
 
       def setup_locations
-        #f = File.open("data/sol.yml")
-        #data = YAML.load(f)
-        #data["locations"].each do |record|
-          #@locations << Sol::Game::Location.new(location.symbolize_keys)
-        #end
-        #data["jump_gates"].each do |record|
-          #@jump_gates << Sol::Game::JumpGate.new(record.symbolize_keys)
-        #end
-
-        @locations = {}
-        @locations[:earth_orbit] = Sol::Game::Location.new(:name => "Earth Orbit", :width => 10000, :height => 10000)
-        @locations[:mars_orbit] = Sol::Game::Location.new(:name => "Mars Orbit", :width => 10000, :height => 10000)
-
-        jump_gates = {}
-        jump_gates[:earth_mars] = Sol::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations[:earth_orbit])
-        jump_gates[:mars_earth] = Sol::Game::JumpGate.new(:position => vec2(5000, 4500), :location => @locations[:mars_orbit])
-
-        jump_gates[:earth_mars].connect_to(jump_gates[:mars_earth])
-
-        Sol::Game::CelestialBody.new(:position => vec2(5000,5000), :location => @locations[:earth_orbit], :image => 'earth.png', :name => 'Earth')
-        Sol::Game::CelestialBody.new(:position => vec2(5000,4000), :location => @locations[:mars_orbit], :image => 'mars.png', :name => 'Mars')
+        @locations = Sol::Persistence::MapLoader.new("data/sol.yml").locations
       end
 
       def initialize

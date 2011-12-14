@@ -1,0 +1,30 @@
+---
+locations:
+  earth_orbit:
+    name: Earth Orbit
+    size: 10000
+    gates:
+      earth_to_mars:
+        x: 5000
+        y: 4500
+    celestial_bodies:
+      earth:
+        name: Earth
+        image: earth.png
+        x: 5000
+        y: 5000
+
+  mars_orbit:
+    name: Mars Orbit
+    size: 10000
+    gates:
+      mars_to_earth:
+        x: 5000
+        y: 4500
+        to: earth_to_mars
+    celestial_bodies:
+      mars:
+        name: Mars
+        image: mars.png
+        x: 5000
+        y: 4000

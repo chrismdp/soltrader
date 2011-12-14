@@ -7,4 +7,5 @@ require_relative "universe"
 require_relative "ai"
 require_relative "gamestates"
 require_relative "graphics"
+require_relative "persistence"
 
