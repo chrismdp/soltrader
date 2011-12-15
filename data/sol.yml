@@ -5,7 +5,10 @@ locations:
     size: 10000
     gates:
       earth_to_mars:
-        x: 5000
+        x: 2000
+        y: 1500
+      earth_to_venus:
+        x: 7000
         y: 4500
     celestial_bodies:
       earth:
@@ -13,18 +16,69 @@ locations:
         image: earth.png
         x: 6000
         y: 5000
-
+  mercury_orbit:
+    name: "Mercury Orbit"
+    size: 10000
+    gates:
+      mercury_to_venus:
+        x: 9000
+        y: 2000
+    celestial_bodies:
+  venus_orbit:
+    name: "Venus Orbit"
+    size: 10000
+    gates:
+      venus_to_mercury:
+        x: 1000
+        y: 8000
+        to: mercury_to_venus
+      venus_to_earth:
+        x: 8000
+        y: 5000
+        to: earth_to_venus
+    celestial_bodies:
   mars_orbit:
     name: Mars Orbit
     size: 10000
     gates:
       mars_to_earth:
-        x: 5000
+        x: 8000
         y: 4500
         to: earth_to_mars
+      mars_to_asteroid_inner:
+        x: 1000
+        y: 4500
     celestial_bodies:
       mars:
         name: Mars
         image: mars.png
         x: 5000
         y: 4000
+  asteroid_inner:
+    name: Asteroid Inner Rim
+    size: 10000
+    gates:
+      asteroid_inner_to_mars:
+        x: 1000
+        y: 1500
+        to: mars_to_asteroid_inner
+      asteroid_inner_to_rim:
+        x: 9000
+        y: 4500
+      asteroid_inner_to_celas:
+        x: 5500
+        y: 9500
+  celas_orbit:
+    name: Celas orbit
+    size: 10000
+    gates:
+      celas_to_inner:
+        x: 1000
+        y: 1500
+        to: asteroid_inner_to_celas
+      celas_to_forest:
+        x: 6000
+        y: 1000
+      celas_to_rim:
+        x: 9000
+        y: 9500
