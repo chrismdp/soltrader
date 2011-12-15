@@ -12,6 +12,12 @@ module Sol
       end
     end
 
+    GUI_LAYER = 100
+    SHIP_LAYER = 1
+    EFFECTS_LAYER = 2
+    CELESTIAL_BODY_LAYER = -1
+    JUMP_GATE_LAYER = 3
+
     class Ship
       attr :image
 
@@ -32,16 +38,16 @@ module Sol
           # FIXME: Relies on the time to enter the planet to be 5 seconds
           size = ((ship.time_to_destination_in_seconds+2)/7.0)
           ship.place_heat_shield_smoke
-          @font.draw("%s: %1.f" % [ship.destination, ship.time_to_destination_in_seconds], ship.x - viewport.x + 10, ship.y - viewport.y + 10, 5)
+          @font.draw("RE-ENTRY IN %1.f" % ship.time_to_destination_in_seconds, ship.x - viewport.x + 10, ship.y - viewport.y + 10, GUI_LAYER)
         end
-        graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, 1, ship.angle.to_degrees + 90, 0.5, 0.5, size, size)
+        graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, SHIP_LAYER, ship.angle.to_degrees + 90, 0.5, 0.5, size, size)
 
         # Show navigation bits prototype
         ship.location.each_entity do |entity|
           next if !entity.is_a?(Sol::Game::Gate)
           x = [[entity.x - viewport.x, 10].max, SCREEN_WIDTH - 60].min
           y = [[entity.y - viewport.y, 20].max, SCREEN_HEIGHT - 30].min
-          @font.draw("#{entity.destination}", x, y, 1, 1, 1, Gosu::Color.new(0x99ffffff))
+          @font.draw("#{entity.destination}", x, y, GUI_LAYER, 1, 1, Gosu::Color.new(0x99ffffff))
         end
       end
     end
@@ -50,7 +56,7 @@ module Sol
       extend Utils
       def self.render(bullet, viewport)
         @image ||= Image['bullet.png']
-        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, 2, bullet.angle.to_degrees, 0.5, 0.5, 1, 1, fade_color(bullet))
+        @image.draw_rot(bullet.x - viewport.x, bullet.y - viewport.y, EFFECTS_LAYER, bullet.angle.to_degrees, 0.5, 0.5, 1, 1, fade_color(bullet))
       end
     end
     class Smoke
@@ -58,7 +64,7 @@ module Sol
       def self.render(smoke, viewport)
         @image ||= Image['smoke.png']
         size = 0.25 + smoke.percentage_lifetime/200.0
-        @image.draw_rot(smoke.x - viewport.x, smoke.y - viewport.y, 2, smoke.angle.to_degrees, 0.5, 0.5, size, size, fade_color(smoke))
+        @image.draw_rot(smoke.x - viewport.x, smoke.y - viewport.y, EFFECTS_LAYER, smoke.angle.to_degrees, 0.5, 0.5, size, size, fade_color(smoke))
       end
     end
     class PurpleSmoke
@@ -71,7 +77,7 @@ module Sol
           color.green = 0x5c
           color.blue = 0xd2
         end
-        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 2, entity.angle.to_degrees, 0.5, 0.5, size, size, color, :additive)
+        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, EFFECTS_LAYER, entity.angle.to_degrees, 0.5, 0.5, size, size, color, :additive)
       end
     end
     class Explosion
@@ -99,14 +105,14 @@ module Sol
       end
 
       def self.render(body, viewport)
-        graphics_for(body).image.draw_rot(body.x - viewport.x, body.y - viewport.y, -1, body.angle.to_degrees + 90)
+        graphics_for(body).image.draw_rot(body.x - viewport.x, body.y - viewport.y, CELESTIAL_BODY_LAYER, body.angle.to_degrees + 90)
       end
     end
 
     class JumpGate
       def self.render(body, viewport)
         @image ||= Image['jumpgate.png']
-        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, 3, body.angle.to_degrees)
+        @image.draw_rot(body.x - viewport.x, body.y - viewport.y, JUMP_GATE_LAYER, body.angle.to_degrees)
         body.add_spooky_purple_smoke
       end
     end
