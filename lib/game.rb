@@ -12,6 +12,8 @@ require_relative "game/celestial_body"
 require_relative "game/jump_gate"
 
 module Sol
+  SCREEN_WIDTH = 800
+  SCREEN_HEIGHT = 600
   class Window < Chingu::Window
     def initialize(options = {})
       super(800, 600, false, 1000/60.0)
