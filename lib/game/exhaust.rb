@@ -13,8 +13,7 @@ module Sol
         @body.a = rand(2 * Math::PI)
         @body.v = options[:velocity] if options[:velocity]
         @body.w = rand(5)
-        @lifespan = Sol::Game::Lifespan.new(options[:lifetime] || 500)
-        
+        @lifespan = Sol::Game::Lifespan.new(options[:lifetime] || 1000)
         super
       end
 
