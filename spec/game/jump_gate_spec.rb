@@ -11,7 +11,7 @@ describe Sol::Game::JumpGate do
   end
 
   def connect!(loc = other_location)
-    Sol::Game::JumpGate.new(:position => vec2(1,1), :location => loc).tap do |other|
+    Sol::Game::JumpGate.new(:position => vec2(10,10), :location => loc).tap do |other|
       subject.connect_to(other)
     end
   end
@@ -40,16 +40,24 @@ describe Sol::Game::JumpGate do
   context "moving" do
     let(:ship) { double(:location => location).as_null_object }
 
-    it "removes ships from the current location" do
-      connect!
-      subject.update(100)
-      ship.should_receive(:jump_into_gate)
-      subject.move_from(ship)
-    end
 
     context "from" do
+      it "removes ships from the current location" do
+        connect!
+        subject.update(100)
+        ship.should_receive(:jump_into_gate)
+        subject.move_from(ship)
+      end
       it "raises if there's no connection" do
         expect { subject.move_from(ship) }.to raise_error
+      end
+    end
+
+    context "to" do
+      it "moves ships to the connected gate's position and location" do
+        other_gate = connect!
+        ship.should_receive(:drop_in).with(other_gate.location, other_gate.position)
+        subject.after_move_to(ship)
       end
     end
   end

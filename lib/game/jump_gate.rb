@@ -29,7 +29,7 @@ module Sol
       end
 
       def after_move_to(ship)
-        ship.drop_in(@connected_gate.location, position)
+        ship.drop_in(@connected_gate.location, @connected_gate.position)
       end
 
       def connect_to(other)
