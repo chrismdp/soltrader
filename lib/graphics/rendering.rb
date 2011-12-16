@@ -31,7 +31,7 @@ module Sol
       end
 
       def self.render(ship, viewport)
-        @font ||= Font["good-times.ttf", 15]
+        @font ||= Font["BebasNeue.otf", 25]
         ship.place_smoke if (ship.fired_engines_this_frame)
         size = 1
         if (ship.entering_atmosphere?)
@@ -45,7 +45,7 @@ module Sol
         # Show navigation bits prototype
         ship.location.each_entity do |entity|
           next if !entity.is_a?(Sol::Game::Gate)
-          x = [[entity.x - viewport.x, 10].max, SCREEN_WIDTH - 60].min
+          x = [[entity.x - viewport.x, 10].max, SCREEN_WIDTH - 110].min
           y = [[entity.y - viewport.y, 20].max, SCREEN_HEIGHT - 30].min
           @font.draw("#{entity.destination}", x, y, GUI_LAYER, 1, 1, Gosu::Color.new(0x99ffffff))
         end

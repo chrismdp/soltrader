@@ -104,12 +104,12 @@ module Sol
       def draw
         super
         @stars.draw
-        @font ||= Font["good-times.ttf", 35]
+        @font ||= Font["BebasNeue.otf", 75]
 
         if (@player_ship.in_gate?)
-          @font.draw("Hyperspace", 200, 200, 2)
-          @font.draw("Jumping to #{@player_ship.destination}", 200, 250, 2)
-          @font.draw("ETA %.1f" % [@player_ship.time_to_destination_in_seconds], 200, 300, 2)
+          @font.draw("Hyperspace", 200, 200, 2, 1, 1, 0xaaffffff)
+          @font.draw("Jumping to #{@player_ship.destination}", 200, 250, 2, 1, 1, 0xaaffffff)
+          @font.draw("ETA %.1f" % [@player_ship.time_to_destination_in_seconds], 200, 300, 2, 1, 1, 0xaaffffff)
           return
         end
 
