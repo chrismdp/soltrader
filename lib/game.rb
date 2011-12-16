@@ -12,11 +12,11 @@ require_relative "game/celestial_body"
 require_relative "game/jump_gate"
 
 module Sol
-  SCREEN_WIDTH = 800
-  SCREEN_HEIGHT = 600
+  SCREEN_WIDTH = 1024
+  SCREEN_HEIGHT = 768
   class Window < Chingu::Window
     def initialize(options = {})
-      super(800, 600, false, 1000/60.0)
+      super(SCREEN_WIDTH, SCREEN_HEIGHT, false, 1000/60.0)
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "media")
       self.input = { :escape => :ready_close }
       self.push_game_state(Sol::Gamestates::Space)
@@ -30,8 +30,27 @@ module Sol
       @closing = true
     end
 
+    def gc_stats(elapsed)
+      throttle(:gc, 1000, elapsed) do
+        #puts "\nGARBAGE COLLECTION"
+        # Not even close to exact, but gives a rough idea of what's being collected
+        #old_objects = ObjectSpace.count_objects.dup
+        GC.enable
+        ObjectSpace.garbage_collect
+        GC.disable
+        #new_objects = ObjectSpace.count_objects
+
+        #old_objects.each do |k,v|
+          #diff = v - new_objects[k]
+          #puts "#{k} #{diff} diff" if diff != 0
+        #end
+      end
+    end
+
+
     def update
       @frames += 1
+      gc_stats($window.milliseconds_since_last_tick)
       super
     end
 
