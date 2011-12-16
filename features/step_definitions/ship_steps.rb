@@ -37,6 +37,6 @@ Given /^a ship ordered to travel between the two locations$/ do
   @minds.last.destination = @second_location
 end
 
-Then /^the ship should pathfind to the second location$/ do
+Then /^the ship should travel to the second location$/ do
   @ships.last.position.should_not == vec2(1000,1000)
 end

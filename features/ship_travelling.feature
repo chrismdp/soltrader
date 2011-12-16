@@ -8,5 +8,4 @@ Feature: Ship travelling
     And another location connected via a jump gate
     And a ship ordered to travel between the two locations
     When I run the simulation
-    Then the ship should pathfind to the second location
-    And the ship should travel in that direction
+    Then the ship should travel to the second location
