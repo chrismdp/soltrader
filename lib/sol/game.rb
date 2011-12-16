@@ -17,7 +17,7 @@ module Sol
   class Window < Chingu::Window
     def initialize(options = {})
       super(SCREEN_WIDTH, SCREEN_HEIGHT, false, 1000/60.0)
-      Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "media")
+      Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "..", "media")
       self.input = { :escape => :ready_close }
       self.push_game_state(Sol::Gamestates::Space)
       @closing = false
