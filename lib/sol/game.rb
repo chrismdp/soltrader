@@ -5,7 +5,6 @@ require_relative "game/ship"
 require_relative "game/pieces"
 require_relative "game/schematic"
 require_relative "game/location"
-require_relative "game/ship_ai"
 require_relative "game/bullet"
 require_relative "game/exhaust"
 require_relative "game/celestial_body"
@@ -31,7 +30,7 @@ module Sol
     end
 
     def gc_stats(elapsed)
-      throttle(:gc, 1000, elapsed) do
+      throttle(:gc, 200, elapsed) do
         #puts "\nGARBAGE COLLECTION"
         # Not even close to exact, but gives a rough idea of what's being collected
         #old_objects = ObjectSpace.count_objects.dup
