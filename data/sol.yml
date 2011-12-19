@@ -24,6 +24,11 @@ locations:
         x: 9000
         y: 2000
     celestial_bodies:
+      mercury:
+        name: Mercury
+        image: mercury.png
+        x: 3000
+        y: 1000
   venus_orbit:
     name: "Venus Orbit"
     size: 10000
@@ -37,6 +42,11 @@ locations:
         y: 5000
         to: earth_to_venus
     celestial_bodies:
+      venus:
+        name: Venus
+        image: venus.png
+        x: 5000
+        y: 5000
   mars_orbit:
     name: Mars Orbit
     size: 10000
