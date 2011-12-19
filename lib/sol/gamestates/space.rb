@@ -17,10 +17,10 @@ module Sol
         @schematic.draw(Sol::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
         @schematic.draw(Sol::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
 
-        @player_ship = Sol::Game::Ship.new(:schematic => @schematic, :x => 5000, :y => 5050, :location => @locations[:earth_orbit])
+        @player_ship = Sol::Game::Ship.new(:schematic => @schematic, :x => 6000, :y => 5050, :location => @locations[:earth_orbit])
 
         @minds = []
-        #add_ships(100)
+        #add_ships(200)
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @locations[:earth_orbit].width, @locations[:earth_orbit].height]
@@ -38,10 +38,10 @@ module Sol
 
       def add_ships(x)
         x.times do
-          ship = Sol::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @locations[:earth_orbit])
-          actor = Sol::Ai::Actor.new :behaviours => [:travel]
+          ship = Sol::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @locations.values[rand(@locations.size)])
+          actor = Sol::Ai::Actor.new :behaviours => [rand < 0.5 ? :travel : :awol]
           actor.take_controls_of(ship)
-          actor.destination = @locations[:mars_orbit]
+          actor.destination = @locations.values[rand(@locations.size)]
           @minds << actor
         end
       end
@@ -91,11 +91,13 @@ module Sol
         @locations.values.each { |l| l.update(elapsed) }
         #@stars.update(viewport)
         self.viewport.center_around(@player_ship)
-        caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
-        if @player_ship.location
-          caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
+        throttle :caption, 200, elapsed do
+          caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
+          if @player_ship.location
+            caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
+          end
+          $window.caption = caption
         end
-        $window.caption = caption
       end
 
       def draw
