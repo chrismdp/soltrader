@@ -30,6 +30,8 @@ module Sol
         @image ||= SchematicRenderer.new(ship).render
       end
 
+      RIM_WIDTH = SCREEN_WIDTH - 110
+      RIM_HEIGHT = SCREEN_HEIGHT - 30
       def self.render(ship, viewport)
         @font ||= Font["BebasNeue.otf", 25]
         ship.place_smoke if (ship.fired_engines_this_frame)
@@ -45,8 +47,12 @@ module Sol
         # Show navigation bits prototype
         ship.location.each_entity do |entity|
           next if !entity.is_a?(Sol::Game::Gate)
-          x = [[entity.x - viewport.x, 10].max, SCREEN_WIDTH - 110].min
-          y = [[entity.y - viewport.y, 20].max, SCREEN_HEIGHT - 30].min
+          x = entity.x - viewport.x
+          x = (x < 10 ? 10: x)
+          x = (x > RIM_WIDTH ? RIM_WIDTH : x)
+          y = entity.y - viewport.y
+          y = (y < 20 ? 20: y)
+          y = (y > RIM_HEIGHT ? RIM_HEIGHT : y)
           @font.draw("#{entity.destination}", x, y, GUI_LAYER, 1, 1, Gosu::Color.new(0x99ffffff))
         end
       end
