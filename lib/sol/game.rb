@@ -30,7 +30,7 @@ module Sol
     end
 
     def gc_stats(elapsed)
-      throttle(:gc, 200, elapsed) do
+      throttle(:gc, 5000, elapsed) do
         #puts "\nGARBAGE COLLECTION"
         # Not even close to exact, but gives a rough idea of what's being collected
         #old_objects = ObjectSpace.count_objects.dup

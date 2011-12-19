@@ -33,7 +33,7 @@ module Sol
           :space => :fire
         }
 
-        @stars = Graphics::BackgroundStars.new
+        #@stars = Graphics::BackgroundStars.new
       end
 
       def add_ships(x)
@@ -85,25 +85,22 @@ module Sol
       end
 
       def update
-        super
         elapsed = $window.milliseconds_since_last_tick
+        super
         @minds.each { |ai| ai.update(elapsed) }
         @locations.values.each { |l| l.update(elapsed) }
-
-        @stars.update(viewport)
+        #@stars.update(viewport)
         self.viewport.center_around(@player_ship)
-        throttle(:caption, 1000, elapsed) do
-          caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
-          if @player_ship.location
-            caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
-          end
-          $window.caption = caption
+        caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
+        if @player_ship.location
+          caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
         end
+        $window.caption = caption
       end
 
       def draw
         super
-        @stars.draw
+        #@stars.draw
         @font ||= Font["BebasNeue.otf", 75]
 
         if (@player_ship.in_gate?)
