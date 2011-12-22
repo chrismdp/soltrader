@@ -20,4 +20,11 @@ describe Sol::Game::CelestialBody do
       subject.after_move_from(ship, 1)
     end
   end
+
+  context "landing" do
+    it "asks the ship to land" do
+      ship.should_receive(:land).with(subject)
+      subject.after_move_to(ship)
+    end
+  end
 end
