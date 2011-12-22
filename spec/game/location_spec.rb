@@ -16,6 +16,12 @@ describe Sol::Game::Location do
   subject { Sol::Game::Location.new(:width => 1000, :height => 1001, :name => "name") }
   let(:space) { double.as_null_object }
 
+  it "can be created with different physics" do
+    klass = double
+    klass.should_receive(:new)
+    Sol::Game::Location.new(:width => 1000, :height => 1001, :name => "name", :physics => klass)
+  end
+
   context "with fake physics" do
     before { Sol::Game::Space.stub(:new => space) }
 
@@ -47,8 +53,8 @@ describe Sol::Game::Location do
     end
 
     it "allows updating of the physics" do
-      space.should_receive(:update_physics).with(0)
-      subject.update_physics(0)
+      space.should_receive(:update).with(0)
+      subject.update(0)
     end
 
 
@@ -76,7 +82,7 @@ describe Sol::Game::Location do
     outside = Sol::Game::Bullet.new(:location => subject, :position => vec2(200, 200), :velocity => CP::Vec2::ZERO, :angle => 0)
 
     entities = []
-    subject.update_physics(0)
+    subject.update(0)
     subject.each_entity_with_box(0,0,50,50) do |entity|
       entities << entity
     end

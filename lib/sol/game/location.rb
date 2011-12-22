@@ -10,7 +10,7 @@ module Sol
         @placements = {}
         @remove_list = []
         @add_list = []
-        @space = Space.new(:location => self)
+        @space = (options[:physics] || Space).new(:location => self)
       end
 
       def place(entity)
@@ -65,11 +65,7 @@ module Sol
           remove = entity.update(elapsed)
           remove(entity) if remove
         end
-        update_physics(elapsed)
-      end
-
-      def update_physics(dt)
-        @space.update_physics(dt)
+        @space.update(elapsed)
         do_changes
       end
 

@@ -27,9 +27,9 @@ describe Sol::Game::Space do
     subject.remove(shape)
   end
 
-  it "allows physics update" do
+  it "allows update" do
     space.should_receive(:step).with(1/1000.0)
-    subject.update_physics(1)
+    subject.update(1)
   end
 
   it "returns all things within a bounding box" do

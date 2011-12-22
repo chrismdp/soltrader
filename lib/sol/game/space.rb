@@ -45,7 +45,7 @@ module Sol
         @space.remove_shape(shape)
       end
 
-      def update_physics(elapsed)
+      def update(elapsed)
         @space.step(elapsed/1000.0)
       end
 
