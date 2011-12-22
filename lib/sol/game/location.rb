@@ -10,53 +10,18 @@ module Sol
         @placements = {}
         @remove_list = []
         @add_list = []
-        setup_space
-      end
-
-      def setup_space
-        @space = CP::Space.new
-        @space.damping = 0.75
- 
-        @space.add_collision_func(:ship, :bullet) do |ship_shape, bullet_shape|
-          remove_later(@placements[bullet_shape.body])
-          if (ship = @placements[ship_shape.body])
-            ship.hit!
-            if (ship.dead?)
-              remove_later(ship)
-              false
-            end
-          end
-          true
-        end
-
-        @space.add_collision_func(:ship, :gate) do |ship_shape, gate_shape|
-          ship = @placements[ship_shape.body]
-          if (ship.location == self) # might have already moved this frame
-            @placements[gate_shape.body].move_from(ship)
-          end
-          false
-        end
-
-        @space.add_collision_func(:ship, :celestial_body) do |ship_shape, celestial_body_shape|
-          ship = @placements[ship_shape.body]
-          if (ship.trying_to_enter_planet_this_frame && ship.location == self) # might have already moved this frame
-            @placements[celestial_body_shape.body].move_from(ship)
-          end
-          false
-        end
+        @space = Space.new(:location => self)
       end
 
       def place(entity)
         @placements[entity.body] = entity
-        @space.add_body(entity.body)
-        @space.add_shape(entity.shape)
+        @space.add(entity.shape)
       end
 
       def remove(entity)
         return if entity.nil?
         @placements.delete(entity.body)
-        @space.remove_body(entity.body)
-        @space.remove_shape(entity.shape)
+        @space.remove(entity.shape)
       end
 
       def remove_later(entity)
@@ -82,9 +47,13 @@ module Sol
 
       def each_entity_with_box(left, top, right, bottom)
         bb = CP::BB.new(left, top, right, bottom)
-        @space.bb_query(bb) do |shape|
-          yield @placements[shape.body]
+        @space.all_within(bb) do |shape|
+          yield from_shape(shape)
         end
+      end
+
+      def from_shape(shape)
+        @placements[shape.body]
       end
 
       def entity_count
@@ -100,7 +69,7 @@ module Sol
       end
 
       def update_physics(dt)
-        @space.step(dt/1000.0)
+        @space.update_physics(dt)
         do_changes
       end
 

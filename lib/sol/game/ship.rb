@@ -123,7 +123,7 @@ module Sol
         @location = nil
         @planet = planet
       end
-      
+
       # TODO: This will come out in future when we have planet locations
       def landed?
         @planet

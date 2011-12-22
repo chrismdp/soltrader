@@ -3,6 +3,7 @@ require 'chipmunk'
 
 require 'core_ext/radians_to_vec2'
 require 'game/physical'
+require 'game/space'
 require 'game/gate'
 require 'game/bullet'
 require 'game/ship'
@@ -16,13 +17,13 @@ describe Sol::Game::Location do
   let(:space) { double.as_null_object }
 
   context "with fake physics" do
-    before { CP::Space.stub(:new => space) }
+    before { Sol::Game::Space.stub(:new => space) }
 
     context "placing" do
       it "adds any placed objects to an internal CP::Space" do
-        space.should_receive(:add_body)
-        space.should_receive(:add_shape)
-        subject.place(entity)
+        expect {
+          subject.place(entity)
+        }.to change(subject, :entity_count).from(0).to(1)
       end
     end
 
@@ -46,7 +47,7 @@ describe Sol::Game::Location do
     end
 
     it "allows updating of the physics" do
-      space.should_receive(:step).with(0)
+      space.should_receive(:update_physics).with(0)
       subject.update_physics(0)
     end
 
@@ -61,6 +62,11 @@ describe Sol::Game::Location do
       subject.each_entity do |yielded_object|
         yielded_object.should == entity
       end
+    end
+
+    it "allows finding by shape" do
+      subject.place(entity)
+      subject.from_shape(entity.shape).should == entity
     end
   end
 
