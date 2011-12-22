@@ -25,7 +25,7 @@ module Sol
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @locations[:earth_orbit].width, @locations[:earth_orbit].height]
         self.input = {
-          :e => :enter_planet,
+          :e => :attempt_interact,
           :holding_up => :go_faster,
           :holding_down => :go_slower,
           :holding_left => :turn_left,
@@ -46,8 +46,8 @@ module Sol
         end
       end
 
-      def enter_planet
-        @player_ship.order :enter_planet
+      def attempt_interact
+        @player_ship.order :attempt_interact
       end
 
       def go_faster

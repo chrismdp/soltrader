@@ -2,7 +2,7 @@ module Sol
   module Game
     class Ship
       MAXIMUM_SPEED_TO_ENTER_ATMOSPHERE = 500
-      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate, :trying_to_enter_planet_this_frame, :planet
+      attr :pieces, :lives, :location, :fired_engines_this_frame, :gate, :planet
       attr_accessor :debug_message
 
       include Sol::Game::Physical
@@ -68,7 +68,7 @@ module Sol
 
       def update(elapsed)
         @fired_engines_this_frame = false
-        @trying_to_enter_planet_this_frame = false
+        @attempting_interact = false
         @elapsed = elapsed
         @shape.body.w *= ROTATIONAL_DAMPING
         process_received_input
@@ -151,10 +151,18 @@ module Sol
         end
       end
 
-      def enter_planet
+      def attempt_interact
         if (@body.v.lengthsq < MAXIMUM_SPEED_TO_ENTER_ATMOSPHERE)
-          @trying_to_enter_planet_this_frame = true
+          @attempting_interact = true
         end
+      end
+
+      def attempting_interact?
+        @attempting_interact
+      end
+
+      def interact_acknowledged!
+        @attempting_interact = false
       end
 
       def bolt_on(piece)

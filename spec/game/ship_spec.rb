@@ -32,6 +32,19 @@ describe Sol::Game::Ship do
     end
   end
 
+  context "interaction with location" do
+    it "can attempt interacts" do
+      subject.attempt_interact
+      subject.should be_attempting_interact
+    end
+
+    it "can record acknowledgment of the interact" do
+      subject.attempt_interact
+      subject.interact_acknowledged!
+      subject.should_not be_attempting_interact
+    end
+  end
+
   context "pieces" do
     it "has pieces" do
       subject.bolt_on(hull)

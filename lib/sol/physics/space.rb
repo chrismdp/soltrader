@@ -27,7 +27,8 @@ module Sol
 
         @space.add_collision_func(:ship, :celestial_body) do |ship_shape, celestial_body_shape|
           ship = @location.from_shape(ship_shape)
-          if (ship.trying_to_enter_planet_this_frame && ship.location == self) # might have already moved this frame
+          if (ship.attempting_interact?) # might have already moved this frame
+            ship.interact_acknowledged!
             @location.from_shape(celestial_body_shape).move_from(ship)
           end
           false
