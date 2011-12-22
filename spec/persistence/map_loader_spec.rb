@@ -2,6 +2,7 @@ require 'spec_helper'
 
 require 'chipmunk'
 require 'game/location'
+require 'game/space'
 require 'game/physical'
 require 'game/gate'
 require 'game/jump_gate'
