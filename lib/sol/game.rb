@@ -17,7 +17,7 @@ module Sol
     def initialize(options = {})
       super(SCREEN_WIDTH, SCREEN_HEIGHT, false, 16)
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "..", "media")
-      self.input = { :escape => :ready_close }
+      self.input = { :q => :ready_close }
       self.push_game_state(Sol::Gamestates::Space)
       @closing = false
       @time_started = Time.now

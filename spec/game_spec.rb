@@ -3,7 +3,7 @@ require 'spec_gosu'
 describe Sol::Game do
   describe "setup" do
     it "sets up escape to quit" do
-      $window.input.keys.should include(:escape)
+      $window.input.keys.should include(:q)
     end
 
     it "pushes the space state" do

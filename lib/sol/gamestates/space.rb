@@ -7,15 +7,18 @@ module Sol
         @locations = Sol::Persistence::MapLoader.new("data/sol.yml").locations
       end
 
-      def initialize
-        super
-        setup_locations
-
+      def setup_schematic
         @schematic = Sol::Game::Schematic.new
         @schematic.draw(Sol::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
         @schematic.draw(Sol::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
         @schematic.draw(Sol::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
         @schematic.draw(Sol::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
+      end
+
+      def initialize
+        super
+        setup_locations
+        setup_schematic
 
         @player_ship = Sol::Game::Ship.new(:schematic => @schematic, :x => 6000, :y => 5050, :location => @locations[:earth_orbit])
 
@@ -24,16 +27,18 @@ module Sol
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @locations[:earth_orbit].width, @locations[:earth_orbit].height]
+
         self.input = {
           :e => :attempt_interact,
           :holding_up => :go_faster,
           :holding_down => :go_slower,
           :holding_left => :turn_left,
           :holding_right => :turn_right,
-          :space => :fire
+          :space => :fire,
+          :p => :pause
         }
 
-        #@stars = Graphics::BackgroundStars.new
+        @stars = Graphics::BackgroundStars.new
       end
 
       def add_ships(x)
@@ -70,6 +75,10 @@ module Sol
         @player_ship.order :fire
       end
 
+      def pause
+        push_game_state(Chingu::GameStates::FadeTo.new(Chingu::GameStates::Pause, :speed => 30))
+      end
+
       # stub implementation just return the equiv gfx object for now
       def graphics_class_for(entity, location)
         @klasses ||= {
@@ -89,8 +98,16 @@ module Sol
         super
         @minds.each { |ai| ai.update(elapsed) }
         @locations.values.each { |l| l.update(elapsed) }
-        #@stars.update(viewport)
+        @stars.update(viewport)
         self.viewport.center_around(@player_ship)
+        if (@player_ship.landed?)
+          gamestate = Sol::Gamestates::Planet.new(:planet => @player_ship.planet)
+          push_game_state(Chingu::GameStates::FadeTo.new(gamestate, :speed => 10))
+        end
+        update_caption(elapsed)
+      end
+
+      def update_caption(elapsed)
         throttle :caption, 200, elapsed do
           caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
           if @player_ship.location
@@ -102,18 +119,13 @@ module Sol
 
       def draw
         super
-        #@stars.draw
+        @stars.draw
         @font ||= Font["BebasNeue.otf", 75]
 
         if (@player_ship.in_gate?)
           @font.draw("Hyperspace", 200, 200, 2, 1, 1, 0xaaffffff)
           @font.draw("Jumping to #{@player_ship.destination}", 200, 250, 2, 1, 1, 0xaaffffff)
           @font.draw("ETA %.1f" % [@player_ship.time_to_destination_in_seconds], 200, 300, 2, 1, 1, 0xaaffffff)
-          return
-        end
-
-        if (@player_ship.landed?)
-          @font.draw("LANDED ON #{@player_ship.planet.name}", 200, 200, 2)
           return
         end
 

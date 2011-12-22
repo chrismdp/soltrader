@@ -9,6 +9,9 @@ module Sol
 
       def remove(shape)
       end
+
+      def all_within(bb)
+      end
     end
   end
 end

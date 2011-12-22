@@ -12,5 +12,13 @@ describe Sol::Physics::Planet do
       subject.add(shape)
       subject.remove(shape)
     end
+
+    it "returns nothing from the 'all_within' queries" do
+      run = false
+      subject.all_within(double) do
+        run = true
+      end
+      run.should be_false
+    end
   end
 end
