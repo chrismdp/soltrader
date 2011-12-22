@@ -1,7 +1,7 @@
 module Sol
   module Game
     class CelestialBody
-      attr :image, :name
+      attr :image, :name, :inner_location
 
       include Sol::Game::Physical
       include Sol::Game::Gate
@@ -15,7 +15,7 @@ module Sol
         @body.p = options[:position]
         @image = options[:image]
         @name = options[:name]
-
+        @inner_location = Sol::Game::Location.new(:physics => Physics::Planet)
         super
       end
 

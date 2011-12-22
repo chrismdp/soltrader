@@ -10,7 +10,7 @@ module Sol
         @placements = {}
         @remove_list = []
         @add_list = []
-        @space = (options[:physics] || Space).new(:location => self)
+        @space = (options[:physics] || Physics::Space).new(:location => self)
       end
 
       def place(entity)

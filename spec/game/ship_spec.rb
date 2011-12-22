@@ -147,7 +147,7 @@ describe Sol::Game::Ship do
     end
 
     context "entering atmosphere" do
-      let(:planet) { double }
+      let(:planet) { double(:inner_location => double) }
       it "starts the entry process" do
         subject.enter_atmosphere(planet, 1)
         subject.should be_entering_atmosphere
@@ -157,7 +157,7 @@ describe Sol::Game::Ship do
         subject.enter_atmosphere(planet, 1)
         subject.land(planet)
         subject.should_not be_entering_atmosphere
-        subject.location.should be_nil
+        subject.location.should == planet.inner_location
         subject.gate.should be_nil
       end
 

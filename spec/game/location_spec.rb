@@ -3,7 +3,7 @@ require 'chipmunk'
 
 require 'core_ext/radians_to_vec2'
 require 'game/physical'
-require 'game/space'
+require 'physics/space'
 require 'game/gate'
 require 'game/bullet'
 require 'game/ship'
@@ -23,7 +23,7 @@ describe Sol::Game::Location do
   end
 
   context "with fake physics" do
-    before { Sol::Game::Space.stub(:new => space) }
+    before { Sol::Physics::Space.stub(:new => space) }
 
     context "placing" do
       it "adds any placed objects to an internal CP::Space" do

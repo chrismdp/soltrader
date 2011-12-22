@@ -120,7 +120,7 @@ module Sol
       def land(planet)
         @entering_atmosphere = false
         @gate = nil
-        @location = nil
+        @location = planet.inner_location
         @planet = planet
       end
 

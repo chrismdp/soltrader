@@ -1,5 +1,5 @@
 module Sol
-  module Game
+  module Physics
     class Space
       def initialize(options)
         @location = options[:location]

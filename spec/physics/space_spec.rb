@@ -1,15 +1,15 @@
 require 'spec_helper'
 require 'chipmunk'
 
-require 'game/space'
+require 'physics/space'
 
-describe Sol::Game::Space do
+describe Sol::Physics::Space do
   let(:body) { CP::Body.new(1,1) }
   let(:shape) { CP::Shape::Circle.new(body, 1, CP::Vec2::ZERO) }
   let(:space) { double.as_null_object }
   let(:location) { double.as_null_object }
 
-  subject { Sol::Game::Space.new(:location => location) }
+  subject { Sol::Physics::Space.new(:location => location) }
 
   before do
     CP::Space.stub(:new => space)
