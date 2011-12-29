@@ -132,6 +132,7 @@ module Sol
         @player_ship.location.each_entity_with_box(self.viewport.x - 256, self.viewport.y - 256, self.viewport.x + $window.width + 256, self.viewport.y + $window.height + 256) do |entity|
           graphics_class_for(entity, @player_ship.location).render(entity, self.viewport)
         end
+        Sol::Graphics::Ship.render_navigation_aids_for(@player_ship, viewport)
       end
     end
   end

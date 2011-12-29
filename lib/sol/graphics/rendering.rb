@@ -43,8 +43,9 @@ module Sol
           @font.draw("RE-ENTRY IN %1.f" % ship.time_to_destination_in_seconds, ship.x - viewport.x + 10, ship.y - viewport.y + 10, GUI_LAYER)
         end
         graphics_for(ship).image.draw_rot(ship.x - viewport.x, ship.y - viewport.y, SHIP_LAYER, ship.angle.to_degrees + 90, 0.5, 0.5, size, size)
+      end
 
-        # Show navigation bits prototype
+      def self.render_navigation_aids_for(ship, viewport)
         ship.location.each_entity do |entity|
           next if !entity.is_a?(Sol::Game::Gate)
           x = entity.x - viewport.x
