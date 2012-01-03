@@ -39,7 +39,7 @@ module Sol
           :p => :pause
         }
 
-        @stars = Graphics::BackgroundStars.new
+        #@stars = Graphics::BackgroundStars.new
       end
 
       def add_ships(x)
@@ -99,7 +99,7 @@ module Sol
         super
         @minds.each { |ai| ai.update(@elapsed) }
         @locations.values.each { |l| l.update(@elapsed) }
-        @stars.update(viewport)
+        #@stars.update(viewport)
         self.viewport.center_around(@player_ship)
         if (@player_ship.landed?)
           gamestate = Sol::Gamestates::Planet.new(:planet => @player_ship.planet)
@@ -120,7 +120,7 @@ module Sol
 
       def draw
         super
-        @stars.draw
+        #@stars.draw
         @font ||= Font["BebasNeue.otf", 75]
 
         if (@player_ship.in_gate?)
