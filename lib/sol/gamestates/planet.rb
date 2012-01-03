@@ -11,7 +11,7 @@ module Sol
       end
 
       def draw
-        @background.draw_rot(0, 0, 0, 0, 0, 0, 1, 1, 0x99ffffff)
+        previous_game_state.draw
 
         @big_font.draw("Welcome to #{@planet.name}", 100, 125, 2, 1, 1, @text_color)
         @normal_font.draw("1.   Trade at the market", 200, 300, 2, 1, 1, @text_color)

@@ -3,32 +3,17 @@ module Sol
     class Space < Chingu::GameState
       trait :viewport
 
-      def setup_locations
-        @locations = Sol::Persistence::MapLoader.new("data/sol.yml").locations
-      end
 
-      def setup_schematic
-        @schematic = Sol::Game::Schematic.new
-        @schematic.draw(Sol::Game::HullPiece.new(:x => 0, :y => 0, :width => 48, :height => 48))
-        @schematic.draw(Sol::Game::CockpitPiece.new(:x => 3, :y => 2, :width => 5, :height => 5))
-        @schematic.draw(Sol::Game::EnginePiece.new(:x => 2, :y => 4, :width => 5, :height => 5))
-        @schematic.draw(Sol::Game::EnginePiece.new(:x => 4, :y => 4, :width => 5, :height => 5))
-      end
+      def initialize(location, player_ship)
+        super()
 
-      def initialize
-        super
-        setup_locations
-        setup_schematic
-
-        @player_ship = Sol::Game::Ship.new(:schematic => @schematic, :x => 6000, :y => 5050, :location => @locations[:earth_orbit])
-
-        @minds = []
-        #add_ships(200)
         @elapsed = 0
 
-        self.viewport.lag = 0.95
-        self.viewport.game_area = [0, 0, @locations[:earth_orbit].width, @locations[:earth_orbit].height]
+        @location = location
+        @player_ship = player_ship
 
+        self.viewport.lag = 0.95
+        self.viewport.game_area = [0, 0, @location.width, @location.height]
         self.input = {
           :e => :attempt_interact,
           :holding_up => :go_faster,
@@ -42,15 +27,6 @@ module Sol
         @stars = Graphics::BackgroundStars.new
       end
 
-      def add_ships(x)
-        x.times do
-          ship = Sol::Game::Ship.new(:schematic => @schematic, :x => rand(3000) + 3500, :y => rand(3000) + 3500, :location => @locations.values[rand(@locations.size)])
-          actor = Sol::Ai::Actor.new :behaviours => [rand < 0.5 ? :travel : :awol]
-          actor.take_controls_of(ship)
-          actor.destination = @locations.values[rand(@locations.size)]
-          @minds << actor
-        end
-      end
 
       def attempt_interact
         @player_ship.order :attempt_interact
@@ -97,8 +73,6 @@ module Sol
       def update
         @elapsed = $window.milliseconds_since_last_tick
         super
-        @minds.each { |ai| ai.update(@elapsed) }
-        @locations.values.each { |l| l.update(@elapsed) }
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
         if (@player_ship.landed?)
@@ -110,11 +84,7 @@ module Sol
 
       def update_caption
         throttle :caption, 200, @elapsed do
-          caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{@elapsed} "
-          if @player_ship.location
-            caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
-          end
-          $window.caption = caption
+          $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{@elapsed} Current Location: #{@location.name} Entities: #{@location.entity_count}"
         end
       end
 
@@ -130,8 +100,8 @@ module Sol
           return
         end
 
-        @player_ship.location.each_entity_with_box(self.viewport.x - 256, self.viewport.y - 256, self.viewport.x + $window.width + 256, self.viewport.y + $window.height + 256) do |entity|
-          graphics_class_for(entity, @player_ship.location).render(entity, self.viewport)
+        @location.each_entity_with_box(self.viewport.x - 256, self.viewport.y - 256, self.viewport.x + $window.width + 256, self.viewport.y + $window.height + 256) do |entity|
+          graphics_class_for(entity, @location).render(entity, self.viewport)
         end
         Sol::Graphics::Ship.render_navigation_aids_for(@player_ship, viewport)
       end

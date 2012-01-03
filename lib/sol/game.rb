@@ -18,7 +18,9 @@ module Sol
       super(SCREEN_WIDTH, SCREEN_HEIGHT, false, 16)
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "..", "media")
       self.input = { :q => :ready_close, :f2 => :profile }
-      self.push_game_state(Sol::Gamestates::Space)
+      @system = Sol::Universe::System.create
+      space = Sol::Gamestates::Space.new(@system.locations[:earth_orbit], @system.player_ship)
+      self.push_game_state(space)
       @closing = false
       @time_started = Time.now
       @frames = 0
@@ -56,6 +58,7 @@ module Sol
       @elapsed = $window.milliseconds_since_last_tick
       @frames += 1
       gc_stats($window.milliseconds_since_last_tick)
+      @system.update(@elapsed)
       super
     end
 

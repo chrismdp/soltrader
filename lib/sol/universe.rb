@@ -1,1 +1,1 @@
-require_relative "universe/planet"
+require_relative "universe/system"
