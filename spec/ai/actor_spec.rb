@@ -3,7 +3,6 @@ require 'shared_examples/ai/child_policies/run_children_by_priority'
 require 'ai/child_policies/run_children_by_priority'
 require 'singleton'
 require 'ai/behaviour'
-require 'ai/behaviour/root'
 require 'ai/actor'
 
 describe Sol::Ai::Actor do
