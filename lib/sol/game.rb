@@ -17,12 +17,17 @@ module Sol
     def initialize(options = {})
       super(SCREEN_WIDTH, SCREEN_HEIGHT, false, 16)
       Gosu::Image.autoload_dirs << File.join(File.dirname(__FILE__), "..", "..", "media")
-      self.input = { :q => :ready_close }
+      self.input = { :q => :ready_close, :f2 => :profile }
       self.push_game_state(Sol::Gamestates::Space)
       @closing = false
       @time_started = Time.now
       @frames = 0
       @frame_count = options[:frame_count] || 0
+    end
+
+    def profile
+      puts "PROFILE START"
+      @profiler = PerfTools::CpuProfiler.start("sol.profile")
     end
 
     def ready_close
@@ -64,6 +69,7 @@ module Sol
     end
 
     def close
+      PerfTools::CpuProfiler.stop if @profiler
       duration = (Time.now - @time_started).to_i
       if (duration > 0)
         puts "#{@frames} in #{duration} AVG: #{@frames / duration}"
