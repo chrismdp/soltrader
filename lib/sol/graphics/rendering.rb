@@ -1,14 +1,24 @@
 module Sol
   module Graphics
     module Utils
-      def fade_color(entity)
-        Gosu::Color::WHITE.dup.tap do |color|
-          if (entity.percentage_lifetime < 10)
-            color.alpha = (255 * entity.percentage_lifetime / 10)
-          else
-            color.alpha = 255 - (entity.percentage_lifetime * 255/100)
+      GRADES = 10
+      def base_color
+        Gosu::Color.new(0xffffffff)
+      end
+      def make_colors
+        if @fade_colors.nil?
+          @fade_colors = {}
+          (GRADES+1).times do |x|
+            @fade_colors[x] = base_color.tap do |color|
+              color.alpha = 255 / (x+1)
+            end
           end
         end
+        @fade_colors
+      end
+      def fade_color(entity)
+        col = entity.percentage_lifetime < 10 ? 10 - entity.percentage_lifetime : entity.percentage_lifetime / GRADES
+        (@fade_color ||= make_colors).fetch(col)
       end
     end
 
@@ -76,27 +86,23 @@ module Sol
     end
     class PurpleSmoke
       extend Utils
+      def self.base_color
+        Gosu::Color.new(0xff6b5cd2)
+      end
       def self.render(entity, viewport)
         @image ||= Image['smoke.png']
         size = 2 + entity.percentage_lifetime/200.0
-        color = fade_color(entity).tap do |color|
-          color.red = 0x6b
-          color.green = 0x5c
-          color.blue = 0xd2
-        end
-        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, EFFECTS_LAYER, entity.angle.to_degrees, 0.5, 0.5, size, size, color, :additive)
+        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, EFFECTS_LAYER, entity.angle.to_degrees, 0.5, 0.5, size, size, fade_color(entity), :additive)
       end
     end
     class Explosion
       extend Utils
+      def self.base_color
+        Gosu::Color.new(0xffff3333)
+      end
       def self.render(entity, viewport)
         @image ||= Image['smoke.png']
-        color = fade_color(entity).tap do |color|
-          color.red = 0xff
-          color.green = 0x33
-          color.blue = 0x33
-        end
-        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 0, entity.angle.to_degrees, 0.5, 0.5, 0.75, 0.75, color, :additive)
+        @image.draw_rot(entity.x - viewport.x, entity.y - viewport.y, 0, entity.angle.to_degrees, 0.5, 0.5, 0.75, 0.75, fade_color(entity), :additive)
       end
     end
     class CelestialBody
