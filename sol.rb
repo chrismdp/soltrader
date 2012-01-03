@@ -13,7 +13,7 @@ require 'perftools'
 if ARGV.first == '--profile'
   puts "Profiling"
   PerfTools::CpuProfiler.start("sol.profile") do
-    Sol::Window.new(:frame_count => 200).show
+    Sol::Window.new.show
   end
 else
   Sol::Window.new.show

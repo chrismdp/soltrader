@@ -48,6 +48,7 @@ module Sol
 
 
     def update
+      @elapsed = $window.milliseconds_since_last_tick
       @frames += 1
       gc_stats($window.milliseconds_since_last_tick)
       super

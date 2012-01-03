@@ -24,6 +24,7 @@ module Sol
 
         @minds = []
         #add_ships(200)
+        @elapsed = 0
 
         self.viewport.lag = 0.95
         self.viewport.game_area = [0, 0, @locations[:earth_orbit].width, @locations[:earth_orbit].height]
@@ -94,22 +95,22 @@ module Sol
       end
 
       def update
-        elapsed = $window.milliseconds_since_last_tick
+        @elapsed = $window.milliseconds_since_last_tick
         super
-        @minds.each { |ai| ai.update(elapsed) }
-        @locations.values.each { |l| l.update(elapsed) }
+        @minds.each { |ai| ai.update(@elapsed) }
+        @locations.values.each { |l| l.update(@elapsed) }
         @stars.update(viewport)
         self.viewport.center_around(@player_ship)
         if (@player_ship.landed?)
           gamestate = Sol::Gamestates::Planet.new(:planet => @player_ship.planet)
           push_game_state(Chingu::GameStates::FadeTo.new(gamestate, :speed => 10))
         end
-        update_caption(elapsed)
+        update_caption
       end
 
-      def update_caption(elapsed)
-        throttle :caption, 200, elapsed do
-          caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{elapsed} "
+      def update_caption
+        throttle :caption, 200, @elapsed do
+          caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{@elapsed} "
           if @player_ship.location
             caption += "Current Location: #{@player_ship.location.name} Entities: #{@player_ship.location.entity_count}"
           end
