@@ -77,14 +77,7 @@ module Sol
         self.viewport.center_around(@player_ship)
         if (@player_ship.landed?)
           gamestate = Sol::Gamestates::Planet.new(:planet => @player_ship.planet)
-          push_game_state(Chingu::GameStates::FadeTo.new(gamestate, :speed => 10))
-        end
-        update_caption
-      end
-
-      def update_caption
-        throttle :caption, 200, @elapsed do
-          $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{@elapsed} Current Location: #{@location.name} Entities: #{@location.entity_count}"
+          push_game_state(gamestate)
         end
       end
 

@@ -174,6 +174,11 @@ describe Sol::Game::Ship do
         subject.gate.should be_nil
       end
 
+      it "landing removes the ship from the space location" do
+        subject.location.should_receive(:remove_later).with(subject)
+        subject.land(planet)
+      end
+
     end
   end
 end

@@ -6,11 +6,11 @@ module Sol
         @space = CP::Space.new
         @space.damping = 0.75
         @space.add_collision_func(:ship, :bullet) do |ship_shape, bullet_shape|
-          remove_later(@location.from_shape(bullet_shape))
+          @location.remove_later(@location.from_shape(bullet_shape))
           if (ship = @location.from_shape(ship_shape))
             ship.hit!
             if (ship.dead?)
-              remove_later(ship)
+              @location.remove_later(ship)
               false
             end
           end

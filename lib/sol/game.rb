@@ -60,6 +60,13 @@ module Sol
       gc_stats($window.milliseconds_since_last_tick)
       @system.update(@elapsed)
       super
+      update_caption
+    end
+
+    def update_caption
+      throttle :caption, 200, @elapsed do
+        $window.caption = "FPS: #{$window.fps} #{$window.update_interval} ms: #{@elapsed} Current Location: #{@system.player_ship.location.name} Entities: #{@system.player_ship.location.entity_count}"
+      end
     end
 
     def draw

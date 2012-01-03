@@ -44,7 +44,7 @@ module Sol
           system.setup_locations
           system.setup_schematic
           system.create_new_player_ship
-          #add_ships(200)
+          system.add_ships(200)
         end
       end
 
